@@ -38,7 +38,7 @@ deactivate () {
 # unset irrelevant variables
 deactivate nondestructive
 
-VIRTUAL_ENV="C:\Users\roble\Desktop\CLASE\Desarroyo de Interfaces\GestionEventos\venv"
+VIRTUAL_ENV="C:\Users\roble\Desktop\CLASE\Repositorios\GestionEventos\venv"
 export VIRTUAL_ENV
 
 _OLD_VIRTUAL_PATH="$PATH"
