@@ -1,6 +1,6 @@
 import sys
 from PyQt5.QtWidgets import QApplication, QMainWindow
-from Controller import Ui_MainWindow 
+from ControllerCrudEvento import Ui_MainWindow 
 
 class MiVentana(QMainWindow):
     def __init__(self):
