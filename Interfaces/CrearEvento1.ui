@@ -1,26 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>DialogoCrearEvento</class>
- <widget class="QDialog" name="DialogoCrearEvento">
+ <class>Form</class>
+ <widget class="QWidget" name="Form">
   <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>480</width>
-    <height>340</height>
+    <width>934</width>
+    <height>525</height>
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Crear Evento</string>
+   <string>Form</string>
   </property>
-  <layout class="QVBoxLayout" name="verticalLayout" stretch="0,0,1,0">
+  <layout class="QVBoxLayout" name="verticalLayout">
    <item>
-    <layout class="QHBoxLayout" name="horizontalLayout_Titulo" stretch="0,0,1">
+    <layout class="QHBoxLayout" name="horizontalLayout_Titulo_3" stretch="0,0,1">
      <item>
-      <widget class="QToolButton" name="btnAtras">
-       <property name="text">
-        <string>&lt;</string>
-       </property>
+      <widget class="QToolButton" name="btnAtras_3">
        <property name="font">
         <font>
          <pointsize>14</pointsize>
@@ -28,13 +25,16 @@
          <bold>true</bold>
         </font>
        </property>
+       <property name="text">
+        <string>&lt;</string>
+       </property>
        <property name="autoRaise">
         <bool>true</bool>
        </property>
       </widget>
      </item>
      <item>
-      <widget class="QLabel" name="labelTitulo">
+      <widget class="QLabel" name="labelTitulo_3">
        <property name="font">
         <font>
          <pointsize>18</pointsize>
@@ -48,7 +48,7 @@
       </widget>
      </item>
      <item>
-      <spacer name="horizontalSpacer_Titulo">
+      <spacer name="horizontalSpacer_Titulo_3">
        <property name="orientation">
         <enum>Qt::Horizontal</enum>
        </property>
@@ -63,86 +63,86 @@
     </layout>
    </item>
    <item>
-    <layout class="QGridLayout" name="gridLayout_Content" columnstretch="0,2,0,1">
+    <layout class="QGridLayout" name="gridLayout_Content_3" columnstretch="0,2,0,1">
      <item row="0" column="0">
-      <widget class="QLabel" name="labelNombre">
+      <widget class="QLabel" name="labelNombre_3">
        <property name="text">
         <string>Nombre</string>
        </property>
       </widget>
      </item>
      <item row="0" column="1">
-      <widget class="QLineEdit" name="txtNombre">
+      <widget class="QLineEdit" name="txtNombre_3">
        <property name="placeholderText">
         <string>Nombre del evento</string>
        </property>
       </widget>
      </item>
      <item row="0" column="2">
-      <widget class="QLabel" name="labelMesas">
+      <widget class="QLabel" name="labelMesas_3">
        <property name="text">
         <string>Numero de mesas</string>
        </property>
       </widget>
      </item>
      <item row="0" column="3">
-      <widget class="QSpinBox" name="spinMesas">
+      <widget class="QSpinBox" name="spinMesas_3">
        <property name="minimum">
         <number>1</number>
        </property>
       </widget>
      </item>
      <item row="1" column="0">
-      <widget class="QLabel" name="labelFecha">
+      <widget class="QLabel" name="labelFecha_3">
        <property name="text">
         <string>Fecha</string>
        </property>
       </widget>
      </item>
      <item row="1" column="1">
-      <widget class="QLineEdit" name="txtFecha">
+      <widget class="QLineEdit" name="txtFecha_3">
        <property name="placeholderText">
         <string>dd/mm/yyyy</string>
        </property>
       </widget>
      </item>
      <item row="1" column="2" colspan="2">
-      <widget class="QPushButton" name="btnSubirCSV">
+      <widget class="QPushButton" name="btnSubirCSV_3">
        <property name="text">
         <string>+ CSV</string>
        </property>
       </widget>
      </item>
      <item row="2" column="0">
-      <widget class="QLabel" name="labelUbicacion">
+      <widget class="QLabel" name="labelUbicacion_3">
        <property name="text">
         <string>Ubicacion</string>
        </property>
       </widget>
      </item>
      <item row="2" column="1">
-      <widget class="QLineEdit" name="txtUbicacion">
+      <widget class="QLineEdit" name="txtUbicacion_3">
        <property name="placeholderText">
         <string>Lugar de la celebración</string>
        </property>
       </widget>
      </item>
      <item row="2" column="2" colspan="2">
-      <widget class="QPushButton" name="btnCrearManual">
+      <widget class="QPushButton" name="btnCrearManual_3">
        <property name="text">
         <string>Crear participantes manualmente</string>
        </property>
       </widget>
      </item>
      <item row="3" column="0">
-      <widget class="QLabel" name="labelOrganizador">
+      <widget class="QLabel" name="labelOrganizador_3">
        <property name="text">
         <string>Organizador</string>
        </property>
       </widget>
      </item>
      <item row="3" column="1">
-      <widget class="QLineEdit" name="txtOrganizador">
+      <widget class="QLineEdit" name="txtOrganizador_3">
        <property name="placeholderText">
         <string>Nombre del responsable</string>
        </property>
@@ -158,7 +158,7 @@
      <property name="sizeHint" stdset="0">
       <size>
        <width>20</width>
-       <height>28</height>
+       <height>269</height>
       </size>
      </property>
     </spacer>
