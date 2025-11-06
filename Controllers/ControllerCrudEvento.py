@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'CrudEvento.ui'
+# Form implementation generated from reading ui file '.\interfaces\CrudEvento.ui'
 #
 # Created by: PyQt5 UI code generator 5.15.9
 #
@@ -50,8 +50,28 @@ class Ui_MainWindow(object):
         self.verticalLayout.addLayout(self.horizontalLayout)
         self.verticalLayout_2 = QtWidgets.QVBoxLayout()
         self.verticalLayout_2.setObjectName("verticalLayout_2")
-        self.tblEventos = QtWidgets.QTableView(self.centralwidget)
+        self.tblEventos = QtWidgets.QTableWidget(self.centralwidget)
+        font = QtGui.QFont()
+        font.setPointSize(10)
+        self.tblEventos.setFont(font)
+        self.tblEventos.setSelectionMode(QtWidgets.QAbstractItemView.SingleSelection)
+        self.tblEventos.setSelectionBehavior(QtWidgets.QAbstractItemView.SelectRows)
+        self.tblEventos.setShowGrid(False)
         self.tblEventos.setObjectName("tblEventos")
+        self.tblEventos.setColumnCount(4)
+        self.tblEventos.setRowCount(0)
+        item = QtWidgets.QTableWidgetItem()
+        self.tblEventos.setHorizontalHeaderItem(0, item)
+        item = QtWidgets.QTableWidgetItem()
+        self.tblEventos.setHorizontalHeaderItem(1, item)
+        item = QtWidgets.QTableWidgetItem()
+        self.tblEventos.setHorizontalHeaderItem(2, item)
+        item = QtWidgets.QTableWidgetItem()
+        self.tblEventos.setHorizontalHeaderItem(3, item)
+        self.tblEventos.horizontalHeader().setVisible(True)
+        self.tblEventos.horizontalHeader().setHighlightSections(False)
+        self.tblEventos.horizontalHeader().setStretchLastSection(True)
+        self.tblEventos.verticalHeader().setVisible(False)
         self.verticalLayout_2.addWidget(self.tblEventos)
         self.verticalLayout.addLayout(self.verticalLayout_2)
         self.verticalLayout_Botones = QtWidgets.QVBoxLayout()
@@ -121,6 +141,15 @@ class Ui_MainWindow(object):
         MainWindow.setWindowTitle(_translate("MainWindow", "MainWindow"))
         self.label.setText(_translate("MainWindow", "Gestor de Eventos"))
         self.pushButton.setText(_translate("MainWindow", "Abrir Ruta de CSV"))
+        self.tblEventos.setSortingEnabled(True)
+        item = self.tblEventos.horizontalHeaderItem(0)
+        item.setText(_translate("MainWindow", "Nombre"))
+        item = self.tblEventos.horizontalHeaderItem(1)
+        item.setText(_translate("MainWindow", "Fecha"))
+        item = self.tblEventos.horizontalHeaderItem(2)
+        item.setText(_translate("MainWindow", "Ubicacion"))
+        item = self.tblEventos.horizontalHeaderItem(3)
+        item.setText(_translate("MainWindow", "Organizador"))
         self.btnAsignarMesas.setText(_translate("MainWindow", "Asignar mesas"))
         self.btnCrearEvento.setText(_translate("MainWindow", "Crear evento"))
         self.btnActualizarEvento.setText(_translate("MainWindow", "Actualizar evento"))
