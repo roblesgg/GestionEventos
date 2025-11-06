@@ -1,22 +1,25 @@
 import sys
-from PyQt5.QtWidgets import QApplication, QMainWindow, QDialog
+from PyQt5.QtWidgets import QApplication, QMainWindow, QDialog, QStackedWidget
 
-from ControllerCrudEvento import Ui_MainWindow 
+from controllers.ControllerCrudEvento import Ui_MainWindow 
 
-from CrearEvento1Controller import Ui_DialogoCrearEvento
+from controllers.CrearEvento1Controller import Ui_DialogoCrearEvento
 
+from controllers import ControllerCrudEvento
 
 class MiVentana(QMainWindow):
     def __init__(self):
         super().__init__()
         
-        self.ui = Ui_MainWindow() 
+        self.ui = Ui_MainWindow()
         self.ui.setupUi(self)
-        self.ui.btnCrearEvento.clicked.connect(self.abrir_crearEvento1)
+        # --- Contenido Principal ---
+        self.paginas = QStackedWidget()
+        self.paginas.addWidget(ControllerCrudEvento())#0
+
+        # --- Conectar botones ---
+        self.ui.btnCrearEvento.clicked.connect(lambda: self.paginas.setCurrentIndex(0))
             
-        
-
-
 if __name__ == "__main__":
     app = QApplication(sys.argv)
     ventana = MiVentana()
