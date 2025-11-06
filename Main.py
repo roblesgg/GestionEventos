@@ -13,7 +13,7 @@ class MiVentana(QMainWindow):
         self.ui = Ui_MainWindow() 
         self.ui.setupUi(self)
         self.ui.btnCrearEvento.clicked.connect(self.abrir_crearEvento1)
-            
+
         
 
 
