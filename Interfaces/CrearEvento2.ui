@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>650</width>
-    <height>500</height>
+    <width>945</width>
+    <height>677</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -18,15 +18,15 @@
     <layout class="QHBoxLayout" name="horizontalLayout_Titulo" stretch="0,0,1">
      <item>
       <widget class="QToolButton" name="btnAtras">
-       <property name="text">
-        <string>&lt;</string>
-       </property>
        <property name="font">
         <font>
          <pointsize>14</pointsize>
          <weight>75</weight>
          <bold>true</bold>
         </font>
+       </property>
+       <property name="text">
+        <string>&lt;</string>
        </property>
        <property name="autoRaise">
         <bool>true</bool>
