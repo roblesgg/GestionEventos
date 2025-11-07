@@ -14,7 +14,7 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 class Ui_Form(object):
     def setupUi(self, Form):
         Form.setObjectName("Form")
-        Form.resize(1177, 652)
+        Form.resize(703, 542)
         self.verticalLayout_2 = QtWidgets.QVBoxLayout(Form)
         self.verticalLayout_2.setObjectName("verticalLayout_2")
         self.horizontalLayout_Titulo_3 = QtWidgets.QHBoxLayout()
@@ -31,6 +31,7 @@ class Ui_Form(object):
         self.horizontalLayout_Titulo_3.setStretch(2, 1)
         self.verticalLayout_2.addLayout(self.horizontalLayout_Titulo_3)
         self.verticalLayout = QtWidgets.QVBoxLayout()
+        self.verticalLayout.setContentsMargins(30, -1, 30, -1)
         self.verticalLayout.setObjectName("verticalLayout")
         self.AutoAssign_Btn = QtWidgets.QPushButton(Form)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)

@@ -13,7 +13,6 @@
   <property name="windowTitle">
    <string>Resolver Excepciones</string>
   </property>
-  
   <property name="styleSheet">
    <string>
 /* --- Estilo General --- */
@@ -24,7 +23,7 @@ QWidget {
 }
 
 /* --- Título Principal --- */
-QLabel[objectName="TitleLabel_Exceptions"] {
+QLabel[objectName=&quot;TitleLabel_Exceptions&quot;] {
     font-size: 24pt;
     font-weight: bold;
     color: #2C3E50; /* Un azul oscuro */
@@ -33,7 +32,7 @@ QLabel[objectName="TitleLabel_Exceptions"] {
 }
 
 /* --- Etiquetas de listas --- */
-QLabel[objectName^="Label_"] {
+QLabel[objectName^=&quot;Label_&quot;] {
     font-size: 14pt;
     font-weight: bold;
     color: #333;
@@ -72,12 +71,12 @@ QPushButton:pressed {
     background-color: #B0D0FF;
 }
 
-/* --- Botón de "Peligro" (Eliminar) --- */
-QPushButton[objectName="RemoveParticipant_Btn"] {
+/* --- Botón de &quot;Peligro&quot; (Eliminar) --- */
+QPushButton[objectName=&quot;RemoveParticipant_Btn&quot;] {
     background-color: #FFEBEE; /* Rosa pastel */
     color: #D32F2F; /* Rojo oscuro */
 }
-QPushButton[objectName="RemoveParticipant_Btn"]:hover {
+QPushButton[objectName=&quot;RemoveParticipant_Btn&quot;]:hover {
     background-color: #FFCDD2;
 }
 
@@ -98,8 +97,7 @@ QListWidget::item:selected {
 }
    </string>
   </property>
-  
-  <layout class="QVBoxLayout" name="verticalLayout_5" stretch="0,1,1,0">
+  <layout class="QVBoxLayout" name="verticalLayout_5" stretch="0,1,0">
    <item>
     <layout class="QHBoxLayout" name="horizontalLayout_Titulo_3" stretch="0,0,1">
      <item>
@@ -134,18 +132,17 @@ QListWidget::item:selected {
      </item>
     </layout>
    </item>
-   
-   <item>
-    <widget class="QLabel" name="Label_TableParticipants">
-     <property name="text">
-      <string>Participantes en Mesa</string>
-     </property>
-    </widget>
-   </item>
    <item>
     <layout class="QHBoxLayout" name="horizontalLayout_Lists" stretch="1,1">
      <item>
       <layout class="QVBoxLayout" name="verticalLayout_TableList">
+       <item>
+        <widget class="QLabel" name="Label_TableParticipants">
+         <property name="text">
+          <string>Participantes en Mesa</string>
+         </property>
+        </widget>
+       </item>
        <item>
         <widget class="QListWidget" name="List_TableParticipants"/>
        </item>
@@ -167,7 +164,6 @@ QListWidget::item:selected {
      </item>
     </layout>
    </item>
-   
    <item>
     <layout class="QHBoxLayout" name="horizontalLayout">
      <item>

@@ -6,14 +6,13 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1177</width>
-    <height>652</height>
+    <width>703</width>
+    <height>542</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>Asignar Mesas</string>
   </property>
-  
   <property name="styleSheet">
    <string>
 /* --- Estilo General --- */
@@ -24,7 +23,7 @@ QWidget {
 }
 
 /* --- Título Principal --- */
-QLabel[objectName="TitleLabel_AssignMenu"] {
+QLabel[objectName=&quot;TitleLabel_AssignMenu&quot;] {
     font-size: 24pt; /* Unificado con el resto */
     font-weight: bold;
     color: #2C3E50; /* Un azul oscuro */
@@ -63,7 +62,6 @@ QPushButton:pressed {
 }
    </string>
   </property>
-  
   <layout class="QVBoxLayout" name="verticalLayout_2" stretch="1,5">
    <item>
     <layout class="QHBoxLayout" name="horizontalLayout_Titulo_3" stretch="0,0,1">
@@ -101,6 +99,12 @@ QPushButton:pressed {
    </item>
    <item>
     <layout class="QVBoxLayout" name="verticalLayout">
+     <property name="leftMargin">
+      <number>30</number>
+     </property>
+     <property name="rightMargin">
+      <number>30</number>
+     </property>
      <item>
       <widget class="QPushButton" name="AutoAssign_Btn">
        <property name="sizePolicy">
