@@ -13,17 +13,95 @@
   <property name="windowTitle">
    <string>EDITAR PARTICIPANTE</string>
   </property>
+  
+  <property name="styleSheet">
+   <string>
+/* --- Estilo General --- */
+QWidget {
+    font-family: 'Segoe UI', 'Arial', 'sans-serif';
+    background-color: #F8F9FA; /* Un blanco roto muy suave */
+    color: #333333;
+}
+
+/* --- Título Principal --- */
+QLabel[objectName="TitleLabel_EditParticipant"] {
+    font-size: 24pt; /* Unificado y minimalista */
+    font-weight: bold;
+    color: #2C3E50; /* Un azul oscuro */
+    padding-bottom: 10px;
+    background-color: transparent;
+}
+
+/* --- Etiquetas de listas (Invitados, Preferencia...) --- */
+QLabel[objectName^="Label_"] {
+    font-size: 14pt; /* Unificado y minimalista */
+    font-weight: bold;
+    color: #333;
+    background-color: transparent;
+}
+
+/* --- Botones Generales (para que no afecte a los emoji) --- */
+QPushButton {
+    border-radius: 8px; /* ¡ESQUINAS REDONDEADAS! */
+    padding: 12px;
+}
+
+/* --- Botón Mover a Preferencia (✅) --- */
+QPushButton[objectName="MoveToPreference_Btn"] {
+    background-color: #E8F5E9; /* Verde pastel */
+    color: #388E3C; /* Verde oscuro */
+    border: none;
+}
+QPushButton[objectName="MoveToPreference_Btn"]:hover {
+    background-color: #C8E6C9;
+}
+
+/* --- Botón Mover a No Acepta (🚫) --- */
+QPushButton[objectName="MoveToAvoid_Btn"] {
+    background-color: #FFEBEE; /* Rojo pastel */
+    color: #D32F2F; /* Rojo oscuro */
+    border: none;
+}
+QPushButton[objectName="MoveToAvoid_Btn"]:hover {
+    background-color: #FFCDD2;
+}
+
+/* --- Botón de "Peligro" (Eliminar) --- */
+QPushButton[objectName="DeleteParticipant_Btn"] {
+    background-color: #FFEBEE; /* Rosa pastel */
+    color: #D32F2F; /* Rojo oscuro */
+    font-size: 14pt; /* Tamaño legible */
+    font-weight: bold;
+    border: none;
+    min-height: 28px;
+}
+QPushButton[objectName="DeleteParticipant_Btn"]:hover {
+    background-color: #FFCDD2;
+}
+
+/* --- Tablas (QTableView) --- */
+QTableView {
+    background-color: #FFFFFF;
+    border: 1px solid #E0E0E0;
+    gridline-color: #E0E0E0; /* Color de la cuadrícula */
+    border-radius: 8px; /* ESQUINAS REDONDEADAS */
+    font-size: 10pt;
+}
+
+/* --- Cabeceras de Tablas --- */
+QHeaderView::section {
+    background-color: #F1F3F5; /* Un gris muy claro para cabeceras */
+    padding: 8px;
+    border: none;
+    font-weight: bold;
+    font-size: 10pt;
+}
+   </string>
+  </property>
+  
   <layout class="QVBoxLayout" name="verticalLayout">
    <item>
-    <widget class="QLabel" name="label">
-     <property name="font">
-      <font>
-       <family>Times New Roman</family>
-       <pointsize>40</pointsize>
-       <weight>75</weight>
-       <bold>true</bold>
-      </font>
-     </property>
+    <widget class="QLabel" name="TitleLabel_EditParticipant">
      <property name="text">
       <string>EDITAR PARTICIPANTE</string>
      </property>
@@ -34,29 +112,21 @@
      <item>
       <layout class="QVBoxLayout" name="verticalLayout_3">
        <item>
-        <widget class="QLabel" name="label_2">
-         <property name="font">
-          <font>
-           <family>Times New Roman</family>
-           <pointsize>20</pointsize>
-           <weight>75</weight>
-           <bold>true</bold>
-          </font>
-         </property>
+        <widget class="QLabel" name="Label_AllGuests">
          <property name="text">
           <string>INVITADOS</string>
          </property>
         </widget>
        </item>
        <item>
-        <widget class="QTableView" name="tableView"/>
+        <widget class="QTableView" name="Table_AllGuests"/>
        </item>
       </layout>
      </item>
      <item>
       <layout class="QVBoxLayout" name="verticalLayout_8">
        <item>
-        <widget class="QPushButton" name="pushButton">
+        <widget class="QPushButton" name="MoveToPreference_Btn">
          <property name="font">
           <font>
            <pointsize>40</pointsize>
@@ -68,7 +138,7 @@
         </widget>
        </item>
        <item>
-        <widget class="QPushButton" name="pushButton_2">
+        <widget class="QPushButton" name="MoveToAvoid_Btn">
          <property name="font">
           <font>
            <pointsize>40</pointsize>
@@ -84,63 +154,42 @@
      <item>
       <layout class="QVBoxLayout" name="verticalLayout_7">
        <item>
-        <widget class="QLabel" name="label_3">
-         <property name="font">
-          <font>
-           <family>Times New Roman</family>
-           <pointsize>20</pointsize>
-           <weight>75</weight>
-           <bold>true</bold>
-          </font>
-         </property>
+        <widget class="QLabel" name="Label_Preference">
          <property name="text">
           <string>PREFERENCIA</string>
          </property>
         </widget>
        </item>
        <item>
-        <widget class="QTableView" name="tableView_4"/>
+        <widget class="QTableView" name="Table_Preference"/>
        </item>
       </layout>
      </item>
      <item>
       <layout class="QVBoxLayout" name="verticalLayout_9">
        <item>
-        <widget class="QLabel" name="label_4">
-         <property name="font">
-          <font>
-           <family>Times New Roman</family>
-           <pointsize>20</pointsize>
-           <weight>75</weight>
-           <bold>true</bold>
-          </font>
-         </property>
+        <widget class="QLabel" name="Label_Avoid">
          <property name="text">
           <string>NO ACEPTA</string>
          </property>
         </widget>
        </item>
        <item>
-        <widget class="QTableView" name="tableView_3"/>
+        <widget class="QTableView" name="Table_Avoid"/>
        </item>
       </layout>
      </item>
     </layout>
    </item>
    <item>
-    <widget class="QPushButton" name="pushButton_3">
-     <property name="font">
-      <font>
-       <pointsize>20</pointsize>
-      </font>
-     </property>
+    <widget class="QPushButton" name="DeleteParticipant_Btn">
      <property name="text">
       <string>ELIMINAR</string>
      </property>
     </widget>
    </item>
   </layout>
-  </widget>
+ </widget>
  <resources/>
  <connections/>
 </ui>

@@ -5,14 +5,93 @@
   <property name="geometry">
    <rect>
     <x>0</x>
-    <y>0</y>
-    <width>882</width>
+    <y>0</y> <width>882</width>
     <height>652</height>
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Form</string>
+   <string>Actualizar Evento</string>
   </property>
+  
+  <property name="styleSheet">
+   <string>
+/* --- Estilo General --- */
+QWidget {
+    font-family: 'Segoe UI', 'Arial', 'sans-serif';
+    background-color: #F8F9FA; /* Un blanco roto muy suave */
+    color: #333333;
+}
+
+/* --- Título (como QTextEdit) --- */
+QTextEdit[objectName="Title_TextEdit"] {
+    font-size: 20pt; /* Coincide con el original */
+    font-weight: bold;
+    color: #2C3E50; /* Un azul oscuro */
+    background-color: transparent;
+    border: none;
+}
+
+/* --- Botones Principales (Añadir, Editar) --- */
+QPushButton {
+    background-color: #E0EFFF; /* Azul pastel */
+    color: #2C3E50;
+    font-size: 11pt;
+    font-weight: bold;
+    border: none;
+    border-radius: 8px; /* ¡ESQUINAS REDONDEADAS! */
+    padding: 12px 18px;
+    min-height: 28px;
+}
+QPushButton:hover {
+    background-color: #C6DFFF;
+}
+QPushButton:pressed {
+    background-color: #B0D0FF;
+}
+
+/* --- Botón de Atrás (Estilo especial) --- */
+QPushButton[objectName="BackButton_UpdateEvent"] {
+    font-size: 16pt;
+    font-weight: bold;
+    color: #555555;
+    background-color: transparent;
+    border: none;
+    padding: 0px;
+    min-height: 0;
+}
+QPushButton[objectName="BackButton_UpdateEvent"]:hover {
+    color: #000000;
+    background-color: #F0F0F0; /* Hover leve */
+}
+
+/* --- Botón de "Peligro" (Borrar) --- */
+QPushButton[objectName="DeleteParticipant_Btn"] {
+    background-color: #FFEBEE; /* Rosa pastel */
+    color: #D32F2F; /* Rojo oscuro */
+    font-size: 11pt; /* Fuente original */
+}
+QPushButton[objectName="DeleteParticipant_Btn"]:hover {
+    background-color: #FFCDD2;
+}
+
+/* --- Listas (QListView) --- */
+QListView {
+    background-color: #FFFFFF;
+    border: 1px solid #CED4DA;
+    border-radius: 5px;
+    padding: 5px;
+    font-size: 10pt;
+}
+QListView::item:hover {
+    background-color: #F1F3F5; /* Resaltar item al pasar el ratón */
+}
+QListView::item:selected {
+    background-color: #E0EFFF; /* Resaltar item seleccionado */
+    color: #2C3E50;
+}
+   </string>
+  </property>
+  
   <layout class="QVBoxLayout" name="verticalLayout_2">
    <property name="spacing">
     <number>1</number>
@@ -22,7 +101,7 @@
      <item>
       <layout class="QHBoxLayout" name="horizontalLayout_3" stretch="1,10">
        <item>
-        <widget class="QPushButton" name="pushButton_2">
+        <widget class="QPushButton" name="BackButton_UpdateEvent">
          <property name="sizePolicy">
           <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
            <horstretch>0</horstretch>
@@ -30,23 +109,20 @@
           </sizepolicy>
          </property>
          <property name="text">
-          <string>&lt;--</string>
+          <string>&lt;</string>
          </property>
         </widget>
        </item>
        <item>
-        <widget class="QTextEdit" name="textEdit">
+        <widget class="QTextEdit" name="Title_TextEdit">
          <property name="sizePolicy">
           <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
            <horstretch>0</horstretch>
            <verstretch>0</verstretch>
           </sizepolicy>
          </property>
-         <property name="font">
-          <font>
-           <pointsize>20</pointsize>
-          </font>
-         </property>
+         <property name="readOnly">
+          <bool>true</bool> </property>
          <property name="html">
           <string>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
 &lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
@@ -63,10 +139,10 @@ p, li { white-space: pre-wrap; }
        <item>
         <layout class="QHBoxLayout" name="horizontalLayout_2" stretch="12,1">
          <item>
-          <widget class="QListView" name="ParticipantesList"/>
+          <widget class="QListView" name="List_Participants_Update"/>
          </item>
          <item>
-          <widget class="QPushButton" name="pushButton">
+          <widget class="QPushButton" name="AddParticipant_Btn">
            <property name="sizePolicy">
             <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
              <horstretch>0</horstretch>
@@ -83,7 +159,7 @@ p, li { white-space: pre-wrap; }
        <item>
         <layout class="QHBoxLayout" name="horizontalLayout">
          <item>
-          <widget class="QPushButton" name="BorrarButton">
+          <widget class="QPushButton" name="DeleteParticipant_Btn">
            <property name="sizePolicy">
             <sizepolicy hsizetype="Minimum" vsizetype="Expanding">
              <horstretch>0</horstretch>
@@ -96,7 +172,7 @@ p, li { white-space: pre-wrap; }
           </widget>
          </item>
          <item>
-          <widget class="QPushButton" name="EditarButton">
+          <widget class="QPushButton" name="EditParticipant_Btn">
            <property name="sizePolicy">
             <sizepolicy hsizetype="Minimum" vsizetype="Expanding">
              <horstretch>0</horstretch>

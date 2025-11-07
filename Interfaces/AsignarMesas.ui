@@ -11,20 +11,64 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Form</string>
+   <string>Asignar Mesas</string>
   </property>
+  
+  <property name="styleSheet">
+   <string>
+/* --- Estilo General --- */
+QWidget {
+    font-family: 'Segoe UI', 'Arial', 'sans-serif';
+    background-color: #F8F9FA; /* Un blanco roto muy suave */
+    color: #333333;
+}
+
+/* --- Título Principal --- */
+QLabel[objectName="TitleLabel_AssignMenu"] {
+    font-size: 24pt; /* Unificado con el resto */
+    font-weight: bold;
+    color: #2C3E50; /* Un azul oscuro */
+    padding-bottom: 10px;
+    background-color: transparent;
+}
+
+/* --- Botón de Atrás --- */
+QToolButton {
+    font-size: 16pt;
+    font-weight: bold;
+    color: #555555;
+    background-color: transparent;
+    border: none;
+    padding-right: 10px;
+}
+QToolButton:hover {
+    color: #000000;
+}
+
+/* --- Botones Principales (Automático/Manual) --- */
+QPushButton {
+    background-color: #E0EFFF; /* Azul pastel */
+    color: #2C3E50;
+    font-size: 20pt; /* Tamaño de fuente grande del original */
+    font-weight: bold;
+    border: none;
+    border-radius: 8px; /* ¡ESQUINAS REDONDEADAS! */
+    padding: 12px 18px;
+}
+QPushButton:hover {
+    background-color: #C6DFFF;
+}
+QPushButton:pressed {
+    background-color: #B0D0FF;
+}
+   </string>
+  </property>
+  
   <layout class="QVBoxLayout" name="verticalLayout_2" stretch="1,5">
    <item>
     <layout class="QHBoxLayout" name="horizontalLayout_Titulo_3" stretch="0,0,1">
      <item>
-      <widget class="QToolButton" name="btnAtras_asignarmesas">
-       <property name="font">
-        <font>
-         <pointsize>14</pointsize>
-         <weight>75</weight>
-         <bold>true</bold>
-        </font>
-       </property>
+      <widget class="QToolButton" name="BackButton_AssignMenu">
        <property name="text">
         <string>&lt;</string>
        </property>
@@ -34,14 +78,7 @@
       </widget>
      </item>
      <item>
-      <widget class="QLabel" name="labelTitulo_3">
-       <property name="font">
-        <font>
-         <pointsize>18</pointsize>
-         <weight>75</weight>
-         <bold>true</bold>
-        </font>
-       </property>
+      <widget class="QLabel" name="TitleLabel_AssignMenu">
        <property name="text">
         <string>Asignar Mesas</string>
        </property>
@@ -65,17 +102,12 @@
    <item>
     <layout class="QVBoxLayout" name="verticalLayout">
      <item>
-      <widget class="QPushButton" name="btn_Automatico">
+      <widget class="QPushButton" name="AutoAssign_Btn">
        <property name="sizePolicy">
         <sizepolicy hsizetype="Minimum" vsizetype="Expanding">
          <horstretch>0</horstretch>
          <verstretch>0</verstretch>
         </sizepolicy>
-       </property>
-       <property name="font">
-        <font>
-         <pointsize>20</pointsize>
-        </font>
        </property>
        <property name="text">
         <string>Automatico</string>
@@ -83,17 +115,12 @@
       </widget>
      </item>
      <item>
-      <widget class="QPushButton" name="btn_Manual">
+      <widget class="QPushButton" name="ManualAssign_Btn">
        <property name="sizePolicy">
         <sizepolicy hsizetype="Minimum" vsizetype="Expanding">
          <horstretch>0</horstretch>
          <verstretch>0</verstretch>
         </sizepolicy>
-       </property>
-       <property name="font">
-        <font>
-         <pointsize>20</pointsize>
-        </font>
        </property>
        <property name="text">
         <string>Manual</string>

@@ -11,20 +11,136 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Gestionar Participantes</string>
+   <string>Gestionar Participante</string>
   </property>
+  
+  <property name="styleSheet">
+   <string>
+/* --- Estilo General --- */
+QWidget {
+    font-family: 'Segoe UI', 'Arial', 'sans-serif';
+    background-color: #F8F9FA; /* Un blanco roto muy suave */
+    color: #333333;
+}
+
+/* --- Título Principal --- */
+QLabel[objectName="TitleLabel_Participants"] {
+    font-size: 24pt;
+    font-weight: bold;
+    color: #2C3E50; /* Un azul oscuro */
+    padding-bottom: 10px;
+    background-color: transparent;
+}
+
+/* --- Etiquetas de listas --- */
+QLabel {
+    font-size: 12pt;
+    font-weight: bold;
+    color: #333;
+    background-color: transparent;
+}
+
+/* --- Botón de Atrás --- */
+QToolButton {
+    font-size: 16pt;
+    font-weight: bold;
+    color: #555555;
+    background-color: transparent;
+    border: none;
+    padding-right: 10px;
+}
+QToolButton:hover {
+    color: #000000;
+}
+
+/* --- Botones Principales (Añadir/Finalizar) --- */
+QPushButton {
+    background-color: #E0EFFF; /* Azul pastel */
+    color: #2C3E50;
+    font-size: 14pt; /* Letra grande como en el original */
+    font-weight: bold;
+    border: none;
+    border-radius: 8px; /* ¡ESQUINAS REDONDEADAS! */
+    padding: 12px 18px;
+    min-height: 28px;
+}
+QPushButton:hover {
+    background-color: #C6DFFF;
+}
+QPushButton:pressed {
+    background-color: #B0D0FF;
+}
+
+/* --- Botón Mover a Preferencia (V) --- */
+QPushButton[objectName="MoveToPreference_Btn"] {
+    background-color: #E8F5E9; /* Verde pastel */
+    color: #388E3C; /* Verde oscuro */
+    font-size: 12pt;
+    font-weight: bold;
+}
+QPushButton[objectName="MoveToPreference_Btn"]:hover {
+    background-color: #C8E6C9;
+}
+
+/* --- Botón Mover a No Acepta (X) --- */
+QPushButton[objectName="MoveToAvoid_Btn"] {
+    background-color: #FFEBEE; /* Rojo pastel */
+    color: #D32F2F; /* Rojo oscuro */
+    font-size: 12pt;
+    font-weight: bold;
+}
+QPushButton[objectName="MoveToAvoid_Btn"]:hover {
+    background-color: #FFCDD2;
+}
+
+/* --- Botón Eliminar de lista --- */
+QPushButton[objectName="RemoveFromList_Btn"] {
+    background-color: #F1F3F5; /* Gris claro */
+    color: #555; /* Gris oscuro */
+    font-size: 11pt;
+    font-weight: bold;
+}
+QPushButton[objectName="RemoveFromList_Btn"]:hover {
+    background-color: #E0E0E0;
+}
+
+
+/* --- Campo de Texto (Nombre) --- */
+QLineEdit {
+    background-color: #FFFFFF;
+    border: 1px solid #CED4DA; /* Borde gris claro */
+    border-radius: 5px;
+    padding: 8px;
+    font-size: 11pt; /* Letra 11pt como en el original */
+    min-height: 20px; /* Ajuste para el min-height original */
+}
+QLineEdit:focus {
+    border: 1px solid #80bdff; /* Borde azul al seleccionar */
+}
+
+/* --- Listas --- */
+QListWidget {
+    background-color: #FFFFFF;
+    border: 1px solid #CED4DA;
+    border-radius: 5px;
+    padding: 5px;
+    font-size: 10pt;
+}
+QListWidget::item:hover {
+    background-color: #F1F3F5; /* Resaltar item al pasar el ratón */
+}
+QListWidget::item:selected {
+    background-color: #E0EFFF; /* Resaltar item seleccionado */
+    color: #2C3E50;
+}
+   </string>
+  </property>
+  
   <layout class="QVBoxLayout" name="verticalLayout_Main" stretch="0,0,1,0">
    <item>
     <layout class="QHBoxLayout" name="horizontalLayout_Titulo" stretch="0,0,1">
      <item>
-      <widget class="QToolButton" name="btnAtras">
-       <property name="font">
-        <font>
-         <pointsize>14</pointsize>
-         <weight>75</weight>
-         <bold>true</bold>
-        </font>
-       </property>
+      <widget class="QToolButton" name="BackButton_Participants">
        <property name="text">
         <string>&lt;</string>
        </property>
@@ -34,16 +150,9 @@
       </widget>
      </item>
      <item>
-      <widget class="QLabel" name="labelTitulo">
-       <property name="font">
-        <font>
-         <pointsize>18</pointsize>
-         <weight>75</weight>
-         <bold>true</bold>
-        </font>
-       </property>
+      <widget class="QLabel" name="TitleLabel_Participants">
        <property name="text">
-        <string>Crear Evento</string>
+        <string>Gestionar Participante</string>
        </property>
       </widget>
      </item>
@@ -63,20 +172,9 @@
     </layout>
    </item>
    <item>
-    <widget class="QLineEdit" name="txtNombreInvitado">
-     <property name="minimumSize">
-      <size>
-       <width>0</width>
-       <height>35</height>
-      </size>
-     </property>
-     <property name="font">
-      <font>
-       <pointsize>11</pointsize>
-      </font>
-     </property>
+    <widget class="QLineEdit" name="Input_ParticipantName">
      <property name="placeholderText">
-      <string>Nombre</string>
+      <string>Nombre del participante</string>
      </property>
     </widget>
    </item>
@@ -85,21 +183,14 @@
      <item>
       <layout class="QVBoxLayout" name="verticalLayout_Invitados">
        <item>
-        <widget class="QLabel" name="labelInvitados">
-         <property name="font">
-          <font>
-           <pointsize>12</pointsize>
-           <weight>75</weight>
-           <bold>true</bold>
-          </font>
-         </property>
+        <widget class="QLabel" name="Label_AllGuests">
          <property name="text">
-          <string>Invitados</string>
+          <string>Todos los Invitados</string>
          </property>
         </widget>
        </item>
        <item>
-        <widget class="QListWidget" name="listInvitados"/>
+        <widget class="QListWidget" name="List_AllGuests"/>
        </item>
       </layout>
      </item>
@@ -119,7 +210,7 @@
         </spacer>
        </item>
        <item>
-        <widget class="QPushButton" name="btnMoverPreferencia">
+        <widget class="QPushButton" name="MoveToPreference_Btn">
          <property name="minimumSize">
           <size>
            <width>40</width>
@@ -131,13 +222,6 @@
            <width>40</width>
            <height>40</height>
           </size>
-         </property>
-         <property name="font">
-          <font>
-           <pointsize>12</pointsize>
-           <weight>75</weight>
-           <bold>true</bold>
-          </font>
          </property>
          <property name="text">
           <string>V</string>
@@ -145,7 +229,7 @@
         </widget>
        </item>
        <item>
-        <widget class="QPushButton" name="btnMoverNoAcepta">
+        <widget class="QPushButton" name="MoveToAvoid_Btn">
          <property name="minimumSize">
           <size>
            <width>40</width>
@@ -157,13 +241,6 @@
            <width>40</width>
            <height>40</height>
           </size>
-         </property>
-         <property name="font">
-          <font>
-           <pointsize>12</pointsize>
-           <weight>75</weight>
-           <bold>true</bold>
-          </font>
          </property>
          <property name="text">
           <string>X</string>
@@ -188,21 +265,14 @@
      <item>
       <layout class="QVBoxLayout" name="verticalLayout_Preferencia">
        <item>
-        <widget class="QLabel" name="labelPreferencia">
-         <property name="font">
-          <font>
-           <pointsize>12</pointsize>
-           <weight>75</weight>
-           <bold>true</bold>
-          </font>
-         </property>
+        <widget class="QLabel" name="Label_Preference">
          <property name="text">
-          <string>Preferencia</string>
+          <string>Preferencia (Sentar con)</string>
          </property>
         </widget>
        </item>
        <item>
-        <widget class="QListWidget" name="listPreferencia"/>
+        <widget class="QListWidget" name="List_Preference"/>
        </item>
       </layout>
      </item>
@@ -222,7 +292,7 @@
         </spacer>
        </item>
        <item>
-        <widget class="QPushButton" name="btnEliminar">
+        <widget class="QPushButton" name="RemoveFromList_Btn">
          <property name="text">
           <string>Eliminar</string>
          </property>
@@ -246,21 +316,14 @@
      <item>
       <layout class="QVBoxLayout" name="verticalLayout_NoAcepta">
        <item>
-        <widget class="QLabel" name="labelNoAcepta">
-         <property name="font">
-          <font>
-           <pointsize>12</pointsize>
-           <weight>75</weight>
-           <bold>true</bold>
-          </font>
-         </property>
+        <widget class="QLabel" name="Label_Avoid">
          <property name="text">
-          <string>No acepta</string>
+          <string>No acepta (Evitar)</string>
          </property>
         </widget>
        </item>
        <item>
-        <widget class="QListWidget" name="listNoAcepta"/>
+        <widget class="QListWidget" name="List_Avoid"/>
        </item>
       </layout>
      </item>
@@ -269,19 +332,12 @@
    <item>
     <layout class="QHBoxLayout" name="horizontalLayout_BotonesFooter">
      <item>
-      <widget class="QPushButton" name="btnFinalizar">
+      <widget class="QPushButton" name="Finish_Btn">
        <property name="minimumSize">
         <size>
          <width>0</width>
          <height>45</height>
         </size>
-       </property>
-       <property name="font">
-        <font>
-         <pointsize>14</pointsize>
-         <weight>75</weight>
-         <bold>true</bold>
-        </font>
        </property>
        <property name="text">
         <string>Finalizar</string>
@@ -289,19 +345,12 @@
       </widget>
      </item>
      <item>
-      <widget class="QPushButton" name="btnAnadir">
+      <widget class="QPushButton" name="Add_Btn">
        <property name="minimumSize">
         <size>
          <width>0</width>
          <height>45</height>
         </size>
-       </property>
-       <property name="font">
-        <font>
-         <pointsize>14</pointsize>
-         <weight>75</weight>
-         <bold>true</bold>
-        </font>
        </property>
        <property name="text">
         <string>Añadir</string>
