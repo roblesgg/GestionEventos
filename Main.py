@@ -62,13 +62,13 @@ class VentanaPrincipal(QStackedWidget):
         
         # --- 4. Crea las Instancias de las Páginas ---
         # Creamos un objeto (una "carta") por cada clase de página.
-        self.pagina_crud = PaginaCrud()
-        self.pagina_crear = PaginaCrearEvento()
+        self.pagina_crud = PaginaCrud()#0
+        self.pagina_crear = PaginaCrearEvento()#1
         
         # ======================================================================
         # ### PASO 3: CREA LA INSTANCIA DE TU NUEVA PÁGINA ###
         # ======================================================================
-        self.pagina_actualizar = PaginaActualizarEvento()
+        self.pagina_actualizar = PaginaActualizarEvento()#2
         # ======================================================================
 
         # --- 5. Añade las Páginas al "Mazo" ---
@@ -124,12 +124,10 @@ class VentanaPrincipal(QStackedWidget):
     
     # Muestra la página CRUD (Índice 0)
     def mostrar_pagina_crud(self):
-        print("Mostrando página CRUD (Índice 0)")
         self.setCurrentIndex(0)
         
     # Muestra la página Crear Evento (Índice 1)
     def mostrar_pagina_crear(self):
-        print("Mostrando página Crear Evento (Índice 1)")
         self.setCurrentIndex(1) 
 
     # ======================================================================
@@ -137,7 +135,6 @@ class VentanaPrincipal(QStackedWidget):
     # ======================================================================
     # Muestra la página Actualizar Evento (Índice 2)
     def mostrar_pagina_actualizar(self):
-        print("Mostrando página Actualizar Evento (Índice 2)")
         
         # --- LÓGICA OPCIONAL ---
         # Aquí es donde deberías cargar los datos del evento seleccionado
