@@ -1,9 +1,9 @@
 import json
 import os 
 
-# Importamos los "moldes" para poder reconstruir los objetos
-import Evento
-import Participante
+# Importamos los moldes para poder reconstruir los objetos
+from .Evento import Evento
+from .Participante import Participante
 
 
 #Esta clase su unico trabajo es guardar y cargar la lista de eventos en json
