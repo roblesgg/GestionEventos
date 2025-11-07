@@ -13,20 +13,84 @@
   <property name="windowTitle">
    <string>Borrar Evento</string>
   </property>
+  
+  <property name="styleSheet">
+   <string>
+/* --- Estilo General --- */
+QWidget {
+    font-family: 'Segoe UI', 'Arial', 'sans-serif';
+    background-color: #F8F9FA; /* Un blanco roto muy suave */
+    color: #333333;
+}
+
+/* --- Título Principal --- */
+QLabel[objectName="TitleLabel_DeleteEvent"] {
+    font-size: 24pt;
+    font-weight: bold;
+    color: #2C3E50; /* Un azul oscuro */
+    padding-bottom: 10px;
+    background-color: transparent;
+    indent: 0; /* Reseteamos el indent original */
+}
+
+/* --- Botón de Atrás --- */
+QToolButton {
+    font-size: 16pt;
+    font-weight: bold;
+    color: #555555;
+    background-color: transparent;
+    border: none;
+    padding-right: 10px;
+}
+QToolButton:hover {
+    color: #000000;
+}
+
+/* --- Botón de "Peligro" (Borrar) --- */
+QPushButton[objectName="ConfirmDelete_Btn"] {
+    background-color: #FFEBEE; /* Rosa pastel */
+    color: #D32F2F; /* Rojo oscuro */
+    font-size: 14pt;
+    font-weight: bold;
+    border: none;
+    border-radius: 8px; /* ¡ESQUINAS REDONDEADAS! */
+    padding: 12px 18px;
+    min-height: 28px; /* min-height de 45px del original */
+}
+QPushButton[objectName="ConfirmDelete_Btn"]:hover {
+    background-color: #FFCDD2;
+}
+QPushButton[objectName="ConfirmDelete_Btn"]:pressed {
+    background-color: #EF9A9A;
+}
+
+/* --- Tablas --- */
+QTableWidget {
+    background-color: #FFFFFF;
+    border: 1px solid #E0E0E0;
+    gridline-color: #E0E0E0; /* Color de la cuadrícula */
+    border-radius: 8px; /* ESQUINAS REDONDEADAS */
+    font-size: 10pt; /* Fuente original */
+}
+
+/* --- Cabeceras de Tablas --- */
+QHeaderView::section {
+    background-color: #F1F3F5; /* Un gris muy claro para cabeceras */
+    padding: 8px;
+    border: none;
+    font-weight: bold;
+    font-size: 10pt;
+}
+   </string>
+  </property>
+  
   <layout class="QVBoxLayout" name="verticalLayout" stretch="0,1,0">
    <item>
     <layout class="QHBoxLayout" name="horizontalLayout_Titulo" stretch="0,0,1">
      <item>
-      <widget class="QToolButton" name="btnAtras">
+      <widget class="QToolButton" name="BackButton_DeleteEvent">
        <property name="text">
         <string>&lt;</string>
-       </property>
-       <property name="font">
-        <font>
-         <pointsize>14</pointsize>
-         <weight>75</weight>
-         <bold>true</bold>
-        </font>
        </property>
        <property name="autoRaise">
         <bool>true</bool>
@@ -34,21 +98,11 @@
       </widget>
      </item>
      <item>
-      <widget class="QLabel" name="labelTitulo">
-       <property name="font">
-        <font>
-         <pointsize>18</pointsize>
-         <weight>75</weight>
-         <bold>true</bold>
-        </font>
-       </property>
+      <widget class="QLabel" name="TitleLabel_DeleteEvent">
        <property name="text">
         <string>Borrar evento</string>
        </property>
-       <property name="indent">
-        <number>10</number>
-       </property>
-      </widget>
+       </widget>
      </item>
      <item>
       <spacer name="horizontalSpacer_Titulo">
@@ -66,12 +120,7 @@
     </layout>
    </item>
    <item>
-    <widget class="QTableWidget" name="tblEventos">
-     <property name="font">
-      <font>
-       <pointsize>10</pointsize>
-      </font>
-     </property>
+    <widget class="QTableWidget" name="EventList_Table_Delete">
      <property name="selectionMode">
       <enum>QAbstractItemView::SingleSelection</enum>
      </property>
@@ -134,19 +183,12 @@
       </spacer>
      </item>
      <item>
-      <widget class="QPushButton" name="btnBorrar">
+      <widget class="QPushButton" name="ConfirmDelete_Btn">
        <property name="minimumSize">
         <size>
          <width>120</width>
          <height>45</height>
         </size>
-       </property>
-       <property name="font">
-        <font>
-         <pointsize>14</pointsize>
-         <weight>75</weight>
-         <bold>true</bold>
-        </font>
        </property>
        <property name="text">
         <string>Borrar</string>

@@ -13,46 +13,86 @@
   <property name="windowTitle">
    <string>Gestor de Eventos</string>
   </property>
+  
+  <property name="styleSheet">
+   <string>
+/* --- Estilo General --- */
+QWidget {
+    font-family: 'Segoe UI', 'Arial', 'sans-serif';
+    background-color: #F8F9FA; /* Un blanco roto muy suave */
+    color: #333333; /* Texto oscuro principal */
+}
+
+/* --- Títulos --- */
+QLabel[objectName^="TitleLabel"] {
+    font-size: 24pt;
+    font-weight: bold;
+    color: #2C3E50; /* Un azul oscuro */
+    padding-bottom: 10px;
+    background-color: transparent; /* Títulos sin fondo */
+}
+
+/* --- Botones Principales --- */
+QPushButton {
+    background-color: #E0EFFF; /* Azul pastel */
+    color: #2C3E50;
+    font-size: 11pt;
+    font-weight: bold;
+    border: none;
+    border-radius: 8px; /* ¡ESQUINAS REDONDEADAS! */
+    padding: 12px 18px;
+    min-height: 28px;
+}
+
+QPushButton:hover {
+    background-color: #C6DFFF; /* Un poco más oscuro al pasar el ratón */
+}
+
+QPushButton:pressed {
+    background-color: #B0D0FF; /* Al presionar */
+}
+
+/* --- Botones de "Peligro" (Borrar) --- */
+QPushButton[objectName="DeleteEvent_Btn"] { /* Específico para tu botón */
+    background-color: #FFEBEE; /* Rosa pastel */
+    color: #D32F2F; /* Rojo oscuro */
+}
+
+QPushButton[objectName="DeleteEvent_Btn"]:hover {
+    background-color: #FFCDD2;
+}
+
+/* --- Tablas --- */
+QTableWidget {
+    background-color: #FFFFFF;
+    border: 1px solid #E0E0E0;
+    gridline-color: #E0E0E0; /* Color de la cuadrícula */
+    border-radius: 8px; /* ESQUINAS REDONDEADAS */
+}
+
+/* --- Cabeceras de Tablas --- */
+QHeaderView::section {
+    background-color: #F1F3F5; /* Un gris muy claro para cabeceras */
+    padding: 8px;
+    border: none;
+    font-weight: bold;
+    font-size: 10pt;
+}
+   </string>
+  </property>
+  
   <layout class="QVBoxLayout" name="verticalLayout" stretch="0,10,0">
    <item>
     <layout class="QHBoxLayout" name="horizontalLayout" stretch="3,1">
      <item>
-      <widget class="QLabel" name="label">
-       <property name="sizePolicy">
-        <sizepolicy hsizetype="Expanding" vsizetype="Minimum">
-         <horstretch>0</horstretch>
-         <verstretch>0</verstretch>
-        </sizepolicy>
-       </property>
-       <property name="font">
-        <font>
-         <pointsize>22</pointsize>
-        </font>
-       </property>
-       <property name="frameShape">
-        <enum>QFrame::NoFrame</enum>
-       </property>
-       <property name="frameShadow">
-        <enum>QFrame::Plain</enum>
-       </property>
+      <widget class="QLabel" name="TitleLabel_Dashboard">
        <property name="text">
         <string>Gestor de Eventos</string>
        </property>
       </widget>
      </item>
      <item>
-      <widget class="QPushButton" name="pushButton">
-       <property name="sizePolicy">
-        <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
-         <horstretch>0</horstretch>
-         <verstretch>0</verstretch>
-        </sizepolicy>
-       </property>
-       <property name="font">
-        <font>
-         <pointsize>10</pointsize>
-        </font>
-       </property>
+      <widget class="QPushButton" name="OpenCSVPath_Btn">
        <property name="text">
         <string>Abrir Ruta de CSV</string>
        </property>
@@ -63,35 +103,15 @@
    <item>
     <layout class="QVBoxLayout" name="verticalLayout_2">
      <item>
-      <widget class="QTableWidget" name="tblEventos">
-       <property name="font">
-        <font>
-         <pointsize>10</pointsize>
-        </font>
-       </property>
+      <widget class="QTableWidget" name="EventList_Table">
        <property name="selectionMode">
         <enum>QAbstractItemView::SingleSelection</enum>
        </property>
        <property name="selectionBehavior">
         <enum>QAbstractItemView::SelectRows</enum>
        </property>
-       <property name="showGrid">
-        <bool>false</bool>
-       </property>
-       <property name="sortingEnabled">
-        <bool>true</bool>
-       </property>
-       <attribute name="horizontalHeaderVisible">
-        <bool>true</bool>
-       </attribute>
-       <attribute name="horizontalHeaderHighlightSections">
-        <bool>false</bool>
-       </attribute>
        <attribute name="horizontalHeaderStretchLastSection">
         <bool>true</bool>
-       </attribute>
-       <attribute name="verticalHeaderVisible">
-        <bool>false</bool>
        </attribute>
        <column>
         <property name="text">
@@ -122,39 +142,21 @@
      <item>
       <layout class="QHBoxLayout" name="horizontalLayout_Botones1">
        <item>
-        <widget class="QPushButton" name="btnAsignarMesas">
-         <property name="sizePolicy">
-          <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
-           <horstretch>0</horstretch>
-           <verstretch>0</verstretch>
-          </sizepolicy>
-         </property>
+        <widget class="QPushButton" name="AssignTables_Btn">
          <property name="text">
           <string>Asignar mesas</string>
          </property>
         </widget>
        </item>
        <item>
-        <widget class="QPushButton" name="btnCrearEvento">
-         <property name="sizePolicy">
-          <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
-           <horstretch>0</horstretch>
-           <verstretch>0</verstretch>
-          </sizepolicy>
-         </property>
+        <widget class="QPushButton" name="CreateEvent_Btn">
          <property name="text">
           <string>Crear evento</string>
          </property>
         </widget>
        </item>
        <item>
-        <widget class="QPushButton" name="btnActualizarEvento">
-         <property name="sizePolicy">
-          <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
-           <horstretch>0</horstretch>
-           <verstretch>0</verstretch>
-          </sizepolicy>
-         </property>
+        <widget class="QPushButton" name="UpdateEvent_Btn">
          <property name="text">
           <string>Actualizar evento</string>
          </property>
@@ -165,26 +167,14 @@
      <item>
       <layout class="QHBoxLayout" name="horizontalLayout_Botones2">
        <item>
-        <widget class="QPushButton" name="btnBorrarEvento">
-         <property name="sizePolicy">
-          <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
-           <horstretch>0</horstretch>
-           <verstretch>0</verstretch>
-          </sizepolicy>
-         </property>
+        <widget class="QPushButton" name="DeleteEvent_Btn">
          <property name="text">
           <string>Borrar evento</string>
          </property>
         </widget>
        </item>
        <item>
-        <widget class="QPushButton" name="btnGenerarCSV">
-         <property name="sizePolicy">
-          <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
-           <horstretch>0</horstretch>
-           <verstretch>0</verstretch>
-          </sizepolicy>
-         </property>
+        <widget class="QPushButton" name="GenerateCSV_Btn">
          <property name="text">
           <string>Generar CSV</string>
          </property>
@@ -195,7 +185,7 @@
     </layout>
    </item>
   </layout>
-  </widget>
+ </widget>
  <resources/>
  <connections/>
 </ui>

@@ -1,19 +1,243 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>MainWindow</class>
- <widget class="QWidget" name="MainWindow">
+ <class>Form</class>
+ <widget class="QWidget" name="Form">
   <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>800</width>
-    <height>600</height>
+    <width>934</width>
+    <height>525</height>
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Form</string>
+   <string>Actualizar Evento</string>
   </property>
-  </widget>
+  
+  <property name="styleSheet">
+   <string>
+/* --- Estilo General --- */
+QWidget {
+    font-family: 'Segoe UI', 'Arial', 'sans-serif';
+    background-color: #F8F9FA; /* Un blanco roto muy suave */
+    color: #333333;
+    font-size: 10pt; /* Fuente base para etiquetas */
+}
+
+/* --- Título Principal (ID CAMBIADO) --- */
+QLabel[objectName="TitleLabel_UpdateEvent"] {
+    font-size: 24pt;
+    font-weight: bold;
+    color: #2C3E50; /* Un azul oscuro */
+    padding-bottom: 10px;
+    background-color: transparent;
+}
+
+/* --- Botón de Atrás --- */
+QToolButton {
+    font-size: 16pt;
+    font-weight: bold;
+    color: #555555;
+    background-color: transparent;
+    border: none;
+    padding-right: 10px;
+}
+QToolButton:hover {
+    color: #000000;
+}
+
+/* --- Botones Principales --- */
+QPushButton {
+    background-color: #E0EFFF; /* Azul pastel */
+    color: #2C3E50;
+    font-size: 11pt;
+    font-weight: bold;
+    border: none;
+    border-radius: 8px; /* ¡ESQUINAS REDONDEADAS! */
+    padding: 12px 18px;
+    min-height: 28px;
+}
+
+QPushButton:hover {
+    background-color: #C6DFFF;
+}
+
+QPushButton:pressed {
+    background-color: #B0D0FF;
+}
+
+/* --- Botón de Guardar (más grande) (ID CAMBIADO) --- */
+QPushButton[objectName="SaveUpdate_Btn"] {
+    font-size: 14pt; /* Más grande como en el original */
+    padding: 15px;
+}
+
+/* --- Campos de Texto y SpinBox --- */
+QLineEdit, QSpinBox {
+    background-color: #FFFFFF;
+    border: 1px solid #CED4DA; /* Borde gris claro */
+    border-radius: 5px; /* Esquinas redondeadas leves */
+    padding: 8px;
+    font-size: 10pt;
+}
+
+QLineEdit:focus, QSpinBox:focus {
+    border: 1px solid #80bdff; /* Borde azul al seleccionar */
+}
+   </string>
+  </property>
+  
+  <layout class="QVBoxLayout" name="verticalLayout">
+   <item>
+    <layout class="QHBoxLayout" name="horizontalLayout_Titulo_3" stretch="0,0,1">
+     <item>
+      <widget class="QToolButton" name="BackButton_UpdateEvent">
+       <property name="text">
+        <string>&lt;</string>
+       </property>
+       <property name="autoRaise">
+        <bool>true</bool>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QLabel" name="TitleLabel_UpdateEvent">
+       <property name="text">
+        <string>Actualizar Evento</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <spacer name="horizontalSpacer_Titulo_3">
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>40</width>
+         <height>20</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+    </layout>
+   </item>
+   <item>
+    <layout class="QGridLayout" name="gridLayout_Content_3" columnstretch="0,2,0,1">
+     <item row="0" column="0">
+      <widget class="QLabel" name="Label_EventName">
+       <property name="text">
+        <string>Nombre</string>
+       </property>
+      </widget>
+     </item>
+     <item row="0" column="1">
+      <widget class="QLineEdit" name="Input_EventName">
+       <property name="placeholderText">
+        <string>Nombre del evento</string>
+       </property>
+      </widget>
+     </item>
+     <item row="0" column="2">
+      <widget class="QLabel" name="Label_NumTables">
+       <property name="text">
+        <string>Numero de mesas</string>
+       </property>
+      </widget>
+     </item>
+     <item row="0" column="3">
+      <widget class="QSpinBox" name="Input_NumTables">
+       <property name="minimum">
+        <number>1</number>
+       </property>
+      </widget>
+     </item>
+     <item row="1" column="0">
+      <widget class="QLabel" name="Label_EventDate">
+       <property name="text">
+        <string>Fecha</string>
+       </property>
+      </widget>
+     </item>
+     <item row="1" column="1">
+      <widget class="QLineEdit" name="Input_EventDate">
+       <property name="placeholderText">
+        <string>dd/mm/yyyy</string>
+       </property>
+      </widget>
+     </item>
+     <item row="1" column="2" colspan="2">
+      <widget class="QPushButton" name="UploadCSV_Btn">
+       <property name="text">
+        <string>+ Subir Participantes (CSV)</string>
+       </property>
+      </widget>
+     </item>
+     <item row="2" column="0">
+      <widget class="QLabel" name="Label_EventLocation">
+       <property name="text">
+        <string>Ubicacion</string>
+       </property>
+      </widget>
+     </item>
+     <item row="2" column="1">
+      <widget class="QLineEdit" name="Input_EventLocation">
+       <property name="placeholderText">
+        <string>Lugar de la celebración</string>
+       </property>
+      </widget>
+     </item>
+     <item row="2" column="2" colspan="2">
+      <widget class="QPushButton" name="CreateManual_Btn">
+       <property name="text">
+        <string>Crear participantes manualmente</string>
+       </property>
+      </widget>
+     </item>
+     <item row="3" column="0">
+      <widget class="QLabel" name="Label_EventOrganizer">
+       <property name="text">
+        <string>Organizador</string>
+       </property>
+      </widget>
+     </item>
+     <item row="3" column="1">
+      <widget class="QLineEdit" name="Input_EventOrganizer">
+       <property name="placeholderText">
+        <string>Nombre del responsable</string>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </item>
+   <item>
+    <spacer name="verticalSpacer_Main">
+     <property name="orientation">
+      <enum>Qt::Vertical</enum>
+     </property>
+     <property name="sizeHint" stdset="0">
+      <size>
+       <width>20</width>
+       <height>269</height>
+      </size>
+     </property>
+    </spacer>
+   </item>
+   <item>
+    <widget class="QPushButton" name="SaveUpdate_Btn">
+     <property name="minimumSize">
+      <size>
+       <width>0</width>
+       <height>45</height>
+      </size>
+     </property>
+     <property name="text">
+      <string>Guardar Cambios</string>
+     </property>
+    </widget>
+   </item>
+  </layout>
+ </widget>
  <resources/>
  <connections/>
 </ui>

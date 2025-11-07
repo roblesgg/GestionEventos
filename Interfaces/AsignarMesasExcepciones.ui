@@ -11,20 +11,99 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Form</string>
+   <string>Resolver Excepciones</string>
   </property>
-  <layout class="QVBoxLayout" name="verticalLayout_5">
+  
+  <property name="styleSheet">
+   <string>
+/* --- Estilo General --- */
+QWidget {
+    font-family: 'Segoe UI', 'Arial', 'sans-serif';
+    background-color: #F8F9FA; /* Un blanco roto muy suave */
+    color: #333333;
+}
+
+/* --- Título Principal --- */
+QLabel[objectName="TitleLabel_Exceptions"] {
+    font-size: 24pt;
+    font-weight: bold;
+    color: #2C3E50; /* Un azul oscuro */
+    padding-bottom: 10px;
+    background-color: transparent;
+}
+
+/* --- Etiquetas de listas --- */
+QLabel[objectName^="Label_"] {
+    font-size: 14pt;
+    font-weight: bold;
+    color: #333;
+    background-color: transparent;
+    padding-top: 10px;
+}
+
+/* --- Botón de Atrás --- */
+QToolButton {
+    font-size: 16pt;
+    font-weight: bold;
+    color: #555555;
+    background-color: transparent;
+    border: none;
+    padding-right: 10px;
+}
+QToolButton:hover {
+    color: #000000;
+}
+
+/* --- Botones Principales --- */
+QPushButton {
+    background-color: #E0EFFF; /* Azul pastel */
+    color: #2C3E50;
+    font-size: 11pt;
+    font-weight: bold;
+    border: none;
+    border-radius: 8px; /* ¡ESQUINAS REDONDEADAS! */
+    padding: 12px;
+    min-height: 28px;
+}
+QPushButton:hover {
+    background-color: #C6DFFF;
+}
+QPushButton:pressed {
+    background-color: #B0D0FF;
+}
+
+/* --- Botón de "Peligro" (Eliminar) --- */
+QPushButton[objectName="RemoveParticipant_Btn"] {
+    background-color: #FFEBEE; /* Rosa pastel */
+    color: #D32F2F; /* Rojo oscuro */
+}
+QPushButton[objectName="RemoveParticipant_Btn"]:hover {
+    background-color: #FFCDD2;
+}
+
+/* --- Listas --- */
+QListWidget {
+    background-color: #FFFFFF;
+    border: 1px solid #CED4DA;
+    border-radius: 5px;
+    padding: 5px;
+    font-size: 10pt;
+}
+QListWidget::item:hover {
+    background-color: #F1F3F5; /* Resaltar item al pasar el ratón */
+}
+QListWidget::item:selected {
+    background-color: #E0EFFF; /* Resaltar item seleccionado */
+    color: #2C3E50;
+}
+   </string>
+  </property>
+  
+  <layout class="QVBoxLayout" name="verticalLayout_5" stretch="0,1,1,0">
    <item>
     <layout class="QHBoxLayout" name="horizontalLayout_Titulo_3" stretch="0,0,1">
      <item>
-      <widget class="QToolButton" name="btnAtras_excepciones">
-       <property name="font">
-        <font>
-         <pointsize>14</pointsize>
-         <weight>75</weight>
-         <bold>true</bold>
-        </font>
-       </property>
+      <widget class="QToolButton" name="BackButton_Exceptions">
        <property name="text">
         <string>&lt;</string>
        </property>
@@ -34,16 +113,9 @@
       </widget>
      </item>
      <item>
-      <widget class="QLabel" name="labelTitulo_3">
-       <property name="font">
-        <font>
-         <pointsize>18</pointsize>
-         <weight>75</weight>
-         <bold>true</bold>
-        </font>
-       </property>
+      <widget class="QLabel" name="TitleLabel_Exceptions">
        <property name="text">
-        <string>Asignar Mesas Excepciones</string>
+        <string>Resolver Excepciones</string>
        </property>
       </widget>
      </item>
@@ -62,45 +134,53 @@
      </item>
     </layout>
    </item>
+   
    <item>
-    <layout class="QVBoxLayout" name="verticalLayout">
+    <widget class="QLabel" name="Label_TableParticipants">
+     <property name="text">
+      <string>Participantes en Mesa</string>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <layout class="QHBoxLayout" name="horizontalLayout_Lists" stretch="1,1">
      <item>
-      <widget class="QListWidget" name="list_participantesmesa">
+      <layout class="QVBoxLayout" name="verticalLayout_TableList">
        <item>
-        <property name="text">
-         <string>Participantes de la mesa:</string>
-        </property>
+        <widget class="QListWidget" name="List_TableParticipants"/>
        </item>
-      </widget>
+      </layout>
+     </item>
+     <item>
+      <layout class="QVBoxLayout" name="verticalLayout_ExceptionList">
+       <item>
+        <widget class="QLabel" name="Label_Exceptions">
+         <property name="text">
+          <string>Participantes con Conflicto</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QListWidget" name="List_Exceptions"/>
+       </item>
+      </layout>
      </item>
     </layout>
    </item>
-   <item>
-    <layout class="QVBoxLayout" name="verticalLayout_3">
-     <item>
-      <widget class="QListWidget" name="list_Excepciones">
-       <item>
-        <property name="text">
-         <string>Excepciones:</string>
-        </property>
-       </item>
-      </widget>
-     </item>
-    </layout>
-   </item>
+   
    <item>
     <layout class="QHBoxLayout" name="horizontalLayout">
      <item>
       <layout class="QVBoxLayout" name="verticalLayout_2">
        <item>
-        <widget class="QPushButton" name="btn_anteriorMesa">
+        <widget class="QPushButton" name="PrevTable_Btn">
          <property name="text">
           <string>Anterior Mesa</string>
          </property>
         </widget>
        </item>
        <item>
-        <widget class="QPushButton" name="btn_anadir">
+        <widget class="QPushButton" name="AddParticipant_Btn">
          <property name="text">
           <string>Añadir</string>
          </property>
@@ -111,14 +191,14 @@
      <item>
       <layout class="QVBoxLayout" name="verticalLayout_4">
        <item>
-        <widget class="QPushButton" name="btn_siguienteMesa">
+        <widget class="QPushButton" name="NextTable_Btn">
          <property name="text">
           <string>Siguiente Mesa</string>
          </property>
         </widget>
        </item>
        <item>
-        <widget class="QPushButton" name="btn_eliminar">
+        <widget class="QPushButton" name="RemoveParticipant_Btn">
          <property name="text">
           <string>Eliminar</string>
          </property>
