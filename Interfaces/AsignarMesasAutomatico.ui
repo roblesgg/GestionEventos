@@ -6,120 +6,98 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1057</width>
-    <height>526</height>
+    <width>667</width>
+    <height>381</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>Form</string>
   </property>
-  <widget class="QWidget" name="layoutWidget">
-   <property name="geometry">
-    <rect>
-     <x>10</x>
-     <y>10</y>
-     <width>1031</width>
-     <height>81</height>
-    </rect>
-   </property>
-   <layout class="QHBoxLayout" name="horizontalLayout_Titulo_3" stretch="0,0,1">
-    <item>
-     <widget class="QToolButton" name="btnAtras_mesaautomatico">
-      <property name="font">
-       <font>
-        <pointsize>14</pointsize>
-        <weight>75</weight>
-        <bold>true</bold>
-       </font>
-      </property>
-      <property name="text">
-       <string>&lt;</string>
-      </property>
-      <property name="autoRaise">
-       <bool>true</bool>
-      </property>
-     </widget>
-    </item>
-    <item>
-     <widget class="QLabel" name="labelTitulo_3">
-      <property name="font">
-       <font>
-        <pointsize>18</pointsize>
-        <weight>75</weight>
-        <bold>true</bold>
-       </font>
-      </property>
-      <property name="text">
-       <string>Asignar Mesas Automatico</string>
-      </property>
-     </widget>
-    </item>
-    <item>
-     <spacer name="horizontalSpacer_Titulo_3">
-      <property name="orientation">
-       <enum>Qt::Horizontal</enum>
-      </property>
-      <property name="sizeHint" stdset="0">
-       <size>
-        <width>40</width>
-        <height>20</height>
-       </size>
-      </property>
-     </spacer>
-    </item>
-   </layout>
-  </widget>
-  <widget class="QWidget" name="horizontalLayoutWidget">
-   <property name="geometry">
-    <rect>
-     <x>9</x>
-     <y>99</y>
-     <width>1031</width>
-     <height>331</height>
-    </rect>
-   </property>
-   <layout class="QHBoxLayout" name="horizontalLayout">
-    <item>
-     <widget class="QTableWidget" name="tbl_mesaparticipantes">
-      <property name="rowCount">
-       <number>0</number>
-      </property>
-      <property name="columnCount">
-       <number>2</number>
-      </property>
-      <column>
-       <property name="text">
-        <string>Mesa</string>
+  <layout class="QVBoxLayout" name="verticalLayout_2">
+   <item>
+    <layout class="QHBoxLayout" name="horizontalLayout_Titulo_3" stretch="0,0,1">
+     <item>
+      <widget class="QToolButton" name="btnAtras_mesaautomatico">
+       <property name="font">
+        <font>
+         <pointsize>14</pointsize>
+         <weight>75</weight>
+         <bold>true</bold>
+        </font>
        </property>
-      </column>
-      <column>
        <property name="text">
-        <string>Participantes</string>
+        <string>&lt;</string>
        </property>
-      </column>
-     </widget>
-    </item>
-   </layout>
-  </widget>
-  <widget class="QWidget" name="verticalLayoutWidget">
-   <property name="geometry">
-    <rect>
-     <x>19</x>
-     <y>440</y>
-     <width>1021</width>
-     <height>80</height>
-    </rect>
-   </property>
-   <layout class="QVBoxLayout" name="verticalLayout">
-    <item>
-     <widget class="QPushButton" name="btn_verExcepciones">
-      <property name="text">
-       <string>Ver Excepciones</string>
-      </property>
-     </widget>
-    </item>
-   </layout>
-  </widget>
+       <property name="autoRaise">
+        <bool>true</bool>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QLabel" name="labelTitulo_3">
+       <property name="font">
+        <font>
+         <pointsize>18</pointsize>
+         <weight>75</weight>
+         <bold>true</bold>
+        </font>
+       </property>
+       <property name="text">
+        <string>Asignar Mesas Automatico</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <spacer name="horizontalSpacer_Titulo_3">
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>40</width>
+         <height>20</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+    </layout>
+   </item>
+   <item>
+    <layout class="QHBoxLayout" name="horizontalLayout">
+     <item>
+      <widget class="QTableWidget" name="tbl_mesaparticipantes">
+       <property name="rowCount">
+        <number>0</number>
+       </property>
+       <property name="columnCount">
+        <number>2</number>
+       </property>
+       <column>
+        <property name="text">
+         <string>Mesa</string>
+        </property>
+       </column>
+       <column>
+        <property name="text">
+         <string>Participantes</string>
+        </property>
+       </column>
+      </widget>
+     </item>
+    </layout>
+   </item>
+   <item>
+    <layout class="QVBoxLayout" name="verticalLayout">
+     <item>
+      <widget class="QPushButton" name="btn_verExcepciones">
+       <property name="text">
+        <string>Ver Excepciones</string>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </item>
+  </layout>
  </widget>
  <resources/>
  <connections/>
