@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
  <class>DialogoBorrarEvento</class>
- <widget class="QDialog" name="DialogoBorrarEvento">
+ <widget class="QWidget" name="DialogoBorrarEvento">
   <property name="geometry">
    <rect>
     <x>0</x>
