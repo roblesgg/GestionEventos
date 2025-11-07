@@ -1,18 +1,8 @@
 # --- Importaciones ---
 import sys
-from PyQt5.QtWidgets import QApplication, QWidget, QStackedWidget
-
-# --- 1. Importa las clases de tus UIs ---
-# Cada archivo .py generado desde un .ui tiene una clase (ej. Ui_MainWindow)
-
-# 'Ui_MainWindow' es el diseño de tu página principal (el CRUD)
-# CORREGIDO: El archivo es CrudEvento.py, no ControllerCrudEvento.py
+from PyQt5.QtWidgets import QApplication, QWidget, QStackedWidget, QMessageBox
 from controllers.CrudEvento import Ui_MainWindow
-
-# 'Ui_Form' es el diseño de tu página "Crear Evento"
-# CORREGIDO: El archivo es ControllerCrearEvento1.py, no CrearEvento1Controller.py
 from controllers.ControllerCrearEvento1 import Ui_Form as Ui_CrearEventoForm
-
 # ======================================================================
 # ### PASO 1: IMPORTA TU NUEVA VENTANA ###
 # ======================================================================
@@ -152,6 +142,57 @@ class VentanaPrincipal(QStackedWidget):
         # Solo después de rellenar los datos, cambia de página
         self.setCurrentIndex(2)
     # ======================================================================
+
+
+
+    #Metodo al pulsar boton finalizar en crear evento para guardar toda la info
+def guardar_nuevo_evento(self):
+
+    #Guarda los datos de los txt
+    nombre = self.pagina_crear.ui.Input_EventName.text()
+    fecha = self.pagina_crear.ui.Input_EventDate.text()
+    ubicacion = self.pagina_crear.ui.Input_EventLocation.text()
+    organizador = self.pagina_crear.ui.Input_EventOrganizer.text()
+
+    #Comprueba que no falte nombre ni fecha
+    if not nombre or not fecha:
+        QMessageBox.warning(
+            self,  # El 'padre' (la ventana actual)
+            "Datos Incompletos",  #Titulo d la ventana
+            "El nombre y la fecha son campos obligatorios." # Mensaje
+        )       
+        return#Se sale del metodo
+    # 3. Crea el "Molde" (un objeto Evento, o un simple diccionario)
+    nuevo_evento = {
+        "id": "evento_" + str(len(self.lista_eventos)), # Un ID simple por ahora
+        "nombre": nombre,
+        "fecha": fecha,
+        "ubicacion": ubicacion,
+        "organizador": organizador,
+        "participantes": [] # Lista vacía al crear
+    }
+
+    self.lista_eventos.append(nuevo_evento)
+
+    # (Asumimos que 'self.gestor_datos' es nuestro objeto GestorDatos.py)
+    # self.gestor_datos.guardar_eventos(self.lista_eventos)
+
+    print(f"Evento guardado: {nuevo_evento['nombre']}")
+
+    # 5. (Opcional) Limpia los campos de texto
+    self.pagina_crear.ui.Input_EventName.setText("")
+    # ...etc.
+
+    # 6. Vuelve al CRUD
+    self.mostrar_pagina_crud()
+
+    # 7. Actualiza la tabla del CRUD (¡Importante!)
+    self.actualizar_tabla_crud()
+
+def actualizar_tabla_crud(self):
+    # ... (Aquí va el código para leer 'self.lista_eventos' 
+    # y rellenar 'self.pagina_crud.ui.EventList_Table')
+    pass
 
 
 # --- 8. Ejecución de la aplicación ---
