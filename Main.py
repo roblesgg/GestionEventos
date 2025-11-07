@@ -1,136 +1,171 @@
 # --- Importaciones ---
-# Estas líneas traen herramientas de Python y PyQt5 que necesitamos.
-import sys  # 'sys' nos deja interactuar con el sistema (como para cerrar la app)
-
-# 'QApplication' es la aplicación en sí. 'QWidget' es una ventana vacía.
-# 'QStackedWidget' es el widget especial que nos deja apilar ventanas una encima de otra.
+import sys
 from PyQt5.QtWidgets import QApplication, QWidget, QStackedWidget
 
 # --- 1. Importa las clases de tus UIs ---
-# Traemos el "diseño" (los botones, tablas, etc.) que creaste en Qt Designer
-# y que convertiste a archivos .py.
+# Cada archivo .py generado desde un .ui tiene una clase (ej. Ui_MainWindow)
 
-# 'Ui_MainWindow' es el diseño de tu página principal (el CRUD con la tabla)
-from controllers.ControllerCrudEvento import Ui_MainWindow
-# 'Ui_Form' es el diseño de tu página para crear un evento (el formulario)
-from controllers.CrearEvento1Controller import Ui_Form
+# 'Ui_MainWindow' es el diseño de tu página principal (el CRUD)
+# CORREGIDO: El archivo es CrudEvento.py, no ControllerCrudEvento.py
+from controllers.CrudEvento import Ui_MainWindow
 
-# --- 2. Creamos la "Página 1" (El CRUD) ---
-# Creamos una clase para tu página principal.
-# Hereda de 'QWidget' (una ventana vacía), porque el QStackedWidget SÓLO
-# puede apilar QWidgets.
-class PaginaCrud(QWidget): # <-- Hereda de QWidget
+# 'Ui_Form' es el diseño de tu página "Crear Evento"
+# CORREGIDO: El archivo es ControllerCrearEvento1.py, no CrearEvento1Controller.py
+from controllers.ControllerCrearEvento1 import Ui_Form as Ui_CrearEventoForm
+
+# ======================================================================
+# ### PASO 1: IMPORTA TU NUEVA VENTANA ###
+# ======================================================================
+# CORREGIDO: Asumimos que "Actualizar Evento" es tu archivo EditarEvento.py
+# (ya que ActualizarEventoController.py no existe)
+from controllers.EditarEvento import Ui_Form as Ui_ActualizarEventoForm
+# ======================================================================
+
+
+# --- 2. Clases de "Página" (Widgets) ---
+# Creamos una clase por cada ventana/página que queramos mostrar.
+# Estas clases heredan de QWidget y "cargan" el diseño de la UI.
+
+class PaginaCrud(QWidget):
     def __init__(self):
-        # 'super().__init__()' es una línea mágica necesaria para que la clase funcione
         super().__init__()
-        
-        # Creamos una "instancia" de tu diseño (la UI)
         self.ui = Ui_MainWindow()
-        
-        # 'setupUi(self)' "dibuja" todos los botones y tablas de 'Ui_MainWindow'
-        # encima de esta ventana vacía ('self').
         self.ui.setupUi(self)
 
-# --- 3. Creamos la "Página 2" (El Formulario) ---
-# Hacemos lo mismo para la página de "Crear Evento".
-# Hereda de 'QWidget' (una ventana vacía).
 class PaginaCrearEvento(QWidget):
     def __init__(self):
-        # Línea mágica obligatoria
         super().__init__()
-        
-        # Creamos una instancia de tu diseño (Ui_Form)
-        self.ui = Ui_Form()
-        
-        # "Dibuja" el formulario (labels, cajas de texto) encima de esta ventana ('self')
+        self.ui = Ui_CrearEventoForm()
         self.ui.setupUi(self)
+        
+# ======================================================================
+# ### PASO 2: CREA LA CLASE PARA TU NUEVA PÁGINA ###
+# ======================================================================
+# Copia y pega la clase anterior y cambia el nombre de la UI
+# que debe cargar.
+class PaginaActualizarEvento(QWidget):
+    def __init__(self):
+        super().__init__()
+        # 2.1 - Carga el diseño de 'ActualizarEvento'
+        self.ui = Ui_ActualizarEventoForm()
+        # 2.2 - "Dibuja" la UI en este widget
+        self.ui.setupUi(self)
+# ======================================================================
 
-# --- 4. Creamos el Controlador Principal (La Ventana que contiene todo) ---
-# Esta clase es la más importante. Hereda de 'QStackedWidget'.
-# Piensa en ella como un "mazo de cartas". Cada página (PaginaCrud, PaginaCrearEvento)
-# es una carta. Esta clase se encarga de mostrar solo una carta a la vez.
+
+# --- 3. Controlador Principal (El "Mazo de Cartas") ---
+# Esta es la clase principal que contiene todas las demás páginas.
+# Hereda de QStackedWidget.
 class VentanaPrincipal(QStackedWidget):
     def __init__(self):
-        # Línea mágica obligatoria
         super().__init__()
         
-        # --- 5. Crea las "cartas" (las páginas) ---
-        # Creamos un objeto (una "carta") para cada página que hemos definido arriba.
-        self.pagina_crud = PaginaCrud()           # Esta es la "carta" 0
-        self.pagina_crear = PaginaCrearEvento()   # Esta es la "carta" 1
+        # --- 4. Crea las Instancias de las Páginas ---
+        # Creamos un objeto (una "carta") por cada clase de página.
+        self.pagina_crud = PaginaCrud()
+        self.pagina_crear = PaginaCrearEvento()
         
         # ======================================================================
-        # ===> ¡¡PARA AÑADIR MÁS PÁGINAS (ESCALABILIDAD)!! <===
-        # 1. Crea la clase para tu nueva página (igual que 'PaginaCrearEvento').
-        # 2. Crea la instancia aquí:
-        #    ej: self.pagina_editar = PaginaEditarEvento()
+        # ### PASO 3: CREA LA INSTANCIA DE TU NUEVA PÁGINA ###
         # ======================================================================
-        
-        # --- 6. Añade las "cartas" al mazo (al Stack) ---
-        # El orden en que las añades es importante.
-        self.addWidget(self.pagina_crud)    # Índice 0
-        self.addWidget(self.pagina_crear)   # Índice 1
-        
+        self.pagina_actualizar = PaginaActualizarEvento()
         # ======================================================================
-        # ===> ¡¡PARA AÑADIR MÁS PÁGINAS (ESCALABILIDAD)!! <===
-        # 3. Añade tu nueva página al mazo aquí.
-        #    ej: self.addWidget(self.pagina_editar) # Esta será el Índice 2
-        # ======================================================================
-        
-        # --- 7. Conecta los botones para cambiar de página ---
-        # Aquí es donde le decimos a los botones qué hacer cuando se pulsan.
-        
-        # Busca el botón 'btnCrearEvento' (que está DENTRO de 'pagina_crud')
-        # y, cuando se haga 'clicked', llama a la función 'self.mostrar_pagina_crear'.
-        self.pagina_crud.ui.btnCrearEvento.clicked.connect(self.mostrar_pagina_crear)
-        
-        # Busca el botón 'btnAtras_3' (que está DENTRO de 'pagina_crear')
-        # y, cuando se haga 'clicked', llama a la función 'self.mostrar_pagina_crud'.
-        self.pagina_crear.ui.btnAtras_3.clicked.connect(self.mostrar_pagina_crud)
+
+        # --- 5. Añade las Páginas al "Mazo" ---
+        # El orden importa. La primera que añades (Índice 0) es la que se muestra
+        # al arrancar la aplicación.
+        self.addWidget(self.pagina_crud)           # Índice 0
+        self.addWidget(self.pagina_crear)         # Índice 1
         
         # ======================================================================
-        # ===> ¡¡PARA AÑADIR MÁS BOTONES (ESCALABILIDAD)!! <===
-        # 4. Conecta tus nuevos botones a nuevas funciones.
-        #    ej: self.pagina_crud.ui.btnActualizarEvento.clicked.connect(self.mostrar_pagina_editar)
+        # ### PASO 4: AÑADE TU NUEVA PÁGINA AL MAZO ###
+        # ======================================================================
+        self.addWidget(self.pagina_actualizar)    # Índice 2
+        # ======================================================================
+
+        # --- 6. Conecta los Botones (Señales) ---
+        # Aquí conectamos los clics de los botones a las funciones
+        # que cambian de página.
+        
+        # --- Botones de la Página CRUD (Índice 0) ---
+        
+        # Conecta: PaginaCrud -> CreateEvent_Btn -> mostrar_pagina_crear
+        # NOTA: Usamos el ID nuevo 'CreateEvent_Btn'
+        self.pagina_crud.ui.CreateEvent_Btn.clicked.connect(self.mostrar_pagina_crear)
+        
+        # ======================================================================
+        # ### PASO 5: CONECTA EL BOTÓN DE TU NUEVA PÁGINA ###
+        # ======================================================================
+        # Conecta: PaginaCrud -> UpdateEvent_Btn -> mostrar_pagina_actualizar
+        # NOTA: Usamos el ID nuevo 'UpdateEvent_Btn'
+        self.pagina_crud.ui.UpdateEvent_Btn.clicked.connect(self.mostrar_pagina_actualizar)
+        # ======================================================================
+
+        # --- Botones de la Página Crear Evento (Índice 1) ---
+        
+        # Conecta: PaginaCrearEvento -> BackButton_CreateEvent -> mostrar_pagina_crud
+        # NOTA: Usamos el ID nuevo 'BackButton_CreateEvent'
+        self.pagina_crear.ui.BackButton_CreateEvent.clicked.connect(self.mostrar_pagina_crud)
+        
+        # ======================================================================
+        # ### PASO 5 (bis): CONECTA EL BOTÓN DE "ATRÁS" DE TU NUEVA PÁGINA ###
+        # ======================================================================
+        # Conecta: PaginaActualizarEvento -> BackButton_UpdateEvent -> mostrar_pagina_crud
+        # NOTA: El ID 'BackButton_UpdateEvent' debe existir en tu 'EditarEvento.ui'
+        # Si usaste 'ActualizarEvento.ui' que te di, este ID es correcto.
+        self.pagina_actualizar.ui.BackButton_UpdateEvent.clicked.connect(self.mostrar_pagina_crud)
         # ======================================================================
 
         # Ajusta el tamaño de la ventana principal
         self.resize(904, 617) # El tamaño de tu UI principal
 
-    # --- Funciones para cambiar de "carta" (de página) ---
+    # --- 7. Funciones para Cambiar de Página ---
+    # Estas funciones son las que se llaman al hacer clic.
     
-    # Esta función se llama cuando se pulsa 'btnCrearEvento'
-    def mostrar_pagina_crear(self):
-        # 'setCurrentIndex(1)' le dice al mazo: "muestra la carta número 1"
-        self.setCurrentIndex(1) 
-        
-    # Esta función se llama cuando se pulsa 'btnAtras_3'
+    # Muestra la página CRUD (Índice 0)
     def mostrar_pagina_crud(self):
-        # 'setCurrentIndex(0)' le dice al mazo: "muestra la carta número 0"
+        print("Mostrando página CRUD (Índice 0)")
         self.setCurrentIndex(0)
+        
+    # Muestra la página Crear Evento (Índice 1)
+    def mostrar_pagina_crear(self):
+        print("Mostrando página Crear Evento (Índice 1)")
+        self.setCurrentIndex(1) 
 
     # ======================================================================
-    # ===> ¡¡PARA AÑADIR MÁS PÁGINAS (ESCALABILIDAD)!! <===
-    # 5. Crea la función que mostrará tu nueva página.
-    #    ej: def mostrar_pagina_editar(self):
-    #            self.setCurrentIndex(2) # Muestra la carta número 2
+    # ### PASO 6: CREA LA FUNCIÓN PARA MOSTRAR TU NUEVA PÁGINA ###
+    # ======================================================================
+    # Muestra la página Actualizar Evento (Índice 2)
+    def mostrar_pagina_actualizar(self):
+        print("Mostrando página Actualizar Evento (Índice 2)")
+        
+        # --- LÓGICA OPCIONAL ---
+        # Aquí es donde deberías cargar los datos del evento seleccionado
+        # en la tabla ANTES de mostrar la página.
+        #
+        # 1. Mira qué fila está seleccionada en la tabla del CRUD
+        #    fila_seleccionada = self.pagina_crud.ui.EventList_Table.currentRow()
+        # 2. Si no hay nada seleccionado (fila_seleccionada == -1), muestra un error o no hagas nada.
+        # 3. Coge los datos de esa fila.
+        # 4. Rellena los campos de la página_actualizar:
+        #    self.pagina_actualizar.ui.Input_EventName.setText("Nombre de la fila")
+        #    self.pagina_actualizar.ui.Input_EventDate.setText("Fecha de la fila")
+        #    ...etc.
+        
+        # Solo después de rellenar los datos, cambia de página
+        self.setCurrentIndex(2)
     # ======================================================================
 
 
 # --- 8. Ejecución de la aplicación ---
-# Este 'if' es estándar en Python. Solo se ejecuta si corres este
-# archivo directamente (y no si lo importas desde otro).
 if __name__ == "__main__":
-    
-    # Crea el objeto 'QApplication'. Esto es obligatorio.
     app = QApplication(sys.argv)
     
-    # Crea nuestra ventana principal (el 'QStackedWidget' que lo controla todo)
+    # Crea nuestra ventana principal (el 'QStackedWidget')
     ventana = VentanaPrincipal()
     
     # ¡Muestra la ventana!
     ventana.show()
     
-    # 'sys.exit(app.exec_())' inicia la aplicación y espera a que el
-    # usuario la cierre. 'sys.exit' se asegura de que se cierre limpiamente.
+    # Inicia la aplicación
     sys.exit(app.exec_())
