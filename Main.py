@@ -85,6 +85,7 @@ class VentanaPrincipal(QStackedWidget):
         #mas botones
         #boton atras 1
         self.pagina_crear.ui.BackButton_CreateEvent.clicked.connect(self.mostrar_pagina_crud)
+        self.pagina_manual.ui.BackButton_ManualAssign.clicked.connect(self.mostrar_pagina_mesas)
 
         #boton finalizar
         self.pagina_crear.ui.FinishCreateEvent_Btn.clicked.connect(self.guardar_nuevo_evento)
