@@ -152,6 +152,21 @@ class VentanaPrincipal(QStackedWidget):
 
     def mostrar_pagina_mesas(self):
         self.setCurrentIndex(3)
+import csv
+
+def guardar_eventos_csv(lista_eventos, archivo="eventos.csv"):
+    # Define los campos que quieres guardar
+    fieldnames = ["id", "nombre", "fecha", "ubicacion", "organizador", "participantes"]
+    print("Evento guardado")
+    with open(archivo, "w", newline="", encoding="utf-8") as f:
+        writer = csv.DictWriter(f, fieldnames=fieldnames)
+        writer.writeheader()
+
+        for evento in lista_eventos:
+            # Convertimos la lista de participantes en una cadena
+            evento_csv = evento.copy()
+            evento_csv["participantes"] = ";".join(evento_csv["participantes"])
+            writer.writerow(evento_csv)
 
     #Metodo al pulsar boton finalizar en crear evento para guardar toda la info
 def guardar_nuevo_evento(self):
@@ -181,6 +196,7 @@ def guardar_nuevo_evento(self):
     }
 
     self.lista_eventos.append(nuevo_evento)
+    guardar_eventos_csv()
 
     # (Asumimos que 'self.gestor_datos' es nuestro objeto GestorDatos.py)
     # self.gestor_datos.guardar_eventos(self.lista_eventos)
