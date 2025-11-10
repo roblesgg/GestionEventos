@@ -7,7 +7,7 @@ from controllers.ControllerCrearEvento1 import Ui_Form as Ui_CrearEventoForm
 from controllers.ControllerAsignarMesas import Ui_Form as Ui_PaginaMesas
 from controllers.EditarEvento import Ui_Form as Ui_ActualizarEventoForm
 from controllers.ControllerAsignarMesasManual import Ui_Form as Ui_AsignarManual
-
+from controllers.ControllerAsignarMesasAutomatico import Ui_Form as Ui_AsignarAutomatico
 
 #importa las clases
 from clases.GestorDatos import GestorDatos
@@ -47,6 +47,12 @@ class Manual(QWidget):
         self.ui = Ui_AsignarManual()
         self.ui.setupUi(self)  
 
+class Automatico(QWidget):
+    def __init__(self):
+        super().__init__()
+        self.ui = Ui_AsignarAutomatico()
+        self.ui.setupUi(self)  
+
         
 
 #Ventana principal
@@ -65,13 +71,14 @@ class VentanaPrincipal(QStackedWidget):
         self.pagina_actualizar = PaginaActualizarEvento() #2
         self.pagina_mesas = PaginaMesas()         #3
         self.pagina_manual=Manual()             #4
-        
+        self.pagina_automatico=Automatico() #5
         #añade las paginas
         self.addWidget(self.pagina_crud)           #0
         self.addWidget(self.pagina_crear)         #1
         self.addWidget(self.pagina_actualizar)    #2
         self.addWidget(self.pagina_mesas)          #3
         self.addWidget(self.pagina_manual)          #4
+        self.addWidget(self.pagina_automatico)      #5
 
         #Conecta los botones
         #botones del crud 0
@@ -79,6 +86,7 @@ class VentanaPrincipal(QStackedWidget):
         self.pagina_crud.ui.UpdateEvent_Btn.clicked.connect(self.mostrar_pagina_actualizar)
         self.pagina_crud.ui.AssignTables_Btn.clicked.connect(self.mostrar_pagina_mesas)
         self.pagina_mesas.ui.ManualAssign_Btn.clicked.connect(self.mostrar_pagina_manual)
+        self.pagina_mesas.ui.AutoAssign_Btn.clicked.connect(self.mostrar_pagina_automatico)
         #falta el boton de borrar
         # self.pagina_crud.ui.DeleteEvent_Btn.clicked.connect(self.mostrar_pagina_borrar) 
 
@@ -86,6 +94,7 @@ class VentanaPrincipal(QStackedWidget):
         #boton atras 1
         self.pagina_crear.ui.BackButton_CreateEvent.clicked.connect(self.mostrar_pagina_crud)
         self.pagina_manual.ui.BackButton_ManualAssign.clicked.connect(self.mostrar_pagina_mesas)
+        self.pagina_automatico.ui.BackButton_AutoAssign.clicked.connect(self.mostrar_pagina_mesas)
 
         #boton finalizar
         self.pagina_crear.ui.FinishCreateEvent_Btn.clicked.connect(self.guardar_nuevo_evento)
@@ -122,6 +131,8 @@ class VentanaPrincipal(QStackedWidget):
     def mostrar_pagina_manual(self):
         self.setCurrentIndex(4)
     
+    def mostrar_pagina_automatico(self):
+        self.setCurrentIndex(5)
 
 
 
