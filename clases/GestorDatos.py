@@ -4,7 +4,7 @@ import os
 # Importamos los moldes para poder reconstruir los objetos
 from .Evento import Evento
 from .Participante import Participante
-
+from .Mesa import Mesa
 
 #Esta clase su unico trabajo es guardar y cargar la lista de eventos en json
 class GestorDatos:
@@ -34,18 +34,30 @@ class GestorDatos:
                 "ubicacion": evento.ubicacion,
                 "organizador": evento.organizador,
                 "numMesas": evento.numMesas,
-                "participantes": [], # Lista vacía por ahora
-                "mesas": [] # Lista vacía por ahora
+                "participantes": [],
+                "mesas": []
             }
             
+
+            for mesa in evento.mesas:
+                m_dict = {
+                    "id_mesa": mesa.id_mesa,
+                    "numero": mesa.numero,
+                    "capacidad": mesa.capacidad,
+                    # Guardamos solo los IDs de los participantes en la mesa
+                    "participantes_ids": [p.id_participante for p in mesa.participantes]
+                }
+                eventoDict["mesas"].append(m_dict)
+
+
             #traduce la lista de participantes de este evento
-            for p_obj in evento.participantes:
+            for participante in evento.participantes:
                 p_dict = {
-                    "IdParticipante": p_obj.IdParticipante,
-                    "nombre": p_obj.nombre,
-                    "preferencias": p_obj.preferencias,
-                    "evitados": p_obj.evitados,
-                    "mesaAsignada": p_obj.mesaAsignada
+                    "IdParticipante": participante.IdParticipante,
+                    "nombre": participante.nombre,
+                    "preferencias": participante.preferencias,
+                    "evitados": participante.evitados,
+                    "mesaAsignada": participante.mesaAsignada
                 }
                 # añade el diccionario del participante al diccionario del evento
                 eventoDict["participantes"].append(p_dict)
