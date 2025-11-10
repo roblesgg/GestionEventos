@@ -25,7 +25,7 @@ class Mesa:
             return False#si hay error
 
 #ver si esta llena
-    def estLlena(self):
+    def estaLlena(self):
         return len(self.participantes) >= self.capacidad
 
     def obtenerNombresParticipantes(self):

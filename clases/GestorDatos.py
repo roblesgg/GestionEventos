@@ -4,9 +4,7 @@ import os
 # Importamos los moldes para poder reconstruir los objetos
 from .Evento import Evento
 from .Participante import Participante
-from controllers.ControllerBorrarEvento import Ui_DialogoBorrarEvento
-from controllers.ControllerCrearEvento2 import Ui_DialogoParticipantes
-from controllers.ControllerAsignarMesasManual import Ui_Form as Ui_AsignarManualForm
+
 
 #Esta clase su unico trabajo es guardar y cargar la lista de eventos en json
 class GestorDatos:
