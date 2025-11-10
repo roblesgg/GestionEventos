@@ -3,6 +3,7 @@ import sys
 from PyQt5.QtWidgets import QApplication, QWidget, QStackedWidget, QMessageBox
 from controllers.CrudEvento import Ui_MainWindow
 from controllers.ControllerCrearEvento1 import Ui_Form as Ui_CrearEventoForm
+from controllers.ControllerAsignarMesas import Ui_Form as Ui_PaginaMesas
 # ======================================================================
 # ### PASO 1: IMPORTA TU NUEVA VENTANA ###
 # ======================================================================
@@ -26,6 +27,12 @@ class PaginaCrearEvento(QWidget):
     def __init__(self):
         super().__init__()
         self.ui = Ui_CrearEventoForm()
+        self.ui.setupUi(self)
+
+class PaginaMesas(QWidget):
+    def __init__(self):
+        super().__init__()
+        self.ui = Ui_PaginaMesas()
         self.ui.setupUi(self)
         
 # ======================================================================
@@ -60,7 +67,7 @@ class VentanaPrincipal(QStackedWidget):
         # ======================================================================
         self.pagina_actualizar = PaginaActualizarEvento()#2
         # ======================================================================
-
+        self.pagina_mesas = PaginaMesas()#3
         # --- 5. Añade las Páginas al "Mazo" ---
         # El orden importa. La primera que añades (Índice 0) es la que se muestra
         # al arrancar la aplicación.
@@ -72,7 +79,7 @@ class VentanaPrincipal(QStackedWidget):
         # ======================================================================
         self.addWidget(self.pagina_actualizar)    # Índice 2
         # ======================================================================
-
+        self.addWidget(self.pagina_mesas)
         # --- 6. Conecta los Botones (Señales) ---
         # Aquí conectamos los clics de los botones a las funciones
         # que cambian de página.
@@ -90,7 +97,7 @@ class VentanaPrincipal(QStackedWidget):
         # NOTA: Usamos el ID nuevo 'UpdateEvent_Btn'
         self.pagina_crud.ui.UpdateEvent_Btn.clicked.connect(self.mostrar_pagina_actualizar)
         # ======================================================================
-
+        self.pagina_crud.ui.AssignTables_Btn.clicked.connect(self.mostrar_pagina_mesas)
         # --- Botones de la Página Crear Evento (Índice 1) ---
         
         # Conecta: PaginaCrearEvento -> BackButton_CreateEvent -> mostrar_pagina_crud
@@ -105,7 +112,7 @@ class VentanaPrincipal(QStackedWidget):
         # Si usaste 'ActualizarEvento.ui' que te di, este ID es correcto.
         self.pagina_actualizar.ui.BackButton_UpdateEvent.clicked.connect(self.mostrar_pagina_crud)
         # ======================================================================
-
+        self.pagina_mesas.ui.BackButton_AssignMenu.clicked.connect(self.mostrar_pagina_crud)
         # Ajusta el tamaño de la ventana principal
         self.resize(904, 617) # El tamaño de tu UI principal
 
@@ -143,7 +150,8 @@ class VentanaPrincipal(QStackedWidget):
         self.setCurrentIndex(2)
     # ======================================================================
 
-
+    def mostrar_pagina_mesas(self):
+        self.setCurrentIndex(3)
 
     #Metodo al pulsar boton finalizar en crear evento para guardar toda la info
 def guardar_nuevo_evento(self):
