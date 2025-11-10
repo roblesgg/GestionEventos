@@ -1,5 +1,6 @@
-class Evento:
+from clases.Mesa import Mesa
 
+class Evento:
     #Constructor
     def __init__(self, IdEvento, nombre, fecha, ubicacion, organizador, numMesas):
         
