@@ -6,6 +6,7 @@ from controllers.CrudEvento import Ui_MainWindow
 from controllers.ControllerCrearEvento1 import Ui_Form as Ui_CrearEventoForm
 from controllers.ControllerAsignarMesas import Ui_Form as Ui_PaginaMesas
 from controllers.EditarEvento import Ui_Form as Ui_ActualizarEventoForm
+from controllers.ControllerAsignarMesasManual import Ui_Form as Ui_AsignarManual
 
 
 #importa las clases
@@ -39,6 +40,13 @@ class PaginaActualizarEvento(QWidget):
         super().__init__()
         self.ui = Ui_ActualizarEventoForm()
         self.ui.setupUi(self)
+
+class Manual(QWidget):
+    def __init__(self):
+        super().__init__()
+        self.ui = Ui_AsignarManual()
+        self.ui.setupUi(self)  
+
         
 
 #Ventana principal
@@ -56,18 +64,21 @@ class VentanaPrincipal(QStackedWidget):
         self.pagina_crear = PaginaCrearEvento()     #1
         self.pagina_actualizar = PaginaActualizarEvento() #2
         self.pagina_mesas = PaginaMesas()         #3
-
+        self.pagina_manual=Manual()             #4
+        
         #añade las paginas
         self.addWidget(self.pagina_crud)           #0
         self.addWidget(self.pagina_crear)         #1
         self.addWidget(self.pagina_actualizar)    #2
         self.addWidget(self.pagina_mesas)          #3
+        self.addWidget(self.pagina_manual)          #4
 
         #Conecta los botones
         #botones del crud 0
         self.pagina_crud.ui.CreateEvent_Btn.clicked.connect(self.mostrar_pagina_crear)
         self.pagina_crud.ui.UpdateEvent_Btn.clicked.connect(self.mostrar_pagina_actualizar)
         self.pagina_crud.ui.AssignTables_Btn.clicked.connect(self.mostrar_pagina_mesas)
+        self.pagina_mesas.ui.ManualAssign_Btn.clicked.connect(self.mostrar_pagina_manual)
         #falta el boton de borrar
         # self.pagina_crud.ui.DeleteEvent_Btn.clicked.connect(self.mostrar_pagina_borrar) 
 
@@ -106,7 +117,11 @@ class VentanaPrincipal(QStackedWidget):
 
     def mostrar_pagina_mesas(self):
         self.setCurrentIndex(3)
-        
+
+    def mostrar_pagina_manual(self):
+        self.setCurrentIndex(4)
+    
+
 
 
     #mas metodos varios
