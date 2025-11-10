@@ -107,7 +107,6 @@ class VentanaPrincipal(QStackedWidget):
         #atras de borrar 5
         self.pagina_borrar.ui.BackButton_DeleteEvent.clicked.connect(self.mostrar_pagina_crud)
         
-        #falta poner el resto de botones de atras--------------------------------------------------------------------------
 
         #la pestaña inicial
         self.resize(904, 617)
@@ -135,15 +134,23 @@ class VentanaPrincipal(QStackedWidget):
 
     def mostrar_pagina_borrar(self):
         self.setCurrentIndex(5)
+        self.cargar_y_actualizar_eventos_borrar()
     
-
 
 
     #mas metodos varios
 
+
+    #falta Metodo para borrar en borrar-----------------------------------------------------------------------------
+
+
     def cargar_y_actualizar_eventos(self):
         self.lista_eventos = self.gestor_datos.cargarEventos()
         self.actualizar_tabla_crud()
+
+    def cargar_y_actualizar_eventos_borrar(self):
+        self.lista_eventos = self.gestor_datos.cargarEventos()
+        self.actualizar_tabla_borrar()
 
 #METODO DE CREAR EL EVENTO SUPER TOCHO real no fake 100€
     def guardar_nuevo_evento(self):
@@ -224,6 +231,22 @@ class VentanaPrincipal(QStackedWidget):
         #activa de vuelta la tabla
         tabla.blockSignals(False)
 
+    def actualizar_tabla_borrar(self):
+        tabla = self.pagina_borrar.ui.EventList_Table_Delete
+        tabla.blockSignals(True)
+        tabla.setRowCount(0)
+         #recorre los eventos
+        for evento in self.lista_eventos:
+            # coge la posicion
+            row_position = tabla.rowCount()
+            # mete una fila
+            tabla.insertRow(row_position)
+
+            # añade las columnas
+            tabla.setItem(row_position, 0, QTableWidgetItem(evento.nombre))
+            tabla.setItem(row_position, 1, QTableWidgetItem(evento.fecha))
+            tabla.setItem(row_position, 2, QTableWidgetItem(evento.ubicacion))
+            tabla.setItem(row_position, 3, QTableWidgetItem(evento.organizador))
 
 #Ejejecuta
 if __name__ == "__main__":
