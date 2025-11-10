@@ -61,10 +61,6 @@ class VentanaPrincipal(QStackedWidget):
         # Creamos un objeto (una "carta") por cada clase de página.
         self.pagina_crud = PaginaCrud()#0
         self.pagina_crear = PaginaCrearEvento()#1
-        
-        # ======================================================================
-        # ### PASO 3: CREA LA INSTANCIA DE TU NUEVA PÁGINA ###
-        # ======================================================================
         self.pagina_actualizar = PaginaActualizarEvento()#2
         # ======================================================================
         self.pagina_mesas = PaginaMesas()#3
