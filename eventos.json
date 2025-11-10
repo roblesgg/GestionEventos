@@ -1,34 +1,5 @@
 [
     {
-        "IdEvento": "evento_1",
-        "nombre": "Ejecucion de javier",
-        "fecha": "22/01/2026",
-        "ubicacion": "CESUR",
-        "organizador": "El otro javier",
-        "numMesas": 3,
-        "participantes": [],
-        "mesas": [
-            {
-                "id_mesa": "evento_1_mesa_1",
-                "numero": 1,
-                "capacidad": 10,
-                "participantes_ids": []
-            },
-            {
-                "id_mesa": "evento_1_mesa_2",
-                "numero": 2,
-                "capacidad": 10,
-                "participantes_ids": []
-            },
-            {
-                "id_mesa": "evento_1_mesa_3",
-                "numero": 3,
-                "capacidad": 10,
-                "participantes_ids": []
-            }
-        ]
-    },
-    {
         "IdEvento": "evento_2",
         "nombre": "Boda de Maria y Jose",
         "fecha": "28/11/2025",

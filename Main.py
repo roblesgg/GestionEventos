@@ -106,6 +106,8 @@ class VentanaPrincipal(QStackedWidget):
 
         #atras de borrar 5
         self.pagina_borrar.ui.BackButton_DeleteEvent.clicked.connect(self.mostrar_pagina_crud)
+
+        self.pagina_borrar.ui.ConfirmDelete_Btn.clicked.connect(self.borrar_evento_seleccionado)
         
 
         #la pestaña inicial
@@ -141,8 +143,55 @@ class VentanaPrincipal(QStackedWidget):
     #mas metodos varios
 
 
-    #falta Metodo para borrar en borrar-----------------------------------------------------------------------------
+    def borrar_evento_seleccionado(self):
 
+        #Instancia la tabla borrar
+        tabla_borrar = self.pagina_borrar.ui.EventList_Table_Delete
+        
+        #coge el seleccionado
+        fila_seleccionada = tabla_borrar.currentRow()
+
+        #comprueba si no hay nada seleccionado
+        if fila_seleccionada == -1:
+            # Si no hay nada seleccionado, mostrar un aviso y no hacer nada
+            QMessageBox.warning(self, "Oye", "No has seleccionado ningun evento.")
+            return#para que no haga nada y salga del metodo
+
+        #Coge el seleccionado
+        try:
+            evento_a_borrar = self.lista_eventos[fila_seleccionada]
+            nombre_evento = evento_a_borrar.nombre
+        except IndexError:
+            QMessageBox.critical(self, "Error", "no se ha podido borrar")
+            return
+
+        # la confirmacion
+        confirmacion = QMessageBox.question(
+            self,
+            "Confirmar borrado",
+            f"¿Estás seguro de que quieres borrar el evento '{nombre_evento}'?\n\nEsta acción no se puede deshacer.",
+            QMessageBox.Yes | QMessageBox.No,
+            QMessageBox.No#no por defecto
+        )
+
+        #si ha dicho que si
+        if confirmacion == QMessageBox.Yes:
+            #Borra de la lista
+            self.lista_eventos.pop(fila_seleccionada)
+            
+            #Guarda en el json
+            self.gestor_datos.guardarEventos(self.lista_eventos)
+            
+            #refresca
+            self.actualizar_tabla_borrar()
+
+            #vuelve al menu
+            self.mostrar_pagina_crud()
+            
+        else:
+            #si dijo que no, no hace nada
+            print("Borrado cancelado por el usuario.")
+            return
 
     def cargar_y_actualizar_eventos(self):
         self.lista_eventos = self.gestor_datos.cargarEventos()
