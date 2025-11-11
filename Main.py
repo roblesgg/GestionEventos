@@ -63,7 +63,10 @@ class VentanaPrincipal(QStackedWidget):
         self.gestor_datos = GestorDatos("eventos.json") 
         #para guardar todos los eventoss
         self.lista_eventos = []
-        
+        #para guardar los dtos del evento seleccionado en la tabla
+        self.evento_en_edicion_actual = None
+
+
         #Las paginas
         self.pagina_crud = PaginaCrud()           #0
         self.pagina_crear = PaginaCrearEvento()     #1
@@ -107,7 +110,11 @@ class VentanaPrincipal(QStackedWidget):
         #atras de borrar 5
         self.pagina_borrar.ui.BackButton_DeleteEvent.clicked.connect(self.mostrar_pagina_crud)
 
+        #Borra el evento 
         self.pagina_borrar.ui.ConfirmDelete_Btn.clicked.connect(self.borrar_evento_seleccionado)
+
+        #Actualiza el evento 
+        self.pagina_actualizar.ui.SaveUpdate_Btn.clicked.connect(self.guardar_evento_actualizado)
         
 
         #la pestaña inicial
@@ -125,7 +132,33 @@ class VentanaPrincipal(QStackedWidget):
         self.setCurrentIndex(1) 
 
     def mostrar_pagina_actualizar(self):
-        #falta cargr los campos conlos daosd del evento selecionado
+        #guarda la tabla
+        tabla_crud = self.pagina_crud.ui.EventList_Table
+        
+        #guarda el evento seleccionado en la tabla
+        fila_seleccionada = tabla_crud.currentRow()
+
+        #comprueba que no haya nada seleccionado
+        if fila_seleccionada == -1:
+            QMessageBox.warning(self, "Error", "Selecciona un evento para editar")
+            return #para que se salga
+
+        #coge el evento que ha en la fila
+        try:
+            #guarda el evento en esta variable
+            self.evento_en_edicion_actual = self.lista_eventos[fila_seleccionada]
+        except IndexError:
+            QMessageBox.critical(self, "Error")
+            return
+
+        #rellena los campos de actualizar con los del evento
+        self.pagina_actualizar.ui.Input_EventName.setText(self.evento_en_edicion_actual.nombre)
+        self.pagina_actualizar.ui.Input_EventDate.setText(self.evento_en_edicion_actual.fecha)
+        self.pagina_actualizar.ui.Input_EventLocation.setText(self.evento_en_edicion_actual.ubicacion)
+        self.pagina_actualizar.ui.Input_EventOrganizer.setText(self.evento_en_edicion_actual.organizador)
+        self.pagina_actualizar.ui.Input_NumTables.setValue(self.evento_en_edicion_actual.numMesas)
+        
+        #pone la pagina
         self.setCurrentIndex(2)
 
     def mostrar_pagina_mesas(self):
@@ -141,6 +174,48 @@ class VentanaPrincipal(QStackedWidget):
 
 
     #mas metodos varios
+
+#guarda el evento de actualizar evento
+    def guardar_evento_actualizado(self):
+
+        #coge los datos de las casillas de actualizar a variables
+        nuevo_nombre = self.pagina_actualizar.ui.Input_EventName.text()
+        nueva_fecha = self.pagina_actualizar.ui.Input_EventDate.text()
+        nueva_ubicacion = self.pagina_actualizar.ui.Input_EventLocation.text()
+        nuevo_organizador = self.pagina_actualizar.ui.Input_EventOrganizer.text()
+        nuevo_numMesas = self.pagina_actualizar.ui.Input_NumTables.value()
+
+        #comrpueba que nos e queden sin escriobir fecha ni nombre
+        if not nuevo_nombre or not nueva_fecha:
+            QMessageBox.warning(self,  "Oye", "Pon el nombre y la fecha")       
+            return #sale del metodo
+
+        #guarda los nuevos datos en variables
+        self.evento_en_edicion_actual.nombre = nuevo_nombre
+        self.evento_en_edicion_actual.fecha = nueva_fecha
+        self.evento_en_edicion_actual.ubicacion = nueva_ubicacion
+        self.evento_en_edicion_actual.organizador = nuevo_organizador
+
+        #comprueba si ha cambiado el numero de mesas
+        if self.evento_en_edicion_actual.numMesas != nuevo_numMesas:
+            #cambia el num de mesas
+            self.evento_en_edicion_actual.numMesas = nuevo_numMesas
+            #borra todas las mesas
+            self.evento_en_edicion_actual.mesas = []
+            capacidad_por_mesa = 10#pone la cappacida por defecto
+            #Crea las mesas nuevas vacias tantas como ponga en el nuevo campo
+            for i in range(nuevo_numMesas):
+                id_mesa = f"{self.evento_en_edicion_actual.IdEvento}_mesa_{i+1}"
+                nueva_mesa = Mesa(id_mesa=id_mesa, numero=i+1, capacidad=capacidad_por_mesa)
+                self.evento_en_edicion_actual.mesas.append(nueva_mesa)
+            QMessageBox.warning(self,"Oye", "Se restauraron las mesas tendras que asignar de nuevo")       
+
+        #Guarda en json
+        self.gestor_datos.guardarEventos(self.lista_eventos)
+        #vacia el evento en edicion para el proximo
+        self.evento_en_edicion_actual = None
+        #vuelve al crud
+        self.mostrar_pagina_crud()
 
 
     def borrar_evento_seleccionado(self):
@@ -189,8 +264,7 @@ class VentanaPrincipal(QStackedWidget):
             self.mostrar_pagina_crud()
             
         else:
-            #si dijo que no, no hace nada
-            print("Borrado cancelado por el usuario.")
+            #no hace nada
             return
 
     def cargar_y_actualizar_eventos(self):
@@ -212,11 +286,7 @@ class VentanaPrincipal(QStackedWidget):
 
         #comprueba que no falten nombre nii fecha
         if not nombre or not fecha:
-            QMessageBox.warning(
-                self,  
-                "Oye", 
-                "Pon el nombre y la fecha"
-            )       
+            QMessageBox.warning(self,  "Oye", "Pon el nombre y la fecha")       
             return#estoi es para que salga
 
         #crea el id
