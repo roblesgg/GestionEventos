@@ -82,6 +82,7 @@ class VentanaPrincipal(QStackedWidget):
         self.pagina_mesas = PaginaMesas()         #3
         self.pagina_manual=Manual()             #4
         self.pagina_borrar=PaginaBorrar()       #5
+        self.pagina_participantes = PaginaGestionarParticipantes() #6
         
         #añade las paginas
         self.addWidget(self.pagina_crud)           #0
@@ -90,6 +91,7 @@ class VentanaPrincipal(QStackedWidget):
         self.addWidget(self.pagina_mesas)          #3
         self.addWidget(self.pagina_manual)          #4
         self.addWidget(self.pagina_borrar)         #5
+        self.addWidget(self.pagina_participantes)  #6
 
         #Conecta los botones
         #botones del crud 0
@@ -100,6 +102,7 @@ class VentanaPrincipal(QStackedWidget):
 
         #botones de otras pestañas
         self.pagina_mesas.ui.ManualAssign_Btn.clicked.connect(self.mostrar_pagina_manual)
+        self.pagina_crear.ui.CreateManual_Btn.clicked.connect(self.preparar_evento_para_participantes)
 
 
         #mas botones
@@ -124,11 +127,20 @@ class VentanaPrincipal(QStackedWidget):
         #Actualiza el evento 
         self.pagina_actualizar.ui.SaveUpdate_Btn.clicked.connect(self.guardar_evento_actualizado)
         
+        # Boton atras de añadir participantes manualmemnte
+        self.pagina_participantes.ui.BackButton_Participants.clicked.connect(self.mostrar_pagina_crear)
+        
+        # Botonañadir
+        self.pagina_participantes.ui.Add_Btn.clicked.connect(self.anadir_participante_al_evento)
+        
+        # Boton finalizar que guarda
+        self.pagina_participantes.ui.Finish_Btn.clicked.connect(self.guardar_evento_y_participantes)
 
         #la pestaña inicial
         self.resize(904, 617)
         #pone los eventos del csv
         self.cargar_y_actualizar_eventos()
+        
 
 
     #metodos de cambiar de pagina
@@ -182,6 +194,120 @@ class VentanaPrincipal(QStackedWidget):
 
 
     #mas metodos varios
+
+    def preparar_evento_para_participantes(self):
+        #coge las variables de el evento
+        nombre = self.pagina_crear.ui.Input_EventName.text()
+        fecha = self.pagina_crear.ui.Input_EventDate.text()
+        
+        #comprueba que esten nombre y fecha
+        if not nombre or not fecha:
+            QMessageBox.warning(self, "Oye", "Pon el nombre y la fecha antes de añadir participantes")       
+            return #sale
+
+        #coge todos los datos quefaltan
+        ubicacion = self.pagina_crear.ui.Input_EventLocation.text()
+        organizador = self.pagina_crear.ui.Input_EventOrganizer.text()
+        numMesas = self.pagina_crear.ui.Input_NumTables.value()
+        nuevo_id = f"evento_{len(self.lista_eventos) + 1}" #pone id
+
+        #crea el objeto evento
+        try:
+            nuevo_evento = Evento(
+                IdEvento=nuevo_id,
+                nombre=nombre,
+                fecha=fecha,
+                ubicacion=ubicacion,
+                organizador=organizador,
+                numMesas=numMesas
+            )
+            
+            #guarda el evento en edicion acutal
+            self.evento_en_edicion_actual = nuevo_evento
+            
+        except Exception as e:
+            QMessageBox.critical(self, "Error")
+            return#sale
+
+        # 6. Actualiza las listas de la Pág 6 y muéstrala
+        self.actualizar_listas_participantes()
+        self.setCurrentIndex(6) # Ir a la página 6
+
+    def anadir_participante_al_evento(self):
+
+        #comprueba que tega el evento en edicion actual
+        if self.evento_en_edicion_actual is None:
+            QMessageBox.critical(self, "Error")
+            return#sale
+
+        #coge el nombre
+        nombre_participante = self.pagina_participantes.ui.Input_ParticipantName.text()
+
+        #comprobacion de que no este vacio
+        if not nombre_participante:
+            QMessageBox.warning(self, "Oye", "Escribe el nombre del participante.")
+            return#si no esta sale
+            
+        #le crea el id al participante
+        evento_id = self.evento_en_edicion_actual.IdEvento
+        num_part = len(self.evento_en_edicion_actual.participantes)
+        participante_id = f"{evento_id}_p_{num_part + 1}"
+
+        #crea el participante
+        nuevo_participante = Participante(participante_id, nombre_participante)
+
+        #añade el participante
+        self.evento_en_edicion_actual.anadirparticipante(nuevo_participante)
+        
+        #limpia los txtdfields
+        self.pagina_participantes.ui.Input_ParticipantName.setText("")
+        #refresca
+        self.actualizar_listas_participantes()
+
+    def actualizar_listas_participantes(self):
+
+        #guardo las tablas todas
+        lista_invitados = self.pagina_participantes.ui.List_AllGuests
+        lista_pref = self.pagina_participantes.ui.List_Preference
+        lista_no = self.pagina_participantes.ui.List_Avoid
+        
+        #vcia todas las tablas
+        lista_invitados.clear()
+        lista_pref.clear()
+        lista_no.clear()
+
+        #si hay un evento en edicion rellena la de invitados
+        if self.evento_en_edicion_actual:
+
+            for participante in self.evento_en_edicion_actual.participantes:
+                lista_invitados.addItem(participante.nombre)
+        
+    def guardar_evento_y_participantes(self):
+
+        #comprueba que haya aux
+        if self.evento_en_edicion_actual is None:
+            QMessageBox.critical(self, "Error", "No hay evento que guardar.")
+            return
+
+        #añade el evento aux a la lista
+        self.lista_eventos.append(self.evento_en_edicion_actual)
+
+        #Guarda en el json
+        self.gestor_datos.guardarEventos(self.lista_eventos)
+
+        #vacia el aux
+        self.evento_en_edicion_actual = None
+        
+        #vacia todos los txt
+        self.pagina_crear.ui.Input_EventName.setText("")
+        self.pagina_crear.ui.Input_EventDate.setText("")
+        self.pagina_crear.ui.Input_EventLocation.setText("")
+        self.pagina_crear.ui.Input_EventOrganizer.setText("")
+        self.pagina_crear.ui.Input_NumTables.setValue(1)
+
+        #vuelve al crud
+        self.mostrar_pagina_crud()
+
 
 #guarda el evento de actualizar evento
     def guardar_evento_actualizado(self):
