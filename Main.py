@@ -9,6 +9,8 @@ from controllers.EditarEvento import Ui_Form as Ui_ActualizarEventoForm
 from controllers.ControllerAsignarMesasManual import Ui_Form as Ui_AsignarManual
 from controllers.ControllerBorrarEvento import Ui_DialogoBorrarEvento as Ui_Borrar
 
+from controllers.ControllerCrearEvento2 import Ui_DialogoParticipantes
+
 
 #importa las clases
 from clases.GestorDatos import GestorDatos
@@ -52,6 +54,12 @@ class PaginaBorrar(QWidget):
     def __init__(self):
         super().__init__()
         self.ui = Ui_Borrar()
+        self.ui.setupUi(self)
+
+class PaginaGestionarParticipantes(QWidget):
+    def __init__(self):
+        super().__init__()
+        self.ui = Ui_DialogoParticipantes()
         self.ui.setupUi(self)
 
 #Ventana principal
