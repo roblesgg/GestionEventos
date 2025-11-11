@@ -108,7 +108,7 @@ class VentanaPrincipal(QStackedWidget):
         self.pagina_crear.ui.CreateManual_Btn.clicked.connect(self.preparar_evento_para_participantes)
         self.pagina_crear.ui.UploadCSV_Btn.clicked.connect(self.Crear_SubirCSV)
         self.pagina_actualizar.ui.UploadCSV_Btn.clicked.connect(self.Crear_SubirCSV)
-
+        self.pagina_crud.ui.OpenCSVPath_Btn.clicked.connect(self.seleccionar_csv)
 
         #mas botones
         #boton atras 1
@@ -489,7 +489,7 @@ class VentanaPrincipal(QStackedWidget):
         #activa de vuelta la tabla
         tabla.blockSignals(False)
 
-    def actualizar_tabla_borrar(self):
+    def actualizar_tabla_borrar(self,ruta):
         tabla = self.pagina_borrar.ui.EventList_Table_Delete
         tabla.blockSignals(True)
         tabla.setRowCount(0)
@@ -528,6 +528,21 @@ class VentanaPrincipal(QStackedWidget):
         else:
             QMessageBox.warning(self, "Cancelado", "No se seleccionó ningún archivo")
 
+    def seleccionar_csv(self,ruta):
+        ruta, _ = QFileDialog.getOpenFileName(self, "Seleccionar archivo CSV", "", "CSV Files (*.csv)")
+        self.actualizar_tabla_crud(ruta)
+        if ruta:
+            self.cargar_csv(ruta)
+    
+    def cargar_csv(self, ruta):
+        df = pd.read_csv(ruta)
+        self.tabla.setRowCount(len(df))
+        self.tabla.setColumnCount(len(df.columns))
+        self.tabla.setHorizontalHeaderLabels(df.columns)
+
+        for i in range(len(df)):
+            for j in range(len(df.columns)):
+                self.tabla.setItem(i, j, QTableWidgetItem(str(df.iat[i, j])))
 
 #Ejejecuta
 if __name__ == "__main__":
