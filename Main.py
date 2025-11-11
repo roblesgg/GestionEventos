@@ -107,6 +107,7 @@ class VentanaPrincipal(QStackedWidget):
         self.pagina_mesas.ui.ManualAssign_Btn.clicked.connect(self.mostrar_pagina_manual)
         self.pagina_crear.ui.CreateManual_Btn.clicked.connect(self.preparar_evento_para_participantes)
         self.pagina_crear.ui.UploadCSV_Btn.clicked.connect(self.Crear_SubirCSV)
+        self.pagina_actualizar.ui.UploadCSV_Btn.clicked.connect(self.Crear_SubirCSV)
 
 
         #mas botones
