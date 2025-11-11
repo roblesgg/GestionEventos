@@ -5,7 +5,7 @@
         "fecha": "28/11/2025",
         "ubicacion": "Iglesia virgen de la asuncion",
         "organizador": "Juan pedro perez jimenez",
-        "numMesas": 10,
+        "numMesas": 11,
         "participantes": [],
         "mesas": [
             {
@@ -65,6 +65,12 @@
             {
                 "id_mesa": "evento_2_mesa_10",
                 "numero": 10,
+                "capacidad": 10,
+                "participantes_ids": []
+            },
+            {
+                "id_mesa": "evento_2_mesa_11",
+                "numero": 11,
                 "capacidad": 10,
                 "participantes_ids": []
             }
