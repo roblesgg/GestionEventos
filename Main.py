@@ -14,7 +14,6 @@ from controllers.ControllerBorrarEvento import Ui_DialogoBorrarEvento as Ui_Borr
 
 from controllers.ControllerCrearEvento2 import Ui_DialogoParticipantes
 
-
 #importa las clases
 from clases.GestorDatos import GestorDatos
 from clases.Evento import Evento
