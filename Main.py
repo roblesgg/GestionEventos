@@ -141,6 +141,9 @@ class VentanaPrincipal(QStackedWidget):
         # Boton finalizar que guarda
         self.pagina_participantes.ui.Finish_Btn.clicked.connect(self.guardar_evento_y_participantes)
 
+        # Botón atrás de añadir
+        self.pagina_manual.ui.BackButton_ManualAssign.clicked.connect(self.mostrar_pagina_mesas)
+
         
         #la pestaña inicial
         self.resize(904, 617)
