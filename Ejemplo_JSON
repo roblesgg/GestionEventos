@@ -112,6 +112,38 @@
                 "evitados": [],
                 "mesaAsignada": null
             }
+        ],
+        "mesas": [
+            {
+                "id_mesa": "evento_2_mesa_1",
+                "numero": 1,
+                "capacidad": 10,
+                "participantes_ids": []
+            },
+            {
+                "id_mesa": "evento_2_mesa_2",
+                "numero": 2,
+                "capacidad": 10,
+                "participantes_ids": []
+            },
+            {
+                "id_mesa": "evento_2_mesa_3",
+                "numero": 3,
+                "capacidad": 10,
+                "participantes_ids": []
+            },
+            {
+                "id_mesa": "evento_2_mesa_4",
+                "numero": 4,
+                "capacidad": 10,
+                "participantes_ids": []
+            },
+            {
+                "id_mesa": "evento_2_mesa_5",
+                "numero": 5,
+                "capacidad": 10,
+                "participantes_ids": []
+            }
         ]
     }
 ]
