@@ -1,9 +1,5 @@
 import sys
-from PyQt5.QtWidgets import QApplication, QWidget, QStackedWidget, QMessageBox, QTableWidgetItem
-
-# --------->     0      <-----------
-# JAVIER VILLENA SI VES ESTO BÓRRALO
-#
+from PyQt5.QtWidgets import QApplication, QWidget, QStackedWidget, QMessageBox, QTableWidgetItem, QFileDialog
 
 import csv
 from PyQt5.QtWidgets import QFileDialog, QMessageBox
@@ -133,9 +129,9 @@ class VentanaPrincipal(QStackedWidget):
         #botones de otras pestañas
         self.pagina_mesas.ui.ManualAssign_Btn.clicked.connect(self.mostrar_pagina_manual)
         self.pagina_crear.ui.CreateManual_Btn.clicked.connect(self.preparar_evento_para_participantes)
-        self.pagina_crear.ui.UploadCSV_Btn.clicked.connect(self.Crear_SubirCSV)
-        self.pagina_actualizar.ui.UploadCSV_Btn.clicked.connect(self.Crear_SubirCSV)
         self.pagina_crud.ui.OpenCSVPath_Btn.clicked.connect(self.seleccionar_csv)
+        self.pagina_crear.ui.UploadCSV_Btn.clicked.connect(self.cargar_participantes_csv)
+        self.pagina_actualizar.ui.UploadCSV_Btn.clicked.connect(self.cargar_participantes_csv)
 
         #mas botones
         #boton atras 1
@@ -849,6 +845,79 @@ class VentanaPrincipal(QStackedWidget):
             tabla.setItem(row_position, 3, QTableWidgetItem(evento.organizador))
 
         tabla.blockSignals(False)
+    
+    def cargar_participantes_csv(self):
+        """
+        Se llama desde los botones "+ Subir CSV".
+        Prepara el evento (si es necesario) y luego lee el archivo.
+        """
+        pagina_actual = self.currentIndex()
+
+        # 1. Comprobar si tenemos un evento listo
+        if pagina_actual == 1: # Si estamos en "Crear Evento"
+            # Si el evento temporal no existe, lo creamos
+            if self.evento_en_edicion_actual is None:
+                if not self._crear_evento_temporal_desde_pagina1():
+                    return # Falla si el ayudante no puede crear el evento
+        
+        elif pagina_actual == 2: # Si estamos en "Actualizar Evento"
+            if self.evento_en_edicion_actual is None:
+                QMessageBox.critical(self, "Error", "No hay evento seleccionado (esto no debería pasar)")
+                return
+        
+        # 2. Abrir el diálogo para seleccionar archivo
+        # Abre el explorador de archivos, filtrando por archivos CSV
+        options = QFileDialog.Options()
+        filePath, _ = QFileDialog.getOpenFileName(self, "Seleccionar CSV de Participantes", "", "Archivos CSV (*.csv);;Todos los archivos (*)", options=options)
+
+        # Si el usuario cancela, filePath estará vacío
+        if not filePath:
+            return # No hacer nada
+
+        # 3. Leer el archivo CSV
+        try:
+            participantes_cargados = 0
+            with open(filePath, mode='r', encoding='utf-8') as f:
+                # 'csv.DictReader' lee la primera fila como cabeceras
+                reader = csv.DictReader(f)
+                
+                for row in reader:
+                    nombre_participante = row.get('Nombre')
+                    
+                    if not nombre_participante: # Ignorar filas sin nombre
+                        continue
+                        
+                    # Crear el participante (misma lógica que anadir_participante_al_evento)
+                    evento_id = self.evento_en_edicion_actual.IdEvento
+                    num_part = len(self.evento_en_edicion_actual.participantes)
+                    participante_id = f"{evento_id}_p_{num_part + 1}"
+                    
+                    nuevo_participante = Participante(participante_id, nombre_participante)
+
+                    # Añadir preferencias
+                    pref_texto = row.get('Preferencias', '') # Coge el texto o un string vacío
+                    if pref_texto:
+                        # Separa los nombres por ";" y quita espacios en blanco
+                        lista_pref = [nombre.strip() for nombre in pref_texto.split(';')]
+                        nuevo_participante.preferencias = lista_pref
+
+                    # Añadir evitados
+                    evit_texto = row.get('Evitados', '')
+                    if evit_texto:
+                        lista_evit = [nombre.strip() for nombre in evit_texto.split(';')]
+                        nuevo_participante.evitados = lista_evit
+                    
+                    # Añadir el participante al evento
+                    self.evento_en_edicion_actual.anadirparticipante(nuevo_participante)
+                    participantes_cargados += 1
+
+            QMessageBox.information(self, "Éxito", f"Se han cargado {participantes_cargados} participantes desde el CSV.")
+            
+            # (Opcional) Si quieres ir a la Pág 6 para ver la lista, descomenta esto:
+            # self.editar_participantes_de_evento() 
+
+        except Exception as e:
+            QMessageBox.critical(self, "Error al leer CSV", f"No se pudo leer el archivo.\nError: {e}")
 
 #Ejecuta
 if __name__ == "__main__":
