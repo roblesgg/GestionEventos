@@ -882,17 +882,22 @@ class VentanaPrincipal(QStackedWidget):
         Se llama desde los botones "+ Subir CSV".
         Prepara el evento (si es necesario) y luego lee el archivo.
         """
+        print("a")
         pagina_actual = self.currentIndex()
-
+        print("b")
         # 1. Comprobar si tenemos un evento listo
         if pagina_actual == 1: # Si estamos en "Crear Evento"
             # Si el evento temporal no existe, lo creamos
+            print("c")
             if self.evento_en_edicion_actual is None:
+                print("d")
                 if not self._crear_evento_temporal_desde_pagina1():
+                    print("e")
                     return # Falla si el ayudante no puede crear el evento
         
         elif pagina_actual == 2: # Si estamos en "Actualizar Evento"
             if self.evento_en_edicion_actual is None:
+                print("f")
                 QMessageBox.critical(self, "Error", "No hay evento seleccionado (esto no debería pasar)")
                 return
         
@@ -908,47 +913,43 @@ class VentanaPrincipal(QStackedWidget):
         # 3. Leer el archivo CSV
         try:
             participantes_cargados = 0
-            with open(filePath, mode='r', encoding='utf-8') as f:
-                # 'csv.DictReader' lee la primera fila como cabeceras
-                reader = csv.DictReader(f)
-                
+
+    # Abrimos el archivo correctamente
+            with open(filePath, mode='r', encoding='utf-8-sig') as f:
+                reader = csv.DictReader(f, delimiter=',')
+                print("🧾 Cabeceras detectadas:", reader.fieldnames)
+
                 for row in reader:
-                    nombre_participante = row.get('Nombre')
-                    
-                    if not nombre_participante: # Ignorar filas sin nombre
+                    # Limpia espacios en claves y valores
+                    row = {k.strip(): (v.strip() if v else "") for k, v in row.items()}
+                    print("➡️ Fila leída:", row)
+
+                    nombre_participante = row.get('Nombre') or row.get('\ufeffNombre')
+                    if not nombre_participante:
                         continue
-                        
-                    # Crear el participante (misma lógica que anadir_participante_al_evento)
+
                     evento_id = self.evento_en_edicion_actual.IdEvento
-                    num_part = len(self.evento_en_edicion_actual.participantes)
-                    participante_id = f"{evento_id}_p_{num_part + 1}"
-                    
+                    participante_id = f"{evento_id}_p_{len(self.evento_en_edicion_actual.participantes) + 1}"
                     nuevo_participante = Participante(participante_id, nombre_participante)
 
-                    # Añadir preferencias
-                    pref_texto = row.get('Preferencias', '') # Coge el texto o un string vacío
-                    if pref_texto:
-                        # Separa los nombres por ";" y quita espacios en blanco
-                        lista_pref = [nombre.strip() for nombre in pref_texto.split(';')]
-                        nuevo_participante.preferencias = lista_pref
+                    # Preferencias
+                    pref_texto = row.get('Preferencias', '')
+                    nuevo_participante.preferencias = [p.strip() for p in pref_texto.split(';') if p.strip()]
 
-                    # Añadir evitados
+                    # Evitados
                     evit_texto = row.get('Evitados', '')
-                    if evit_texto:
-                        lista_evit = [nombre.strip() for nombre in evit_texto.split(';')]
-                        nuevo_participante.evitados = lista_evit
-                    
-                    # Añadir el participante al evento
+                    nuevo_participante.evitados = [e.strip() for e in evit_texto.split(';') if e.strip()]
+
                     self.evento_en_edicion_actual.anadirparticipante(nuevo_participante)
                     participantes_cargados += 1
 
+            print(f"✅ Participantes cargados: {participantes_cargados}")
             QMessageBox.information(self, "Éxito", f"Se han cargado {participantes_cargados} participantes desde el CSV.")
-            
-            # (Opcional) Si quieres ir a la Pág 6 para ver la lista, descomenta esto:
-            # self.editar_participantes_de_evento() 
 
         except Exception as e:
             QMessageBox.critical(self, "Error al leer CSV", f"No se pudo leer el archivo.\nError: {e}")
+        
+
 
 #Ejecuta
 if __name__ == "__main__":
