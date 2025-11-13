@@ -728,11 +728,7 @@ class VentanaPrincipal(QStackedWidget):
                 nueva_mesa = Mesa(id_mesa=id_mesa, numero=i + 1, capacidad=capacidad_por_mesa)
                 self.evento_en_edicion_actual.mesas.append(nueva_mesa)
 
-            QMessageBox.warning(
-                self,
-                "Oye",
-                "Se actualizó el número de mesas. Tendrás que asignar los participantes de nuevo."
-            )
+            QMessageBox.warning(self,"Oye","Se actualizó el número de mesas. Tendrás que asignar los participantes de nuevo.")
 
         self.gestor_datos.guardarEventos(self.lista_eventos)
         self.evento_en_edicion_actual = None
