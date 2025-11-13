@@ -1,0 +1,31 @@
+--- INFORMACIÓN DEL EVENTO ---
+ID Evento,evento_6
+Nombre,josefon5
+Fecha,15/5/2027
+Ubicacion,cementerio
+Organizador,aaaaachus
+,
+--- LISTA DE PARTICIPANTES ---
+Nombre,ID Participante,Preferencias (Nombres),Evitados (Nombres),Mesa Asignada (ID)
+Josefina,evento_6_p_1,adelaida,eustaquia,Sin Asignar
+adelaida,evento_6_p_2,,eustaquia,Sin Asignar
+marta,evento_6_p_3,,,Sin Asignar
+sofia,evento_6_p_4,,,Sin Asignar
+raquel,evento_6_p_5,,,Sin Asignar
+marina,evento_6_p_6,,,Sin Asignar
+eustaquia,evento_6_p_7,,,Sin Asignar
+pepica,evento_6_p_8,,,Sin Asignar
+,
+--- ASIGNACIÓN DE MESAS ---
+Mesa 1,ID: evento_6_mesa_1,Capacidad: (2 / 10)
+,marta,raquel
+,
+Mesa 2,ID: evento_6_mesa_2,Capacidad: (2 / 10)
+,marina,pepica
+,
+Mesa 3,ID: evento_6_mesa_3,Capacidad: (2 / 10)
+,sofia,eustaquia
+,
+Mesa 4,ID: evento_6_mesa_4,Capacidad: (2 / 10)
+,Josefina,adelaida
+,

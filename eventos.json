@@ -1,46 +1,5 @@
 [
     {
-        "IdEvento": "evento_1",
-        "nombre": "Boda",
-        "fecha": "10/12/2026",
-        "ubicacion": "Castillo la asuncion",
-        "organizador": "Enrrique",
-        "numMesas": 5,
-        "participantes": [],
-        "mesas": [
-            {
-                "id_mesa": "evento_1_mesa_1",
-                "numero": 1,
-                "capacidad": 10,
-                "participantes_ids": []
-            },
-            {
-                "id_mesa": "evento_1_mesa_2",
-                "numero": 2,
-                "capacidad": 10,
-                "participantes_ids": []
-            },
-            {
-                "id_mesa": "evento_1_mesa_3",
-                "numero": 3,
-                "capacidad": 10,
-                "participantes_ids": []
-            },
-            {
-                "id_mesa": "evento_1_mesa_4",
-                "numero": 4,
-                "capacidad": 10,
-                "participantes_ids": []
-            },
-            {
-                "id_mesa": "evento_1_mesa_5",
-                "numero": 5,
-                "capacidad": 10,
-                "participantes_ids": []
-            }
-        ]
-    },
-    {
         "IdEvento": "evento_4",
         "nombre": "como coño se va allamar el eventojose hijos de puta",
         "fecha": "10/3/2026",
@@ -53,35 +12,35 @@
                 "nombre": "Ana García;Juan Pérez;Maria Lopez",
                 "preferencias": [],
                 "evitados": [],
-                "mesaAsignada": null
+                "mesaAsignada": "evento_4_mesa_1"
             },
             {
                 "IdParticipante": "evento_4_p_2",
                 "nombre": "Juan Pérez;Ana García;Carlos Sanchez",
                 "preferencias": [],
                 "evitados": [],
-                "mesaAsignada": null
+                "mesaAsignada": "evento_4_mesa_2"
             },
             {
                 "IdParticipante": "evento_4_p_3",
                 "nombre": "Maria Lopez;Ana García",
                 "preferencias": [],
                 "evitados": [],
-                "mesaAsignada": null
+                "mesaAsignada": "evento_4_mesa_1"
             },
             {
                 "IdParticipante": "evento_4_p_4",
                 "nombre": "Carlos Sanchez;Juan Pérez",
                 "preferencias": [],
                 "evitados": [],
-                "mesaAsignada": null
+                "mesaAsignada": "evento_4_mesa_4"
             },
             {
                 "IdParticipante": "evento_4_p_5",
                 "nombre": "Laura Jimenez;Pedro Morales;Ana García",
                 "preferencias": [],
                 "evitados": [],
-                "mesaAsignada": null
+                "mesaAsignada": "evento_4_mesa_3"
             },
             {
                 "IdParticipante": "evento_4_p_6",
@@ -92,7 +51,7 @@
                 "evitados": [
                     "Maria Lopez"
                 ],
-                "mesaAsignada": null
+                "mesaAsignada": "evento_4_mesa_4"
             },
             {
                 "IdParticipante": "evento_4_p_7",
@@ -103,7 +62,7 @@
                 "evitados": [
                     "Carlos Sanchez"
                 ],
-                "mesaAsignada": null
+                "mesaAsignada": "evento_4_mesa_4"
             },
             {
                 "IdParticipante": "evento_4_p_8",
@@ -112,7 +71,7 @@
                 "evitados": [
                     "Ana García"
                 ],
-                "mesaAsignada": null
+                "mesaAsignada": "evento_4_mesa_2"
             },
             {
                 "IdParticipante": "evento_4_p_9",
@@ -121,7 +80,7 @@
                     "Juan Pérez"
                 ],
                 "evitados": [],
-                "mesaAsignada": null
+                "mesaAsignada": "evento_4_mesa_3"
             },
             {
                 "IdParticipante": "evento_4_p_10",
@@ -132,7 +91,7 @@
                 "evitados": [
                     "Ana García"
                 ],
-                "mesaAsignada": null
+                "mesaAsignada": "evento_4_mesa_3"
             }
         ],
         "mesas": [
@@ -140,25 +99,39 @@
                 "id_mesa": "evento_4_mesa_1",
                 "numero": 1,
                 "capacidad": 10,
-                "participantes_ids": []
+                "participantes_ids": [
+                    "evento_4_p_1",
+                    "evento_4_p_3"
+                ]
             },
             {
                 "id_mesa": "evento_4_mesa_2",
                 "numero": 2,
                 "capacidad": 10,
-                "participantes_ids": []
+                "participantes_ids": [
+                    "evento_4_p_2",
+                    "evento_4_p_8"
+                ]
             },
             {
                 "id_mesa": "evento_4_mesa_3",
                 "numero": 3,
                 "capacidad": 10,
-                "participantes_ids": []
+                "participantes_ids": [
+                    "evento_4_p_5",
+                    "evento_4_p_9",
+                    "evento_4_p_10"
+                ]
             },
             {
                 "id_mesa": "evento_4_mesa_4",
                 "numero": 4,
                 "capacidad": 10,
-                "participantes_ids": []
+                "participantes_ids": [
+                    "evento_4_p_4",
+                    "evento_4_p_6",
+                    "evento_4_p_7"
+                ]
             }
         ]
     },
@@ -175,28 +148,28 @@
                 "nombre": "dwadsdw",
                 "preferencias": [],
                 "evitados": [],
-                "mesaAsignada": null
+                "mesaAsignada": "evento_3_mesa_6"
             },
             {
                 "IdParticipante": "evento_3_p_2",
                 "nombre": "adwdasdas",
                 "preferencias": [],
                 "evitados": [],
-                "mesaAsignada": null
+                "mesaAsignada": "evento_3_mesa_1"
             },
             {
                 "IdParticipante": "evento_3_p_3",
                 "nombre": "ggdfgsdfgdfs",
                 "preferencias": [],
                 "evitados": [],
-                "mesaAsignada": null
+                "mesaAsignada": "evento_3_mesa_5"
             },
             {
                 "IdParticipante": "evento_3_p_4",
                 "nombre": "ewrq123r2123",
                 "preferencias": [],
                 "evitados": [],
-                "mesaAsignada": null
+                "mesaAsignada": "evento_3_mesa_7"
             }
         ],
         "mesas": [
@@ -204,7 +177,9 @@
                 "id_mesa": "evento_3_mesa_1",
                 "numero": 1,
                 "capacidad": 10,
-                "participantes_ids": []
+                "participantes_ids": [
+                    "evento_3_p_2"
+                ]
             },
             {
                 "id_mesa": "evento_3_mesa_2",
@@ -228,19 +203,25 @@
                 "id_mesa": "evento_3_mesa_5",
                 "numero": 5,
                 "capacidad": 10,
-                "participantes_ids": []
+                "participantes_ids": [
+                    "evento_3_p_3"
+                ]
             },
             {
                 "id_mesa": "evento_3_mesa_6",
                 "numero": 6,
                 "capacidad": 10,
-                "participantes_ids": []
+                "participantes_ids": [
+                    "evento_3_p_1"
+                ]
             },
             {
                 "id_mesa": "evento_3_mesa_7",
                 "numero": 7,
                 "capacidad": 10,
-                "participantes_ids": []
+                "participantes_ids": [
+                    "evento_3_p_4"
+                ]
             }
         ]
     },
@@ -257,21 +238,21 @@
                 "nombre": "hgghhsdfshd",
                 "preferencias": [],
                 "evitados": [],
-                "mesaAsignada": null
+                "mesaAsignada": "evento_4_mesa_1"
             },
             {
                 "IdParticipante": "evento_4_p_2",
                 "nombre": "djdjjdghjfg",
                 "preferencias": [],
                 "evitados": [],
-                "mesaAsignada": null
+                "mesaAsignada": "evento_4_mesa_1"
             },
             {
                 "IdParticipante": "evento_4_p_3",
                 "nombre": "sregsegerg",
                 "preferencias": [],
                 "evitados": [],
-                "mesaAsignada": null
+                "mesaAsignada": "evento_4_mesa_1"
             }
         ],
         "mesas": [
@@ -304,7 +285,7 @@
                 "evitados": [
                     "Maria Lopez"
                 ],
-                "mesaAsignada": null
+                "mesaAsignada": "evento_5_mesa_4"
             },
             {
                 "IdParticipante": "evento_5_p_2",
@@ -315,7 +296,7 @@
                 "evitados": [
                     "Carlos Sanchez"
                 ],
-                "mesaAsignada": null
+                "mesaAsignada": "evento_5_mesa_4"
             },
             {
                 "IdParticipante": "evento_5_p_3",
@@ -324,7 +305,7 @@
                 "evitados": [
                     "Ana García"
                 ],
-                "mesaAsignada": null
+                "mesaAsignada": "evento_5_mesa_2"
             },
             {
                 "IdParticipante": "evento_5_p_4",
@@ -333,7 +314,7 @@
                     "Juan Pérez"
                 ],
                 "evitados": [],
-                "mesaAsignada": null
+                "mesaAsignada": "evento_5_mesa_3"
             },
             {
                 "IdParticipante": "evento_5_p_5",
@@ -344,7 +325,7 @@
                 "evitados": [
                     "Ana García"
                 ],
-                "mesaAsignada": null
+                "mesaAsignada": "evento_5_mesa_1"
             }
         ],
         "mesas": [
@@ -352,25 +333,34 @@
                 "id_mesa": "evento_5_mesa_1",
                 "numero": 1,
                 "capacidad": 10,
-                "participantes_ids": []
+                "participantes_ids": [
+                    "evento_5_p_5"
+                ]
             },
             {
                 "id_mesa": "evento_5_mesa_2",
                 "numero": 2,
                 "capacidad": 10,
-                "participantes_ids": []
+                "participantes_ids": [
+                    "evento_5_p_3"
+                ]
             },
             {
                 "id_mesa": "evento_5_mesa_3",
                 "numero": 3,
                 "capacidad": 10,
-                "participantes_ids": []
+                "participantes_ids": [
+                    "evento_5_p_4"
+                ]
             },
             {
                 "id_mesa": "evento_5_mesa_4",
                 "numero": 4,
                 "capacidad": 10,
-                "participantes_ids": []
+                "participantes_ids": [
+                    "evento_5_p_1",
+                    "evento_5_p_2"
+                ]
             }
         ]
     },
@@ -391,7 +381,7 @@
                 "evitados": [
                     "eustaquia"
                 ],
-                "mesaAsignada": "evento_6_mesa_4"
+                "mesaAsignada": null
             },
             {
                 "IdParticipante": "evento_6_p_2",
@@ -400,49 +390,49 @@
                 "evitados": [
                     "eustaquia"
                 ],
-                "mesaAsignada": "evento_6_mesa_4"
+                "mesaAsignada": null
             },
             {
                 "IdParticipante": "evento_6_p_3",
                 "nombre": "marta",
                 "preferencias": [],
                 "evitados": [],
-                "mesaAsignada": "evento_6_mesa_1"
+                "mesaAsignada": null
             },
             {
                 "IdParticipante": "evento_6_p_4",
                 "nombre": "sofia",
                 "preferencias": [],
                 "evitados": [],
-                "mesaAsignada": "evento_6_mesa_3"
+                "mesaAsignada": null
             },
             {
                 "IdParticipante": "evento_6_p_5",
                 "nombre": "raquel",
                 "preferencias": [],
                 "evitados": [],
-                "mesaAsignada": "evento_6_mesa_1"
+                "mesaAsignada": null
             },
             {
                 "IdParticipante": "evento_6_p_6",
                 "nombre": "marina",
                 "preferencias": [],
                 "evitados": [],
-                "mesaAsignada": "evento_6_mesa_2"
+                "mesaAsignada": null
             },
             {
                 "IdParticipante": "evento_6_p_7",
                 "nombre": "eustaquia",
                 "preferencias": [],
                 "evitados": [],
-                "mesaAsignada": "evento_6_mesa_3"
+                "mesaAsignada": null
             },
             {
                 "IdParticipante": "evento_6_p_8",
                 "nombre": "pepica",
                 "preferencias": [],
                 "evitados": [],
-                "mesaAsignada": "evento_6_mesa_2"
+                "mesaAsignada": null
             }
         ],
         "mesas": [
@@ -480,6 +470,162 @@
                 "participantes_ids": [
                     "evento_6_p_1",
                     "evento_6_p_2"
+                ]
+            }
+        ]
+    },
+    {
+        "IdEvento": "evento_6",
+        "nombre": "PRUEBA",
+        "fecha": "6/6/2026",
+        "ubicacion": "",
+        "organizador": "",
+        "numMesas": 3,
+        "participantes": [],
+        "mesas": [
+            {
+                "id_mesa": "evento_6_mesa_1",
+                "numero": 1,
+                "capacidad": 10,
+                "participantes_ids": []
+            },
+            {
+                "id_mesa": "evento_6_mesa_2",
+                "numero": 2,
+                "capacidad": 10,
+                "participantes_ids": []
+            },
+            {
+                "id_mesa": "evento_6_mesa_3",
+                "numero": 3,
+                "capacidad": 10,
+                "participantes_ids": []
+            }
+        ]
+    },
+    {
+        "IdEvento": "evento_7",
+        "nombre": "H",
+        "fecha": "H",
+        "ubicacion": "",
+        "organizador": "",
+        "numMesas": 3,
+        "participantes": [
+            {
+                "IdParticipante": "evento_7_p_1",
+                "nombre": "JOSE",
+                "preferencias": [],
+                "evitados": [],
+                "mesaAsignada": "evento_7_mesa_3"
+            }
+        ],
+        "mesas": [
+            {
+                "id_mesa": "evento_7_mesa_1",
+                "numero": 1,
+                "capacidad": 10,
+                "participantes_ids": []
+            },
+            {
+                "id_mesa": "evento_7_mesa_2",
+                "numero": 2,
+                "capacidad": 10,
+                "participantes_ids": []
+            },
+            {
+                "id_mesa": "evento_7_mesa_3",
+                "numero": 3,
+                "capacidad": 10,
+                "participantes_ids": [
+                    "evento_7_p_1"
+                ]
+            }
+        ]
+    },
+    {
+        "IdEvento": "evento_8",
+        "nombre": "A",
+        "fecha": "A",
+        "ubicacion": "",
+        "organizador": "",
+        "numMesas": 1,
+        "participantes": [
+            {
+                "IdParticipante": "evento_8_p_1",
+                "nombre": "A",
+                "preferencias": [],
+                "evitados": [],
+                "mesaAsignada": "evento_8_mesa_1"
+            },
+            {
+                "IdParticipante": "evento_8_p_2",
+                "nombre": "B",
+                "preferencias": [],
+                "evitados": [],
+                "mesaAsignada": "evento_8_mesa_1"
+            },
+            {
+                "IdParticipante": "evento_8_p_3",
+                "nombre": "C",
+                "preferencias": [],
+                "evitados": [
+                    "B",
+                    "A"
+                ],
+                "mesaAsignada": null
+            }
+        ],
+        "mesas": [
+            {
+                "id_mesa": "evento_8_mesa_1",
+                "numero": 1,
+                "capacidad": 10,
+                "participantes_ids": [
+                    "evento_8_p_1",
+                    "evento_8_p_2"
+                ]
+            }
+        ]
+    },
+    {
+        "IdEvento": "evento_9",
+        "nombre": "Z",
+        "fecha": "6/6/2032",
+        "ubicacion": "",
+        "organizador": "",
+        "numMesas": 1,
+        "participantes": [
+            {
+                "IdParticipante": "evento_9_p_1",
+                "nombre": "A",
+                "preferencias": [],
+                "evitados": [],
+                "mesaAsignada": "evento_9_mesa_1"
+            },
+            {
+                "IdParticipante": "evento_9_p_2",
+                "nombre": "B",
+                "preferencias": [],
+                "evitados": [],
+                "mesaAsignada": "evento_9_mesa_1"
+            },
+            {
+                "IdParticipante": "evento_9_p_3",
+                "nombre": "C",
+                "preferencias": [],
+                "evitados": [],
+                "mesaAsignada": "evento_9_mesa_1"
+            }
+        ],
+        "mesas": [
+            {
+                "id_mesa": "evento_9_mesa_1",
+                "numero": 1,
+                "capacidad": 10,
+                "participantes_ids": [
+                    "evento_9_p_1",
+                    "evento_9_p_2",
+                    "evento_9_p_3"
                 ]
             }
         ]
