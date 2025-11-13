@@ -726,129 +726,156 @@ class VentanaPrincipal(QStackedWidget):
 
     # --- El algoritmo mágico de Google ---
     # --- ADAPTADO de tu snippet ---
+    # Main.py (Reemplazo COMPLETO para la función que empieza en la línea 722)
+
     def algoritmo_asignar_mesas(self, participantes, mesas):
-        print("--- PASO 4: Dentro del algoritmo (Creando modelo) ---")
-        # 0. Si no hay mesas o invitados se pira
-        if not mesas:
-            print("Error: No hay mesas para asignar.")
-            return participantes  # Todos son excepciones
-        
-        if not participantes:
-            print("No hay participantes para asignar.")
-            return [] # No hay excepciones
-
-        # 1. Crea el modelo
+        """
+        Algoritmo de asignación usando OR-Tools.
+        Versión 3: EQUILIBRADO (Minimiza la varianza de ocupación).
+        """
         model = cp_model.CpModel()
+
+        # --- 1. Mapas de datos ---
+        map_idx_participante = {i: p for i, p in enumerate(participantes)}
+        map_idx_mesa = {i: m for i, m in enumerate(mesas)}
+        map_nombre_idx_p = {p.nombre: i for i, p in map_idx_participante.items()}
         
-        # 2. Prepara las variables
-        nombres = [p.nombre for p in participantes]
-        num_mesas = len(mesas) # Usamos el número de mesas del evento
+        num_participantes = len(participantes)
+        num_mesas = len(mesas)
 
-        # 3. Variables: mesa asignada a cada persona (por nombre)
-        # --- Esto es de tu snippet: { "Ana": (variable 0-N) "Luis": (variable 0-N) } ---
-        mesas_vars = {
-            nombre: model.NewIntVar(0, num_mesas - 1, nombre)
-            for nombre in nombres
-        }
+        # --- 2. Variables de Decisión ---
+        # x[p, m] = 1 si el participante se sienta en esa mesa
+        x = {}
+        for p_idx in range(num_participantes):
+            for m_idx in range(num_mesas):
+                x[p_idx, m_idx] = model.NewBoolVar(f'x_{p_idx}_{m_idx}')
 
-        # 4. Restricciones de amistad y enemistad (de tu snippet)
-        for p in participantes:
-            # Si el participante no está en el dic de variables (no debería pasar)
-            if p.nombre not in mesas_vars:
-                continue
-                
-            for amigo in p.preferencias: # --- ADAPTADO: usa 'preferencias' ---
-                if amigo in mesas_vars:
-                    # Amigos juntos
-                    model.Add(mesas_vars[p.nombre] == mesas_vars[amigo])
-            for enemigo in p.evitados: # --- ADAPTADO: usa 'evitados' ---
-                if enemigo in mesas_vars:
-                    # Enemigos separados
-                    model.Add(mesas_vars[p.nombre] != mesas_vars[enemigo])
+        # --- 3. Variables Auxiliares para el Equilibrio ---
+        # Necesitamos saber cuánta gente hay en cada mesa y elevarlo al cuadrado
+        occupancy = {}
+        occupancy_sq = {}
 
-        # 5. Restricción de tamaño máximo por mesa (de tu snippet ADAPTADO)
-        for m in range(num_mesas):
-            # Para cada mesa 'm'
-            indicators = []
-            for nombre in nombres:
-                b = model.NewBoolVar(f"{nombre}_en_mesa_{m}")
-                # Si el invitado 'nombre' está en la mesa 'm' b es 1
-                model.Add(mesas_vars[nombre] == m).OnlyEnforceIf(b)
-                model.Add(mesas_vars[nombre] != m).OnlyEnforceIf(b.Not())
-                indicators.append(b)
-                
-            # La suma de invitados (indicators) no puede ser mayor
-            # que la capacidad de ESA mesa (mesas[m].capacidad)
-            model.Add(sum(indicators) <= mesas[m].capacidad) # --- ADAPTADO: usa capacidad de la mesa ---
+        for m_idx in range(num_mesas):
+            capacidad = map_idx_mesa[m_idx].capacidad
+            
+            # Variable que cuenta cuántos hay en la mesa 'm'
+            occupancy[m_idx] = model.NewIntVar(0, capacidad, f'occ_{m_idx}')
+            model.Add(occupancy[m_idx] == sum(x[p_idx, m_idx] for p_idx in range(num_participantes)))
 
-        # 6. Resolver
-        print("--- PASO 5: Modelo creado. Llamando a solver.Solve() ---")
+            # Variable que guarda el cuadrado (occupancy * occupancy)
+            # Esto sirve para penalizar mesas muy llenas
+            occupancy_sq[m_idx] = model.NewIntVar(0, capacidad * capacidad, f'occ_sq_{m_idx}')
+            model.AddMultiplicationEquality(occupancy_sq[m_idx], [occupancy[m_idx], occupancy[m_idx]])
+
+        # --- 4. Restricciones Duras ---
+
+        # R1: Cada participante en MÁXIMO 1 mesa
+        for p_idx in range(num_participantes):
+            model.Add(sum(x[p_idx, m_idx] for m_idx in range(num_mesas)) <= 1)
+
+        # R2: Conflictos (Evitados)
+        for p1_idx, p1_obj in map_idx_participante.items():
+            for nombre_evitado in p1_obj.evitados:
+                if nombre_evitado in map_nombre_idx_p:
+                    p2_idx = map_nombre_idx_p[nombre_evitado]
+                    for m_idx in range(num_mesas):
+                        # Si P1 y P2 se evitan, la suma en la misma mesa no puede ser 2
+                        model.Add(x[p1_idx, m_idx] + x[p2_idx, m_idx] <= 1)
+
+        # --- 5. Objetivos y Pesos ---
+        puntuacion_total = []
+
+        # A. PRIORIDAD MÁXIMA: Sentar a la gente (Peso: 100.000)
+        # Queremos que se sienten todos, pase lo que pase.
+        for p_idx in range(num_participantes):
+            for m_idx in range(num_mesas):
+                puntuacion_total.append(x[p_idx, m_idx] * 100000)
+
+        # B. PRIORIDAD MEDIA: Preferencias (Peso: 500)
+        # Marina y Pepa juntas vale más que un ligero desequilibrio.
+        for p1_idx, p1_obj in map_idx_participante.items():
+            for nombre_preferido in p1_obj.preferencias:
+                if nombre_preferido in map_nombre_idx_p:
+                    p2_idx = map_nombre_idx_p[nombre_preferido]
+                    if p1_idx < p2_idx: # Evitar duplicados
+                        for m_idx in range(num_mesas):
+                            juntos = model.NewBoolVar(f'juntos_{p1_idx}_{p2_idx}_{m_idx}')
+                            # juntos = 1 solo si ambos están en la mesa m
+                            model.Add(x[p1_idx, m_idx] + x[p2_idx, m_idx] == 2).OnlyEnforceIf(juntos)
+                            model.Add(x[p1_idx, m_idx] + x[p2_idx, m_idx] != 2).OnlyEnforceIf(juntos.Not())
+                            puntuacion_total.append(juntos * 500)
+
+        # C. PRIORIDAD DE EQUILIBRIO: Penalizar desproporción (Peso: -5)
+        # Restamos la suma de cuadrados. Esto fuerza a distribuir (2,2,2,1) en vez de (4,1,1,1).
+        for m_idx in range(num_mesas):
+            puntuacion_total.append(occupancy_sq[m_idx] * -5)
+
+        # Maximizar la puntuación final
+        model.Maximize(sum(puntuacion_total))
+
+        # --- 6. Resolver ---
         solver = cp_model.CpSolver()
-        solver.parameters.max_time_in_seconds = 10.0
         status = solver.Solve(model)
-        print("--- PASO 5.1: ¡El solver ha terminado! ---")
 
-        # 7. Resultado
-        if status in (cp_model.OPTIMAL, cp_model.FEASIBLE):
-            print("Asignación automática completada (OR-Tools).")
-            
-            # Mapa para encontrar el objeto Participante por su nombre
-            nombre_a_obj = {p.nombre: p for p in participantes}
-            
-            # Reparte a los invitados en las mesas (objetos)
-            for nombre in nombres:
-                mesa_index_asignada = solver.Value(mesas_vars[nombre])
-                mesa_obj_asignada = mesas[mesa_index_asignada]
-                participante_obj = nombre_a_obj[nombre]
-                
-                # Asigna en los objetos
-                mesa_obj_asignada.anadirParticipante(participante_obj)
-                participante_obj.asignar_mesa(mesa_obj_asignada.id_mesa)
-            
-            return [] # Devuelve lista vacía de excepciones
+        if status == cp_model.OPTIMAL or status == cp_model.FEASIBLE:
+            print("¡Distribución equilibrada encontrada!")
+            for p_idx in range(num_participantes):
+                for m_idx in range(num_mesas):
+                    if solver.Value(x[p_idx, m_idx]) == 1:
+                        participante = map_idx_participante[p_idx]
+                        mesa = map_idx_mesa[m_idx]
+                        mesa.anadirParticipante(participante)
+                        participante.asignar_mesa(mesa.id_mesa)
+                        break 
+            return True
         else:
-            # Si no hay solución
-            print("No se encontró solución factible con OR-Tools.")
-            QMessageBox.warning(self, "Conflicto de Asignación", 
-                                "No se pudo encontrar una solución que respete todas las reglas (preferencias/evitados).\n\n"
-                                "Revisa las restricciones o usa la asignación manual.")
-            return participantes # Devuelve a todos como excepciones
+            print("No se encontró solución válida.")
+            return False
     # --- FIN MODIFICADO ---
 
 
     def ejecutar_asignacion_automatica(self):
-        # Si no hay evento te echa
-        print("--- PASO 1: Iniciando ejecutor ---")
+        # Comprobamos que tenemos un evento seleccionado
         if self.evento_en_edicion_actual is None:
-            QMessageBox.critical(self, "Error")
+            QMessageBox.critical(self, "Error", "No hay evento seleccionado.")
             return
-        print(f"--- PASO 2: Evento seleccionado: {self.evento_en_edicion_actual.nombre} ---")
+
         print(f"Iniciando asignación automática para: {self.evento_en_edicion_actual.nombre}")
 
-        # Vacía las mesas
+        # 1. Vaciar mesas y participantes
         for mesa in self.evento_en_edicion_actual.mesas:
             mesa.participantes = []
-
-        # Les quita la mesa a todos los invitados
         for p in self.evento_en_edicion_actual.participantes:
             p.quitar_mesa()
 
-        # Prepara las listas para el algoritmo
-        participantes_a_asignar = list(self.evento_en_edicion_actual.participantes)
-        mesas_del_evento = list(self.evento_en_edicion_actual.mesas)
-        print(f"--- PASO 3: Listos para asignar {len(participantes_a_asignar)} part. en {len(mesas_del_evento)} mesas ---")
-        # Llama al algoritmo
-        self.lista_excepciones = self.algoritmo_asignar_mesas(participantes_a_asignar, mesas_del_evento)
-        print("--- PASO 6: Algoritmo terminado ---")
-        # Lo guarda en el JSON
+        # 2. Preparar datos para el algoritmo
+        participantes = list(self.evento_en_edicion_actual.participantes)
+        mesas = list(self.evento_en_edicion_actual.mesas)
+
+        if not participantes:
+            QMessageBox.warning(self, "Vacío", "No hay participantes para asignar.")
+            return
+        if not mesas:
+            QMessageBox.warning(self, "Vacío", "No hay mesas para asignar.")
+            return
+
+        # 3. Llamar al algoritmo (Ahora devuelve True/False)
+        solucion_encontrada = self.algoritmo_asignar_mesas(participantes, mesas)
+
+        if not solucion_encontrada:
+            QMessageBox.warning(self, "Asignación Fallida", 
+                            "No se pudo encontrar una solución óptima que respete todos los conflictos.\n"
+                            "Los participantes sin mesa se moverán a Excepciones.")
+
+        # 4. Guardar resultados
         self.gestor_datos.guardarEventos(self.lista_eventos)
-
-        # Actualiza las tablas
+        
+        # 5. Actualizar interfaz
         self.actualizar_tabla_resultados_auto()
-        self.actualizar_lista_excepciones()
+        self.actualizar_lista_excepciones() # <--- Ahora esta función recalcula la lista correctamente
 
-        # Enseña la página de resultados
-        self.mostrar_pagina_auto()
+        # Mostrar la página de resultados
+        self.setCurrentIndex(7)
 
 
     def actualizar_tabla_resultados_auto(self):
@@ -878,12 +905,17 @@ class VentanaPrincipal(QStackedWidget):
 
 
     def actualizar_lista_excepciones(self):
-        # Refresca la lista de excepciones
         lista = self.pagina_excepciones.ui.List_Exceptions
         lista.clear()
-
-        for participante in self.lista_excepciones:
-            lista.addItem(participante.nombre)
+        
+        self.lista_excepciones = [] # Limpiamos y regeneramos la lista
+        
+        if self.evento_en_edicion_actual:
+            for participante in self.evento_en_edicion_actual.participantes:
+                # Si el participante NO tiene mesa asignada, es una excepción
+                if participante.mesa_asignada is None:
+                    self.lista_excepciones.append(participante)
+                    lista.addItem(participante.nombre)
 
     # Función ayudante
     # Crea un evento temporal

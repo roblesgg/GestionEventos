@@ -257,21 +257,21 @@
                 "nombre": "hgghhsdfshd",
                 "preferencias": [],
                 "evitados": [],
-                "mesaAsignada": "evento_4_mesa_1"
+                "mesaAsignada": null
             },
             {
                 "IdParticipante": "evento_4_p_2",
                 "nombre": "djdjjdghjfg",
                 "preferencias": [],
                 "evitados": [],
-                "mesaAsignada": "evento_4_mesa_1"
+                "mesaAsignada": null
             },
             {
                 "IdParticipante": "evento_4_p_3",
                 "nombre": "sregsegerg",
                 "preferencias": [],
                 "evitados": [],
-                "mesaAsignada": "evento_4_mesa_1"
+                "mesaAsignada": null
             }
         ],
         "mesas": [
@@ -283,6 +283,203 @@
                     "evento_4_p_1",
                     "evento_4_p_2",
                     "evento_4_p_3"
+                ]
+            }
+        ]
+    },
+    {
+        "IdEvento": "evento_5",
+        "nombre": "jose3",
+        "fecha": "15/6/2026",
+        "ubicacion": "morolandia",
+        "organizador": "abderraman",
+        "numMesas": 4,
+        "participantes": [
+            {
+                "IdParticipante": "evento_5_p_1",
+                "nombre": "Ana García",
+                "preferencias": [
+                    "Juan Pérez"
+                ],
+                "evitados": [
+                    "Maria Lopez"
+                ],
+                "mesaAsignada": null
+            },
+            {
+                "IdParticipante": "evento_5_p_2",
+                "nombre": "Juan Pérez",
+                "preferencias": [
+                    "Ana García"
+                ],
+                "evitados": [
+                    "Carlos Sanchez"
+                ],
+                "mesaAsignada": null
+            },
+            {
+                "IdParticipante": "evento_5_p_3",
+                "nombre": "Maria Lopez",
+                "preferencias": [],
+                "evitados": [
+                    "Ana García"
+                ],
+                "mesaAsignada": null
+            },
+            {
+                "IdParticipante": "evento_5_p_4",
+                "nombre": "Carlos Sanchez",
+                "preferencias": [
+                    "Juan Pérez"
+                ],
+                "evitados": [],
+                "mesaAsignada": null
+            },
+            {
+                "IdParticipante": "evento_5_p_5",
+                "nombre": "Laura Jimenez",
+                "preferencias": [
+                    "Pedro Morales"
+                ],
+                "evitados": [
+                    "Ana García"
+                ],
+                "mesaAsignada": null
+            }
+        ],
+        "mesas": [
+            {
+                "id_mesa": "evento_5_mesa_1",
+                "numero": 1,
+                "capacidad": 10,
+                "participantes_ids": []
+            },
+            {
+                "id_mesa": "evento_5_mesa_2",
+                "numero": 2,
+                "capacidad": 10,
+                "participantes_ids": []
+            },
+            {
+                "id_mesa": "evento_5_mesa_3",
+                "numero": 3,
+                "capacidad": 10,
+                "participantes_ids": []
+            },
+            {
+                "id_mesa": "evento_5_mesa_4",
+                "numero": 4,
+                "capacidad": 10,
+                "participantes_ids": []
+            }
+        ]
+    },
+    {
+        "IdEvento": "evento_6",
+        "nombre": "josefon5",
+        "fecha": "15/5/2027",
+        "ubicacion": "cementerio",
+        "organizador": "aaaaachus",
+        "numMesas": 4,
+        "participantes": [
+            {
+                "IdParticipante": "evento_6_p_1",
+                "nombre": "Josefina",
+                "preferencias": [
+                    "adelaida"
+                ],
+                "evitados": [
+                    "eustaquia"
+                ],
+                "mesaAsignada": "evento_6_mesa_4"
+            },
+            {
+                "IdParticipante": "evento_6_p_2",
+                "nombre": "adelaida",
+                "preferencias": [],
+                "evitados": [
+                    "eustaquia"
+                ],
+                "mesaAsignada": "evento_6_mesa_4"
+            },
+            {
+                "IdParticipante": "evento_6_p_3",
+                "nombre": "marta",
+                "preferencias": [],
+                "evitados": [],
+                "mesaAsignada": "evento_6_mesa_1"
+            },
+            {
+                "IdParticipante": "evento_6_p_4",
+                "nombre": "sofia",
+                "preferencias": [],
+                "evitados": [],
+                "mesaAsignada": "evento_6_mesa_3"
+            },
+            {
+                "IdParticipante": "evento_6_p_5",
+                "nombre": "raquel",
+                "preferencias": [],
+                "evitados": [],
+                "mesaAsignada": "evento_6_mesa_1"
+            },
+            {
+                "IdParticipante": "evento_6_p_6",
+                "nombre": "marina",
+                "preferencias": [],
+                "evitados": [],
+                "mesaAsignada": "evento_6_mesa_2"
+            },
+            {
+                "IdParticipante": "evento_6_p_7",
+                "nombre": "eustaquia",
+                "preferencias": [],
+                "evitados": [],
+                "mesaAsignada": "evento_6_mesa_3"
+            },
+            {
+                "IdParticipante": "evento_6_p_8",
+                "nombre": "pepica",
+                "preferencias": [],
+                "evitados": [],
+                "mesaAsignada": "evento_6_mesa_2"
+            }
+        ],
+        "mesas": [
+            {
+                "id_mesa": "evento_6_mesa_1",
+                "numero": 1,
+                "capacidad": 10,
+                "participantes_ids": [
+                    "evento_6_p_3",
+                    "evento_6_p_5"
+                ]
+            },
+            {
+                "id_mesa": "evento_6_mesa_2",
+                "numero": 2,
+                "capacidad": 10,
+                "participantes_ids": [
+                    "evento_6_p_6",
+                    "evento_6_p_8"
+                ]
+            },
+            {
+                "id_mesa": "evento_6_mesa_3",
+                "numero": 3,
+                "capacidad": 10,
+                "participantes_ids": [
+                    "evento_6_p_4",
+                    "evento_6_p_7"
+                ]
+            },
+            {
+                "id_mesa": "evento_6_mesa_4",
+                "numero": 4,
+                "capacidad": 10,
+                "participantes_ids": [
+                    "evento_6_p_1",
+                    "evento_6_p_2"
                 ]
             }
         ]
