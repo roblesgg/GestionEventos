@@ -11,6 +11,7 @@ from controllers.ControllerAsignarMesas import Ui_Form as Ui_PaginaMesas
 from controllers.EditarEvento import Ui_Form as Ui_ActualizarEventoForm
 from controllers.ControllerAsignarMesasManual import Ui_Form as Ui_AsignarManual
 from controllers.ControllerBorrarEvento import Ui_DialogoBorrarEvento as Ui_Borrar
+from ortools.sat.python import cp_model
 
 from controllers.ControllerCrearEvento2 import Ui_DialogoParticipantes
 
@@ -545,6 +546,55 @@ class VentanaPrincipal(QStackedWidget):
         for i in range(len(df)):
             for j in range(len(df.columns)):
                 self.tabla.setItem(i, j, QTableWidgetItem(str(df.iat[i, j])))
+
+    def asignar_mesas(participantes, tamano_mesa):
+        model = cp_model.CpModel()
+
+        nombres = [p.nombre for p in participantes]
+        num_mesas = len(participantes) // tamano_mesa + 1
+
+        # Variables: mesa asignada a cada persona
+        mesas = {
+            nombre: model.NewIntVar(0, num_mesas - 1, nombre)
+            for nombre in nombres
+        }
+
+        # Restricciones de amistad y enemistad
+        for p in participantes:
+            for amigo in p.amistades:
+                if amigo in mesas:
+                    model.Add(mesas[p.nombre] == mesas[amigo])
+            for enemigo in p.enemistades:
+                if enemigo in mesas:
+                    model.Add(mesas[p.nombre] != mesas[enemigo])
+
+        # Restricción de tamaño máximo por mesa
+        # Usamos variables booleanas para controlar cuántas personas hay en cada mesa
+        for m in range(num_mesas):
+            # Para cada mesa, creamos indicadores de quién está allí
+            indicators = []
+            for nombre in nombres:
+                b = model.NewBoolVar(f"{nombre}_en_mesa_{m}")
+                # Si mesa[nombre] == m, entonces b = 1
+                model.Add(mesas[nombre] == m).OnlyEnforceIf(b)
+                model.Add(mesas[nombre] != m).OnlyEnforceIf(b.Not())
+                indicators.append(b)
+            # Máximo tamano_mesa personas por mesa
+            model.Add(sum(indicators) <= tamano_mesa)
+
+        # Resolver
+        solver = cp_model.CpSolver()
+        solver.parameters.max_time_in_seconds = 10.0
+        status = solver.Solve(model)
+
+        # Resultado
+        if status in (cp_model.OPTIMAL, cp_model.FEASIBLE):
+            return {nombre: solver.Value(mesas[nombre]) for nombre in nombres}
+        else:
+            return None
+        
+    sol = asignar_mesas(personas, tamano_mesa=3)
+    print(sol)
 
 #Ejecuta
 if __name__ == "__main__":
