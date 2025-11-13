@@ -161,5 +161,126 @@
                 "participantes_ids": []
             }
         ]
+    },
+    {
+        "IdEvento": "evento_3",
+        "nombre": "Ejemplo",
+        "fecha": "1212121",
+        "ubicacion": "123213",
+        "organizador": "wsdsads",
+        "numMesas": 7,
+        "participantes": [
+            {
+                "IdParticipante": "evento_3_p_1",
+                "nombre": "dwadsdw",
+                "preferencias": [],
+                "evitados": [],
+                "mesaAsignada": null
+            },
+            {
+                "IdParticipante": "evento_3_p_2",
+                "nombre": "adwdasdas",
+                "preferencias": [],
+                "evitados": [],
+                "mesaAsignada": null
+            },
+            {
+                "IdParticipante": "evento_3_p_3",
+                "nombre": "ggdfgsdfgdfs",
+                "preferencias": [],
+                "evitados": [],
+                "mesaAsignada": null
+            },
+            {
+                "IdParticipante": "evento_3_p_4",
+                "nombre": "ewrq123r2123",
+                "preferencias": [],
+                "evitados": [],
+                "mesaAsignada": null
+            }
+        ],
+        "mesas": [
+            {
+                "id_mesa": "evento_3_mesa_1",
+                "numero": 1,
+                "capacidad": 10,
+                "participantes_ids": []
+            },
+            {
+                "id_mesa": "evento_3_mesa_2",
+                "numero": 2,
+                "capacidad": 10,
+                "participantes_ids": []
+            },
+            {
+                "id_mesa": "evento_3_mesa_3",
+                "numero": 3,
+                "capacidad": 10,
+                "participantes_ids": []
+            },
+            {
+                "id_mesa": "evento_3_mesa_4",
+                "numero": 4,
+                "capacidad": 10,
+                "participantes_ids": []
+            },
+            {
+                "id_mesa": "evento_3_mesa_5",
+                "numero": 5,
+                "capacidad": 10,
+                "participantes_ids": []
+            },
+            {
+                "id_mesa": "evento_3_mesa_6",
+                "numero": 6,
+                "capacidad": 10,
+                "participantes_ids": []
+            },
+            {
+                "id_mesa": "evento_3_mesa_7",
+                "numero": 7,
+                "capacidad": 10,
+                "participantes_ids": []
+            }
+        ]
+    },
+    {
+        "IdEvento": "evento_4",
+        "nombre": "Ejemplo",
+        "fecha": "hhfjf",
+        "ubicacion": "thththth",
+        "organizador": "thrsths",
+        "numMesas": 1,
+        "participantes": [
+            {
+                "IdParticipante": "evento_4_p_1",
+                "nombre": "hgghhsdfshd",
+                "preferencias": [],
+                "evitados": [],
+                "mesaAsignada": null
+            },
+            {
+                "IdParticipante": "evento_4_p_2",
+                "nombre": "djdjjdghjfg",
+                "preferencias": [],
+                "evitados": [],
+                "mesaAsignada": null
+            },
+            {
+                "IdParticipante": "evento_4_p_3",
+                "nombre": "sregsegerg",
+                "preferencias": [],
+                "evitados": [],
+                "mesaAsignada": null
+            }
+        ],
+        "mesas": [
+            {
+                "id_mesa": "evento_4_mesa_1",
+                "numero": 1,
+                "capacidad": 10,
+                "participantes_ids": []
+            }
+        ]
     }
 ]
