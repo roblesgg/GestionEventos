@@ -1,7 +1,0 @@
-Nombre,Preferencias,Evitados
-Ana García,Juan Pérez;Maria Lopez,
-Juan Pérez,Ana García,Carlos Sanchez
-Maria Lopez,Ana García,
-Carlos Sanchez,,Juan Pérez
-Pedro Morales,,
-Laura Jimenez,Pedro Morales,Ana García
