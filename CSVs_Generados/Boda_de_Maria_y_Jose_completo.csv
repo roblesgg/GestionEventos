@@ -1,0 +1,26 @@
+--- INFORMACIÓN DEL EVENTO ---
+ID Evento,evento_2
+Nombre,Boda de Maria y Jose
+Fecha,28/11/2025
+Ubicacion,Iglesia virgen de la asuncion
+Organizador,Juan pedro perez jimenez
+,
+--- LISTA DE PARTICIPANTES ---
+Nombre,ID Participante,Preferencias (Nombres),Evitados (Nombres),Mesa Asignada (ID)
+Carlos,evento_2_p_1,Ana; Luis,Pedro,Sin Asignar
+Ana,evento_2_p_2,Carlos; Maria,,Sin Asignar
+Luis,evento_2_p_3,Carlos,Sofia,Sin Asignar
+Pedro,evento_2_p_4,Sofia,Carlos,Sin Asignar
+Maria,evento_2_p_5,Ana; Juan,,Sin Asignar
+Sofia,evento_2_p_6,Pedro,Luis,Sin Asignar
+Juan,evento_2_p_7,Maria,,Sin Asignar
+Laura,evento_2_p_8,,,Sin Asignar
+Diego,evento_2_p_9,Laura,,Sin Asignar
+Carmen,evento_2_p_10,,Roberto,Sin Asignar
+Roberto,evento_2_p_11,,Carmen,Sin Asignar
+Elena,evento_2_p_12,Fernando,,Sin Asignar
+Fernando,evento_2_p_13,Elena,,Sin Asignar
+Isabel,evento_2_p_14,,,Sin Asignar
+Antonio,evento_2_p_15,Isabel,,Sin Asignar
+,
+--- ASIGNACIÓN DE MESAS ---
