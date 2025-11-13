@@ -163,8 +163,12 @@
             {
                 "IdParticipante": "evento_2_p_1",
                 "nombre": "pepa",
-                "preferencias": [],
-                "evitados": [],
+                "preferencias": [
+                    "pepae"
+                ],
+                "evitados": [
+                    "pepeton"
+                ],
                 "mesaAsignada": null
             },
             {
@@ -173,6 +177,13 @@
                 "preferencias": [
                     "pepa"
                 ],
+                "evitados": [],
+                "mesaAsignada": null
+            },
+            {
+                "IdParticipante": "evento_2_p_3",
+                "nombre": "pepeton",
+                "preferencias": [],
                 "evitados": [],
                 "mesaAsignada": null
             }

@@ -1,8 +1,8 @@
 import sys
-from PyQt5.QtWidgets import QApplication, QWidget, QStackedWidget, QMessageBox, QTableWidgetItem, QFileDialog
-
+import os
+import webbrowser
 import csv
-from PyQt5.QtWidgets import QFileDialog, QMessageBox
+from PyQt5.QtWidgets import QApplication, QWidget, QStackedWidget, QMessageBox, QTableWidgetItem, QFileDialog
 from ortools.sat.python import cp_model
 import random
 
@@ -95,10 +95,11 @@ class VentanaPrincipal(QStackedWidget):
         self.lista_excepciones = []
 
         # --- MODIFICADO: Variables de estado ---
-        self.modo_gestion_participantes = None # --- NUEVO: Puede ser "CREAR" o "ACTUALIZAR" ---
+        self.modo_gestion_participantes = None # Puede ser "CREAR" o "ACTUALIZAR"
         self.participante_en_gestion = None # Para la página 6
         self.mesa_manual_actual_idx = 0     # Para la página 4
         self.excepcion_mesa_actual_idx = 0  # Para la página 8
+        self.CSV_EXPORT_PATH = "CSVs_Generados" # --- NUEVO: Carpeta para CSVs ---
         # --- FIN MODIFICADO ---
 
 
@@ -140,7 +141,11 @@ class VentanaPrincipal(QStackedWidget):
         #botones de otras pestañas
         self.pagina_mesas.ui.ManualAssign_Btn.clicked.connect(self.mostrar_pagina_manual)
         self.pagina_crear.ui.CreateManual_Btn.clicked.connect(self.preparar_evento_para_participantes)
-        self.pagina_crud.ui.OpenCSVPath_Btn.clicked.connect(self.seleccionar_csv)
+        
+        # --- MODIFICADO: Conexión del botón "Abrir Ruta CSV" ---
+        self.pagina_crud.ui.OpenCSVPath_Btn.clicked.connect(self.abrir_carpeta_csvs)
+        # --- FIN MODIFICADO ---
+        
         self.pagina_crear.ui.UploadCSV_Btn.clicked.connect(self.cargar_participantes_csv)
         self.pagina_actualizar.ui.UploadCSV_Btn.clicked.connect(self.cargar_participantes_csv)
 
@@ -706,53 +711,10 @@ class VentanaPrincipal(QStackedWidget):
             
         tabla.blockSignals(False) # --- NUEVO: Faltaba esta línea ---
 
-    def Crear_SubirCSV(self):
-        archivo, _ = QFileDialog.getOpenFileName(self, "Selecciona un archivo CSV", "", "Archivos CSV (*.csv)")
-        if archivo:
-            try:
-                # --- MODIFICADO: 'pd' no está definido, esto daría error. Lo comento. ---
-                # df = pd.read_csv(archivo) 
-                # print("Archivo cargado con éxito:")
-                # print(df.head())
-                
-                # # Ejemplo: agregar participantes desde CSV
-                # if self.evento_en_edicion_actual:
-                #     for nombre in df.iloc[:,0]:  # asume que la primera columna tiene los nombres
-                #         participante_id = f"{self.evento_en_edicion_actual.IdEvento}_p_{len(self.evento_en_edicion_actual.participantes) + 1}"
-                #         nuevo_participante = Participante(participante_id, nombre)
-                #         self.evento_en_edicion_actual.anadirparticipante(nuevo_participante)
-                    
-                #     self.actualizar_listas_participantes()  # refresca lista en interfaz
-                #     QMessageBox.information(self, "Éxito", "Participantes importados desde CSV")
-                # --- FIN MODIFICADO ---
-                pass # No hace nada por ahora
-            except Exception as e:
-                QMessageBox.critical(self, "Error", f"No se pudo leer el CSV:\n{str(e)}")
-        else:
-            QMessageBox.warning(self, "Cancelado", "No se seleccionó ningún archivo")
-
-    def seleccionar_csv(self,ruta):
-        ruta, _ = QFileDialog.getOpenFileName(self, "Seleccionar archivo CSV", "", "CSV Files (*.csv)")
-        # --- MODIFICADO: La siguiente línea no tiene sentido aquí, la comento ---
-        # self.actualizar_tabla_crud(ruta) 
-        # --- FIN MODIFICADO ---
-        if ruta:
-             # --- MODIFICADO: 'pd' no está definido, esto daría error. Lo comento. ---
-            # self.cargar_csv(ruta)
-            pass
-    
-    def cargar_csv(self, ruta):
-        # --- MODIFICADO: 'pd' no está definido, esto daría error. Lo comento. ---
-        # df = pd.read_csv(ruta)
-        # self.tabla.setRowCount(len(df))
-        # self.tabla.setColumnCount(len(df.columns))
-        # self.tabla.setHorizontalHeaderLabels(df.columns)
-
-        # for i in range(len(df)):
-        #     for j in range(len(df.columns)):
-        #         self.tabla.setItem(i, j, QTableWidgetItem(str(df.iat[i, j])))
-        # --- FIN MODIFICADO ---
-        pass
+    # --- MODIFICADO: Funciones de CSV antiguas eliminadas ---
+    # (Se han eliminado seleccionar_csv, cargar_csv y Crear_SubirCSV
+    # porque no funcionaban (requerían 'pd') y la nueva lógica las reemplaza)
+    # --- FIN MODIFICADO ---
 
     def mostrar_pagina_auto(self):
         self.setCurrentIndex(7)
@@ -1052,7 +1014,7 @@ class VentanaPrincipal(QStackedWidget):
         except Exception as e:
             QMessageBox.critical(self, "Error al leer CSV", f"No se pudo leer el archivo.\nError: {e}")
 
-    # --- INICIO CÓDIGO NUEVO (TODAS LAS FUNCIONES PARA PÁGINAS 4, 6 y 8) ---
+    # --- INICIO CÓDIGO NUEVO (TODAS LAS FUNCIONES PARA PÁGINAS 4, 6, 8 y CSV) ---
     
     # --- Lógica para Asignación Manual (Página 4) ---
 
@@ -1383,8 +1345,31 @@ class VentanaPrincipal(QStackedWidget):
             self.gestor_datos.guardarEventos(self.lista_eventos) # Guardar cambios
 
     # --- Lógica para Generar CSV (Página 0) ---
+    
+    # --- NUEVO: Función para abrir la carpeta de CSVs ---
+    def abrir_carpeta_csvs(self):
+        """
+        Abre la carpeta de exportación de CSVs en el explorador de archivos.
+        """
+        # Crea la carpeta si no existe
+        os.makedirs(self.CSV_EXPORT_PATH, exist_ok=True)
+        
+        # Abre la carpeta en el explorador de archivos
+        # webbrowser.open() es una forma simple y multiplataforma de hacer esto
+        try:
+            webbrowser.open(os.path.realpath(self.CSV_EXPORT_PATH))
+            QMessageBox.information(self, "Carpeta Abierta",
+                                  f"Se ha abierto la carpeta:\n{os.path.realpath(self.CSV_EXPORT_PATH)}")
+        except Exception as e:
+            QMessageBox.critical(self, "Error", f"No se pudo abrir la carpeta.\nError: {e}")
+    # --- FIN NUEVO ---
 
+    # --- MODIFICADO: Esta función ahora guarda un CSV completo en una carpeta fija ---
     def generar_csv_evento_seleccionado(self):
+        """
+        Genera un CSV con toda la información del evento seleccionado
+        y lo guarda en la carpeta 'CSVs_Generados'.
+        """
         tabla_crud = self.pagina_crud.ui.EventList_Table
         fila_seleccionada = tabla_crud.currentRow()
 
@@ -1398,32 +1383,65 @@ class VentanaPrincipal(QStackedWidget):
             QMessageBox.critical(self, "Error", "Error al obtener el evento.")
             return
 
-        # Abrir diálogo para guardar archivo
-        options = QFileDialog.Options()
-        filePath, _ = QFileDialog.getSaveFileName(self, "Guardar CSV de Participantes", f"{evento_seleccionado.nombre}_participantes.csv", "Archivos CSV (*.csv);;Todos los archivos (*)", options=options)
-
-        if not filePath:
-            return # Usuario canceló
+        # 1. Crear la carpeta si no existe
+        os.makedirs(self.CSV_EXPORT_PATH, exist_ok=True)
+        
+        # 2. Crear un nombre de archivo seguro
+        nombre_base = "".join(c for c in evento_seleccionado.nombre if c.isalnum() or c in (' ', '_')).rstrip()
+        nombre_archivo = f"{nombre_base.replace(' ', '_')}_completo.csv"
+        filePath = os.path.join(self.CSV_EXPORT_PATH, nombre_archivo)
 
         try:
             with open(filePath, mode='w', encoding='utf-8', newline='') as f:
                 writer = csv.writer(f)
                 
-                # Escribir cabeceras
-                writer.writerow(["Nombre", "Preferencias", "Evitados"])
+                # Sección 1: Información del Evento
+                writer.writerow(["--- INFORMACIÓN DEL EVENTO ---"])
+                writer.writerow(["ID Evento", evento_seleccionado.IdEvento])
+                writer.writerow(["Nombre", evento_seleccionado.nombre])
+                writer.writerow(["Fecha", evento_seleccionado.fecha])
+                writer.writerow(["Ubicacion", evento_seleccionado.ubicacion])
+                writer.writerow(["Organizador", evento_seleccionado.organizador])
+                writer.writerow(["", ""]) # Línea vacía
                 
-                # Escribe datos de participantes
+                # Sección 2: Lista de Participantes
+                writer.writerow(["--- LISTA DE PARTICIPANTES ---"])
+                writer.writerow(["Nombre", "ID Participante", "Preferencias (Nombres)", "Evitados (Nombres)", "Mesa Asignada (ID)"])
                 for p in evento_seleccionado.participantes:
-                    # Une listas con ";"
-                    preferencias_str = ";".join(p.preferencias)
-                    evitados_str = ";".join(p.evitados)
-                    writer.writerow([p.nombre, preferencias_str, evitados_str])
+                    preferencias_str = "; ".join(p.preferencias)
+                    evitados_str = "; ".join(p.evitados)
+                    
+                    # Buscar el número de la mesa asignada
+                    nombre_mesa = "Sin Asignar"
+                    if p.mesa_asignada:
+                        for m in evento_seleccionado.mesas:
+                            if m.id_mesa == p.mesa_asignada:
+                                nombre_mesa = f"Mesa {m.numero}"
+                                break
+                                
+                    writer.writerow([p.nombre, p.id_participante, preferencias_str, evitados_str, nombre_mesa])
+                writer.writerow(["", ""]) # Línea vacía
+
+                # Sección 3: Asignación de Mesas
+                writer.writerow(["--- ASIGNACIÓN DE MESAS ---"])
+                for m in evento_seleccionado.mesas:
+                    writer.writerow([f"Mesa {m.numero}", f"ID: {m.id_mesa}", f"Capacidad: ({len(m.participantes)} / {m.capacidad})"])
+                    
+                    # Escribir los nombres de los participantes de esa mesa en las siguientes celdas
+                    nombres_en_mesa = [p.nombre for p in m.participantes]
+                    if nombres_en_mesa:
+                        writer.writerow([""] + nombres_en_mesa) # Deja la primera celda vacía por estética
+                    else:
+                        writer.writerow(["", "(Mesa Vacía)"])
+                    writer.writerow(["", ""]) # Línea vacía
             
-            QMessageBox.information(self, "Éxito", f"CSV generado exitosamente en:\n{filePath}")
+            QMessageBox.information(self, "Éxito", f"CSV completo generado exitosamente en:\n{os.path.realpath(filePath)}")
 
         except Exception as e:
             QMessageBox.critical(self, "Error al escribir CSV", f"No se pudo guardar el archivo.\nError: {e}")
+    # --- FIN MODIFICADO ---
 
+    # --- FIN CÓDIGO NUEVO ---
 
 
 #Ejecuta
