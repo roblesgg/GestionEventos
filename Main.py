@@ -546,7 +546,7 @@ class VentanaPrincipal(QStackedWidget):
             for j in range(len(df.columns)):
                 self.tabla.setItem(i, j, QTableWidgetItem(str(df.iat[i, j])))
 
-#Ejejecuta
+#Ejecuta
 if __name__ == "__main__":
     app = QApplication(sys.argv)
     ventana = VentanaPrincipal()
