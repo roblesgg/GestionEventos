@@ -1,6 +1,6 @@
-"Nombre,Preferencias,Evitados"
-"Ana García;Juan Pérez;Maria Lopez,"
-"Juan Pérez;Ana García;Carlos Sanchez"
-"Maria Lopez;Ana García,"
-"Carlos Sanchez;Juan Pérez"
-"Laura Jimenez;Pedro Morales;Ana García"
+Nombre,Preferencias,Evitados
+Ana García;Juan Pérez;Maria Lopez
+Juan Pérez;Ana García;Carlos Sanchez
+Maria Lopez;Ana García
+Carlos Sanchez;Juan Pérez
+Laura Jimenez;Pedro Morales;Ana García

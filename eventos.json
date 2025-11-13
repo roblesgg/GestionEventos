@@ -298,5 +298,76 @@
                 "participantes_ids": []
             }
         ]
+    },
+    {
+        "IdEvento": "evento_4",
+        "nombre": "jose",
+        "fecha": "10/3/2026",
+        "ubicacion": "murcia",
+        "organizador": "josefa",
+        "numMesas": 4,
+        "participantes": [
+            {
+                "IdParticipante": "evento_4_p_1",
+                "nombre": "Ana García;Juan Pérez;Maria Lopez",
+                "preferencias": [],
+                "evitados": [],
+                "mesaAsignada": null
+            },
+            {
+                "IdParticipante": "evento_4_p_2",
+                "nombre": "Juan Pérez;Ana García;Carlos Sanchez",
+                "preferencias": [],
+                "evitados": [],
+                "mesaAsignada": null
+            },
+            {
+                "IdParticipante": "evento_4_p_3",
+                "nombre": "Maria Lopez;Ana García",
+                "preferencias": [],
+                "evitados": [],
+                "mesaAsignada": null
+            },
+            {
+                "IdParticipante": "evento_4_p_4",
+                "nombre": "Carlos Sanchez;Juan Pérez",
+                "preferencias": [],
+                "evitados": [],
+                "mesaAsignada": null
+            },
+            {
+                "IdParticipante": "evento_4_p_5",
+                "nombre": "Laura Jimenez;Pedro Morales;Ana García",
+                "preferencias": [],
+                "evitados": [],
+                "mesaAsignada": null
+            }
+        ],
+        "mesas": [
+            {
+                "id_mesa": "evento_4_mesa_1",
+                "numero": 1,
+                "capacidad": 10,
+                "participantes_ids": []
+            },
+            {
+                "id_mesa": "evento_4_mesa_2",
+                "numero": 2,
+                "capacidad": 10,
+                "participantes_ids": []
+            },
+            {
+                "id_mesa": "evento_4_mesa_3",
+                "numero": 3,
+                "capacidad": 10,
+                "participantes_ids": []
+            },
+            {
+                "id_mesa": "evento_4_mesa_4",
+                "numero": 4,
+                "capacidad": 10,
+                "participantes_ids": []
+            }
+        ]
     }
 ]
