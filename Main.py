@@ -844,6 +844,39 @@ class VentanaPrincipal(QStackedWidget):
 
         tabla.blockSignals(False)
     
+    def _crear_evento_temporal_desde_pagina1(self):
+        """
+        Crea un evento temporal desde los datos de la página 1 (Crear Evento)
+        sin guardarlo en la lista ni en JSON.
+        Retorna True si se creó correctamente, False si falta información.
+        """
+        nombre = self.pagina_crear.ui.Input_EventName.text().strip()
+        fecha = self.pagina_crear.ui.Input_EventDate.text().strip()
+        
+        if not nombre or not fecha:
+            QMessageBox.warning(self, "Datos incompletos", 
+                            "Debes completar al menos el Nombre y la Fecha del evento antes de cargar participantes.")
+            return False
+        
+        ubicacion = self.pagina_crear.ui.Input_EventLocation.text().strip()
+        organizador = self.pagina_crear.ui.Input_EventOrganizer.text().strip()
+        numMesas = self.pagina_crear.ui.Input_NumTables.value()
+        nuevo_id = f"evento_{len(self.lista_eventos) + 1}"
+        
+        try:
+            self.evento_en_edicion_actual = Evento(
+                IdEvento=nuevo_id,
+                nombre=nombre,
+                fecha=fecha,
+                ubicacion=ubicacion,
+                organizador=organizador,
+                numMesas=numMesas
+            )
+            return True
+        except Exception as e:
+            QMessageBox.critical(self, "Error", f"No se pudo crear el evento temporal.\n{e}")
+            return False
+    
     def cargar_participantes_csv(self):
         """
         Se llama desde los botones "+ Subir CSV".
