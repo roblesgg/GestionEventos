@@ -12,21 +12,21 @@
                 "nombre": "Ana García;Juan Pérez;Maria Lopez",
                 "preferencias": [],
                 "evitados": [],
-                "mesaAsignada": "evento_4_mesa_1"
+                "mesaAsignada": "evento_4_mesa_3"
             },
             {
                 "IdParticipante": "evento_4_p_2",
                 "nombre": "Juan Pérez;Ana García;Carlos Sanchez",
                 "preferencias": [],
                 "evitados": [],
-                "mesaAsignada": "evento_4_mesa_2"
+                "mesaAsignada": "evento_4_mesa_1"
             },
             {
                 "IdParticipante": "evento_4_p_3",
                 "nombre": "Maria Lopez;Ana García",
                 "preferencias": [],
                 "evitados": [],
-                "mesaAsignada": "evento_4_mesa_1"
+                "mesaAsignada": "evento_4_mesa_4"
             },
             {
                 "IdParticipante": "evento_4_p_4",
@@ -40,7 +40,7 @@
                 "nombre": "Laura Jimenez;Pedro Morales;Ana García",
                 "preferencias": [],
                 "evitados": [],
-                "mesaAsignada": "evento_4_mesa_3"
+                "mesaAsignada": "evento_4_mesa_1"
             },
             {
                 "IdParticipante": "evento_4_p_6",
@@ -51,7 +51,7 @@
                 "evitados": [
                     "Maria Lopez"
                 ],
-                "mesaAsignada": "evento_4_mesa_4"
+                "mesaAsignada": "evento_4_mesa_2"
             },
             {
                 "IdParticipante": "evento_4_p_7",
@@ -62,7 +62,7 @@
                 "evitados": [
                     "Carlos Sanchez"
                 ],
-                "mesaAsignada": "evento_4_mesa_4"
+                "mesaAsignada": "evento_4_mesa_2"
             },
             {
                 "IdParticipante": "evento_4_p_8",
@@ -71,7 +71,7 @@
                 "evitados": [
                     "Ana García"
                 ],
-                "mesaAsignada": "evento_4_mesa_2"
+                "mesaAsignada": "evento_4_mesa_1"
             },
             {
                 "IdParticipante": "evento_4_p_9",
@@ -91,7 +91,7 @@
                 "evitados": [
                     "Ana García"
                 ],
-                "mesaAsignada": "evento_4_mesa_3"
+                "mesaAsignada": "evento_4_mesa_4"
             }
         ],
         "mesas": [
@@ -100,8 +100,9 @@
                 "numero": 1,
                 "capacidad": 10,
                 "participantes_ids": [
-                    "evento_4_p_1",
-                    "evento_4_p_3"
+                    "evento_4_p_2",
+                    "evento_4_p_5",
+                    "evento_4_p_8"
                 ]
             },
             {
@@ -109,8 +110,8 @@
                 "numero": 2,
                 "capacidad": 10,
                 "participantes_ids": [
-                    "evento_4_p_2",
-                    "evento_4_p_8"
+                    "evento_4_p_6",
+                    "evento_4_p_7"
                 ]
             },
             {
@@ -118,9 +119,8 @@
                 "numero": 3,
                 "capacidad": 10,
                 "participantes_ids": [
-                    "evento_4_p_5",
-                    "evento_4_p_9",
-                    "evento_4_p_10"
+                    "evento_4_p_1",
+                    "evento_4_p_9"
                 ]
             },
             {
@@ -128,9 +128,9 @@
                 "numero": 4,
                 "capacidad": 10,
                 "participantes_ids": [
+                    "evento_4_p_3",
                     "evento_4_p_4",
-                    "evento_4_p_6",
-                    "evento_4_p_7"
+                    "evento_4_p_10"
                 ]
             }
         ]
@@ -148,28 +148,28 @@
                 "nombre": "dwadsdw",
                 "preferencias": [],
                 "evitados": [],
-                "mesaAsignada": "evento_3_mesa_6"
+                "mesaAsignada": null
             },
             {
                 "IdParticipante": "evento_3_p_2",
                 "nombre": "adwdasdas",
                 "preferencias": [],
                 "evitados": [],
-                "mesaAsignada": "evento_3_mesa_1"
+                "mesaAsignada": null
             },
             {
                 "IdParticipante": "evento_3_p_3",
                 "nombre": "ggdfgsdfgdfs",
                 "preferencias": [],
                 "evitados": [],
-                "mesaAsignada": "evento_3_mesa_5"
+                "mesaAsignada": null
             },
             {
                 "IdParticipante": "evento_3_p_4",
                 "nombre": "ewrq123r2123",
                 "preferencias": [],
                 "evitados": [],
-                "mesaAsignada": "evento_3_mesa_7"
+                "mesaAsignada": null
             }
         ],
         "mesas": [
@@ -238,21 +238,21 @@
                 "nombre": "hgghhsdfshd",
                 "preferencias": [],
                 "evitados": [],
-                "mesaAsignada": "evento_4_mesa_1"
+                "mesaAsignada": null
             },
             {
                 "IdParticipante": "evento_4_p_2",
                 "nombre": "djdjjdghjfg",
                 "preferencias": [],
                 "evitados": [],
-                "mesaAsignada": "evento_4_mesa_1"
+                "mesaAsignada": null
             },
             {
                 "IdParticipante": "evento_4_p_3",
                 "nombre": "sregsegerg",
                 "preferencias": [],
                 "evitados": [],
-                "mesaAsignada": "evento_4_mesa_1"
+                "mesaAsignada": null
             }
         ],
         "mesas": [
@@ -285,7 +285,7 @@
                 "evitados": [
                     "Maria Lopez"
                 ],
-                "mesaAsignada": "evento_5_mesa_4"
+                "mesaAsignada": null
             },
             {
                 "IdParticipante": "evento_5_p_2",
@@ -296,7 +296,7 @@
                 "evitados": [
                     "Carlos Sanchez"
                 ],
-                "mesaAsignada": "evento_5_mesa_4"
+                "mesaAsignada": null
             },
             {
                 "IdParticipante": "evento_5_p_3",
@@ -305,7 +305,7 @@
                 "evitados": [
                     "Ana García"
                 ],
-                "mesaAsignada": "evento_5_mesa_2"
+                "mesaAsignada": null
             },
             {
                 "IdParticipante": "evento_5_p_4",
@@ -314,7 +314,7 @@
                     "Juan Pérez"
                 ],
                 "evitados": [],
-                "mesaAsignada": "evento_5_mesa_3"
+                "mesaAsignada": null
             },
             {
                 "IdParticipante": "evento_5_p_5",
@@ -325,7 +325,7 @@
                 "evitados": [
                     "Ana García"
                 ],
-                "mesaAsignada": "evento_5_mesa_1"
+                "mesaAsignada": null
             }
         ],
         "mesas": [
@@ -516,7 +516,7 @@
                 "nombre": "JOSE",
                 "preferencias": [],
                 "evitados": [],
-                "mesaAsignada": "evento_7_mesa_3"
+                "mesaAsignada": null
             }
         ],
         "mesas": [
@@ -555,14 +555,14 @@
                 "nombre": "A",
                 "preferencias": [],
                 "evitados": [],
-                "mesaAsignada": "evento_8_mesa_1"
+                "mesaAsignada": null
             },
             {
                 "IdParticipante": "evento_8_p_2",
                 "nombre": "B",
                 "preferencias": [],
                 "evitados": [],
-                "mesaAsignada": "evento_8_mesa_1"
+                "mesaAsignada": null
             },
             {
                 "IdParticipante": "evento_8_p_3",
@@ -600,21 +600,21 @@
                 "nombre": "A",
                 "preferencias": [],
                 "evitados": [],
-                "mesaAsignada": "evento_9_mesa_1"
+                "mesaAsignada": null
             },
             {
                 "IdParticipante": "evento_9_p_2",
                 "nombre": "B",
                 "preferencias": [],
                 "evitados": [],
-                "mesaAsignada": "evento_9_mesa_1"
+                "mesaAsignada": null
             },
             {
                 "IdParticipante": "evento_9_p_3",
                 "nombre": "C",
                 "preferencias": [],
                 "evitados": [],
-                "mesaAsignada": "evento_9_mesa_1"
+                "mesaAsignada": null
             }
         ],
         "mesas": [

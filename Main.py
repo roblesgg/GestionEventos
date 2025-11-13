@@ -6,15 +6,14 @@ from PyQt5.QtWidgets import QApplication, QWidget, QStackedWidget, QMessageBox, 
 
 import random
 
-# --- Chupa todas las librerias ---
-# --- Las cosas que necesita el programa ---
+# aqui traemos todo lo que necesitamos
+# y las cosas que usa el programa
 
-# --- Trae todas las pantallas ---
-# --- Las que están en 'controllers' ---
+# los diseños de las pantallas
 from controllers.CrudEvento import Ui_MainWindow
 from controllers.ControllerCrearEvento1 import Ui_Form as Ui_CrearEventoForm
 from ortools.sat.python import cp_model 
-print("--- OR-TOOLS IMPORTADO CON ÉXITO ---") # <--- AÑADIR ESTA LÍNEA
+print("--- OR-TOOLS IMPORTADO CON EXITO ---") 
 import random
 from PyQt5.QtWidgets import QFileDialog, QMessageBox
 from controllers.ControllerAsignarMesas import Ui_Form as Ui_PaginaMesas
@@ -26,102 +25,100 @@ from controllers.ControllerAsignarMesasExcepciones import Ui_Form as Ui_Excepcio
 
 from controllers.ControllerCrearEvento2 import Ui_DialogoParticipantes
 
-# --- Trae los moldes ---
-# --- Los de 'clases' ---
-# --- Evento Participante Mesa ---
+# las plantillas (clases) para eventos, mesas, etc
 from clases.GestorDatos import GestorDatos
 from clases.Evento import Evento
 from clases.Participante import Participante
 from clases.Mesa import Mesa
 
 
-# --- Molde para la pantalla principal ---
-# --- La del CRUD ---
+# plantillas para cada pantalla
+
+# ventana principal
 class PaginaCrud(QWidget):
     def __init__(self):
         super().__init__()
         self.ui = Ui_MainWindow()
         self.ui.setupUi(self)
 
-# --- Molde para la pantalla de crear evento ---
+# ventana de crear evento
 class PaginaCrearEvento(QWidget):
     def __init__(self):
         super().__init__()
         self.ui = Ui_CrearEventoForm()
         self.ui.setupUi(self)
 
-# --- Molde para la pantalla de asignar mesas ---
+# ventana de asignar mesas
 class PaginaMesas(QWidget):
     def __init__(self):
         super().__init__()
         self.ui = Ui_PaginaMesas()
         self.ui.setupUi(self)
         
-# --- Molde para la pantalla de actualizar evento ---
+# ventana de actualizar evento
 class PaginaActualizarEvento(QWidget):
     def __init__(self):
         super().__init__()
         self.ui = Ui_ActualizarEventoForm()
         self.ui.setupUi(self)
 
-# --- Molde para la pantalla de asignar mesas a mano ---
+# ventana de asignar a mano
 class Manual(QWidget):
     def __init__(self):
         super().__init__()
         self.ui = Ui_AsignarManual()
         self.ui.setupUi(self)  
 
-# --- Molde para la pantalla de borrar ---
+# ventana de borrar
 class PaginaBorrar(QWidget):
     def __init__(self):
         super().__init__()
         self.ui = Ui_Borrar()
         self.ui.setupUi(self)
 
-# --- Molde para la pantalla de gestionar invitados ---
+# ventana de gestionar invitados
 class PaginaGestionarParticipantes(QWidget):
     def __init__(self):
         super().__init__()
         self.ui = Ui_DialogoParticipantes()
         self.ui.setupUi(self)
 
-# --- Molde para la pantalla de resultados automáticos ---
+# ventana de resultados automaticos
 class PaginaMesasAutomatico(QWidget):
     def __init__(self):
         super().__init__()
         self.ui = Ui_ResultadosAuto()
         self.ui.setupUi(self)
 
-# --- Molde para la pantalla de excepciones ---
+# ventana de excepciones (los que no caben)
 class PaginaExcepciones(QWidget):
     def __init__(self):
         super().__init__()
         self.ui = Ui_Excepciones()
         self.ui.setupUi(self)
 
-# --- La ventana jefa ---
-# --- La que manda todo ---
+# la ventana jefa, la que controla todo
 class VentanaPrincipal(QStackedWidget):
     def __init__(self):
         super().__init__()
         
-        # El que guarda en el JSON
+        # guarda y lee del archivo eventos.json
         self.gestor_datos = GestorDatos("eventos.json") 
-        # Una lista para todos los eventos
+        # aqui guardamos los eventos
         self.lista_eventos = []
-        # El evento que estamos tocando ahora
+        # el evento que estamos tocando ahora
         self.evento_en_edicion_actual = None
-        # Los que no caben en automático
+        # los invitados que no entran en automatico
         self.lista_excepciones = []
 
-        # --- Variables para saber qué estamos haciendo ---
-        self.modo_gestion_participantes = None # Puede ser "CREAR" o "ACTUALIZAR"
-        self.participante_en_gestion = None # El invitado que estamos editando
-        self.mesa_manual_actual_idx = 0     # El número de mesa que vemos en manual
-        self.excepcion_mesa_actual_idx = 0  # El número de mesa en excepciones
-        self.CSV_EXPORT_PATH = "CSVs_Generados" # Donde van los CSVs que creamos
+        # variables para saber que estamos haciendo
+        self.modo_gestion_participantes = None # 'crear' o 'actualizar' invitado
+        self.participante_en_gestion = None # el invitado que estamos editando
+        self.mesa_manual_actual_idx = 0     # la mesa que vemos en manual
+        self.excepcion_mesa_actual_idx = 0  # la mesa que vemos en excepciones
+        self.CSV_EXPORT_PATH = "CSVs_Generados" # la carpeta donde guardamos los csv
 
-        # --- Crea todas las pantallas ---
+        # crea las ventanas
         self.pagina_crud = PaginaCrud()           #0
         self.pagina_crear = PaginaCrearEvento()     #1
         self.pagina_actualizar = PaginaActualizarEvento() #2
@@ -132,7 +129,7 @@ class VentanaPrincipal(QStackedWidget):
         self.pagina_resultados_auto = PaginaMesasAutomatico() #7
         self.pagina_excepciones = PaginaExcepciones() #8
         
-        # --- Mete todas las pantallas en el taco ---
+        # mete las ventanas en el taco
         self.addWidget(self.pagina_crud)           #0
         self.addWidget(self.pagina_crear)         #1
         self.addWidget(self.pagina_actualizar)    #2
@@ -143,409 +140,409 @@ class VentanaPrincipal(QStackedWidget):
         self.addWidget(self.pagina_resultados_auto) #7
         self.addWidget(self.pagina_excepciones) #8
 
-        # --- Aquí conectamos los botones ---
-        # --- Click y acción ---
-        # --- Botones de la pantalla principal (CRUD) ---
+        # conectamos los botones
+        
+        # botones de la ventana principal
         self.pagina_crud.ui.CreateEvent_Btn.clicked.connect(self.mostrar_pagina_crear)
         self.pagina_crud.ui.UpdateEvent_Btn.clicked.connect(self.mostrar_pagina_actualizar)
         self.pagina_crud.ui.AssignTables_Btn.clicked.connect(self.mostrar_pagina_mesas)
         self.pagina_crud.ui.DeleteEvent_Btn.clicked.connect(self.mostrar_pagina_borrar)
         
-        # --- Botón auto llama al super algoritmo ---
+        # boton de asignar automatico
         self.pagina_mesas.ui.AutoAssign_Btn.clicked.connect(self.ejecutar_asignacion_automatica)
         
-        # --- Botón ver excepciones ---
+        # boton para ver quien se quedo fuera
         self.pagina_resultados_auto.ui.ViewExceptions_Btn.clicked.connect(self.mostrar_pagina_excepciones)
 
-        # --- Botones de otras pantallas ---
+        # otros botones
         self.pagina_mesas.ui.ManualAssign_Btn.clicked.connect(self.mostrar_pagina_manual)
         self.pagina_crear.ui.CreateManual_Btn.clicked.connect(self.preparar_evento_para_participantes)
         
-        # --- Botón abrir CSV te abre la carpeta ---
+        # boton para abrir la carpeta de los csv
         self.pagina_crud.ui.OpenCSVPath_Btn.clicked.connect(self.abrir_carpeta_csvs)
         
-        # --- Botones de subir CSV ---
+        # los botones de subir csv
         self.pagina_crear.ui.UploadCSV_Btn.clicked.connect(self.cargar_participantes_csv)
         self.pagina_actualizar.ui.UploadCSV_Btn.clicked.connect(self.cargar_participantes_csv)
 
-        # --- Botón manual en actualizar ---
-        # --- Llama a la función de actualizar ---
+        # boton "crear manual" en la ventana de actualizar
         self.pagina_actualizar.ui.CreateManual_Btn.clicked.connect(self.mostrar_pagina_participantes_actualizar)
 
-        # --- Botones de atrás ---
+        # botones de atras
         self.pagina_crear.ui.BackButton_CreateEvent.clicked.connect(self.mostrar_pagina_crud)
         self.pagina_crear.ui.FinishCreateEvent_Btn.clicked.connect(self.guardar_nuevo_evento)
         self.pagina_actualizar.ui.BackButton_UpdateEvent.clicked.connect(self.mostrar_pagina_crud)
         self.pagina_mesas.ui.BackButton_AssignMenu.clicked.connect(self.mostrar_pagina_crud)
         self.pagina_borrar.ui.BackButton_DeleteEvent.clicked.connect(self.mostrar_pagina_crud)
 
-        # --- Botón confirmar borrado ---
+        # el boton de confirmar para borrar
         self.pagina_borrar.ui.ConfirmDelete_Btn.clicked.connect(self.borrar_evento_seleccionado)
 
-        # --- Botón guardar cambios (actualizar) ---
+        # el boton de guardar en la ventana de actualizar
         self.pagina_actualizar.ui.SaveUpdate_Btn.clicked.connect(self.guardar_evento_actualizado)
         
-        # --- Conexiones de la PÁGINA 6 (Gestionar Participantes) ---
-        # --- El botón de atrás y finalizar se conectan luego ---
+        # botones de la pagina 6 (gestionar invitados)
         self.pagina_participantes.ui.Add_Btn.clicked.connect(self.anadir_participante_al_evento)
         
-        # --- Doble clic en un invitado lo carga ---
+        # si haces doble clic en un invitado
         self.pagina_participantes.ui.List_AllGuests.itemDoubleClicked.connect(self.gestionar_participante_seleccionado)
         
-        # --- Si escribes en el nombre limpia la selección ---
+        # si empiezas a escribir un nombre nuevo
         self.pagina_participantes.ui.Input_ParticipantName.textChanged.connect(self.limpiar_participante_en_gestion)
 
-        # --- Botones V X y Eliminar ---
+        # los botones v, x y eliminar
         self.pagina_participantes.ui.MoveToPreference_Btn.clicked.connect(self.participante_anadir_preferencia)
         self.pagina_participantes.ui.MoveToAvoid_Btn.clicked.connect(self.participante_anadir_evitado)
         self.pagina_participantes.ui.RemoveFromList_Btn.clicked.connect(self.participante_eliminar_relacion)
 
-        # --- Botón atrás de asignar manual ---
+        # el boton de atras en la ventana de asignar a mano
         self.pagina_manual.ui.BackButton_ManualAssign.clicked.connect(self.mostrar_pagina_mesas)
 
-        # --- Conexiones de la PÁGINA 4 (Asignación Manual) ---
+        # botones de la ventana de asignar a mano
         self.pagina_manual.ui.NextTable_Btn.clicked.connect(self.manual_siguiente_mesa)
         self.pagina_manual.ui.PrevTable_Btn.clicked.connect(self.manual_anterior_mesa)
         self.pagina_manual.ui.AddParticipant_Btn.clicked.connect(self.manual_anadir_participante)
         self.pagina_manual.ui.RemoveParticipant_Btn.clicked.connect(self.manual_eliminar_participante)
 
-        # --- Botón atrás de automático ---
+        # el boton de atras en la ventana de resultados
         self.pagina_resultados_auto.ui.BackButton_AutoAssign.clicked.connect(self.mostrar_pagina_mesas)
 
-        # --- Botón atrás excepciones ---
+        # el boton de atras en la ventana de excepciones
         self.pagina_excepciones.ui.BackButton_Exceptions.clicked.connect(self.mostrar_pagina_auto)
         
-        # --- Conexiones de la PÁGINA 8 (Excepciones) ---
+        # botones de la ventana de excepciones
         self.pagina_excepciones.ui.NextTable_Btn.clicked.connect(self.excepcion_siguiente_mesa)
         self.pagina_excepciones.ui.PrevTable_Btn.clicked.connect(self.excepcion_anterior_mesa)
         self.pagina_excepciones.ui.AddParticipant_Btn.clicked.connect(self.excepcion_anadir_participante)
         self.pagina_excepciones.ui.RemoveParticipant_Btn.clicked.connect(self.excepcion_eliminar_participante)
         
-        # --- Botón generar CSV llama a su función ---
+        # el boton de guardar como csv
         self.pagina_crud.ui.GenerateCSV_Btn.clicked.connect(self.generar_csv_evento_seleccionado)
         
-        # --- Pone el tamaño de la ventana ---
         self.resize(904, 617)
-        # --- Carga los datos del JSON al empezar ---
+        # lee los eventos guardados al abrir
         self.cargar_y_actualizar_eventos()
 
 
-    # --- Métodos para cambiar de pantalla ---
+    # aqui empiezan las funciones
+    
+    # cambiar a la ventana principal
     def mostrar_pagina_crud(self):
         self.actualizar_tabla_crud()
         self.setCurrentIndex(0)
         
+    # cambiar a la ventana de crear
     def mostrar_pagina_crear(self):
-        # Limpia todo por si acaso
+        # borra todo lo de antes
         self.evento_en_edicion_actual = None
         self.participante_en_gestion = None
-        self.pagina_participantes.ui.Input_ParticipantName.setText("") # Limpia el campo
-        self.actualizar_listas_participantes() # Limpia todas las listas
+        self.pagina_participantes.ui.Input_ParticipantName.setText("") 
+        self.actualizar_listas_participantes() 
         self.setCurrentIndex(1) 
 
+    # cambiar a la ventana de actualizar
     def mostrar_pagina_actualizar(self):
-        # Pilla la tabla principal
+        # pilla la tabla de eventos
         tabla_crud = self.pagina_crud.ui.EventList_Table
         
-        # Pilla la fila que has pinchado
+        # mira que fila ha elegido
         fila_seleccionada = tabla_crud.currentRow()
 
-        # Si no has pillado nada te avisa
+        # si no ha elegido, avisa
         if fila_seleccionada == -1:
             QMessageBox.warning(self, "Error", "Selecciona un evento para editar")
-            return # Y se pira
+            return # y no sigue
 
-        # Intenta pillar el evento de la lista
+        # busca el evento en nuestra lista
         try:
-            # Lo guarda como evento actual
+            # guarda el evento para saber cual es
             self.evento_en_edicion_actual = self.lista_eventos[fila_seleccionada]
-            # Limpia al invitado por si acaso
+            # borra el invitado que estuvieramos editando
             self.participante_en_gestion = None
-            self.pagina_participantes.ui.Input_ParticipantName.setText("") # Limpia el campo
-            self.actualizar_listas_participantes() # Limpia todas las listas
+            self.pagina_participantes.ui.Input_ParticipantName.setText("") 
+            self.actualizar_listas_participantes() 
         except IndexError:
             QMessageBox.critical(self, "Error")
             return
 
-        # Rellena los campos con los datos del evento
+        # rellena los campos con los datos
         self.pagina_actualizar.ui.Input_EventName.setText(self.evento_en_edicion_actual.nombre)
         self.pagina_actualizar.ui.Input_EventDate.setText(self.evento_en_edicion_actual.fecha)
         self.pagina_actualizar.ui.Input_EventLocation.setText(self.evento_en_edicion_actual.ubicacion)
         self.pagina_actualizar.ui.Input_EventOrganizer.setText(self.evento_en_edicion_actual.organizador)
         self.pagina_actualizar.ui.Input_NumTables.setValue(self.evento_en_edicion_actual.numMesas)
         
-        # Pone la pagina
+        # enseña la ventana
         self.setCurrentIndex(2)
 
+    # cambiar a la ventana de asignar mesas
     def mostrar_pagina_mesas(self):
 
-        # Pilla la tabla principal
+        # pilla la tabla de eventos
         tabla_crud = self.pagina_crud.ui.EventList_Table
-        # Pilla la fila seleccionada
+        # mira que fila ha elegido
         fila_seleccionada = tabla_crud.currentRow()
 
-        # Si no pillas evento te avisa
+        # si no ha elegido evento, avisamos
         if fila_seleccionada == -1:
-            QMessageBox.warning(self, "Sin selección", "Por favor, selecciona un evento para asignar sus mesas.")
+            QMessageBox.warning(self, "Sin seleccion", "Por favor, selecciona un evento para asignar sus mesas.")
             return
 
-        # Pilla el evento de la lista
+        # pillamos el evento de la lista
         try:
             self.evento_en_edicion_actual = self.lista_eventos[fila_seleccionada]
             print(f"Gestionando mesas para el evento: {self.evento_en_edicion_actual.nombre}")
         except IndexError:
             QMessageBox.critical(self, "Error")
-            return # Se pira
+            return # se pira
 
-        # Abre la página asignar mesas
+        # enseña la ventana de asignar mesas
         self.setCurrentIndex(3)
 
-    # Enseña la pantalla de mesas manual
+    # enseña la ventana de asignar a mano
     def mostrar_pagina_manual(self):
-        # Si no hay evento te echa
+        # si no hay evento, avisamos y salimos
         if self.evento_en_edicion_actual is None:
             QMessageBox.warning(self, "Error", "No hay evento seleccionado.")
             return
             
-        self.mesa_manual_actual_idx = 0 # Empieza por la mesa 0
-        self.actualizar_listas_manual() # Recarga las listas de la pantalla
-        self.setCurrentIndex(4) # Enseña la pantalla 4
+        self.mesa_manual_actual_idx = 0 # empezamos por la primera mesa
+        self.actualizar_listas_manual() # actualizamos las listas de invitados
+        self.setCurrentIndex(4) # enseñamos la ventana 4 (manual)
 
+    # cambiar a la ventana de borrar
     def mostrar_pagina_borrar(self):
         self.setCurrentIndex(5)
-        # Recarga la tabla de borrar
+        # actualizamos la tabla de borrar eventos
         self.cargar_y_actualizar_eventos_borrar()
     
 
 
-    # --- Más métodos ---
-    # --- Este prepara la pantalla de invitados para CREAR evento ---
+    # funciones de la ventana de invitados (la de las listas v y x)
+
+    # prepara la ventana de invitados (para crear)
     def preparar_evento_para_participantes(self):
         
-        # Si no hay evento temporal lo crea
+        # si no hay evento, lo crea temporal
         if self.evento_en_edicion_actual is None:
             if not self._crear_evento_temporal_desde_pagina1():
-                return # Si falla al crearlo se pira
+                return # si da error, salimos
         
-        # Actualiza las listas de invitados
+        # recargamos la lista de "todos los invitados"
         self.actualizar_listas_participantes()
         
-        # Pone el modo en CREAR
+        # modo "crear"
         self.modo_gestion_participantes = "CREAR" 
         try:
-            # Limpia los botones por si acaso
+            # por si acaso, desconectamos los botones
             self.pagina_participantes.ui.BackButton_Participants.clicked.disconnect()
             self.pagina_participantes.ui.Finish_Btn.clicked.disconnect()
         except TypeError:
-            pass # No pasa nada si no estaban conectadas
+            pass # si no estaban conectados, no pasa nada
             
-        # Botón atrás vuelve a crear
+        # boton atras vuelve a "crear"
         self.pagina_participantes.ui.BackButton_Participants.clicked.connect(self.mostrar_pagina_crear)
-        # Botón finalizar guarda el evento nuevo
+        # boton finalizar guarda todo
         self.pagina_participantes.ui.Finish_Btn.clicked.connect(self.guardar_evento_y_participantes)
         
-        self.setCurrentIndex(6) # Enseña la pantalla 6
+        self.setCurrentIndex(6) # enseña la ventana 6 (invitados)
 
-    # --- Este prepara la pantalla de invitados para ACTUALIZAR evento ---
+    # prepara la ventana de invitados (para actualizar)
     def mostrar_pagina_participantes_actualizar(self):
         
-        # Si no hay evento te echa
+        # si no hay evento seleccionado, avisamos
         if self.evento_en_edicion_actual is None:
-            QMessageBox.critical(self, "Error", "No hay ningún evento seleccionado. Esto no debería pasar.")
+            QMessageBox.critical(self, "Error", "No hay ningun evento seleccionado. Esto no deberia pasar.")
             return
 
-        # Actualiza las listas
+        # actualiza las listas
         self.actualizar_listas_participantes()
         
-        # Pone el modo en ACTUALIZAR
+        # modo "actualizar"
         self.modo_gestion_participantes = "ACTUALIZAR" 
         try:
-            # Limpia los botones
+            # limpia los botones
             self.pagina_participantes.ui.BackButton_Participants.clicked.disconnect()
             self.pagina_participantes.ui.Finish_Btn.clicked.disconnect()
         except TypeError:
-            pass # No pasa nada
+            pass # no pasa nada
             
-        # Botón atrás vuelve a actualizar
+        # el boton de atras vuelve a la ventana de actualizar
         self.pagina_participantes.ui.BackButton_Participants.clicked.connect(self.mostrar_pagina_actualizar)
-        # Botón finalizar solo vuelve
-        # No guarda
+        # el boton de finalizar solo vuelve, no guarda
         self.pagina_participantes.ui.Finish_Btn.clicked.connect(self.mostrar_pagina_actualizar)
         
-        self.setCurrentIndex(6) # Enseña la pantalla 6
+        self.setCurrentIndex(6) # enseña la ventana 6
 
-    # --- Añade un invitado nuevo ---
-    # --- El que escribes en el campo ---
+    # añade un invitado nuevo (boton añadir)
     def anadir_participante_al_evento(self):
         
-        # 1. Si no hay evento lo crea temporal
+        # 1. si no hay evento, lo crea temporal
         if self.evento_en_edicion_actual is None:
              if not self._crear_evento_temporal_desde_pagina1():
-                return # Si falla se pira
+                return # si falla se pira
         
-        # 2. Pilla el nombre del campo
+        # 2. pilla el nombre del campo
         nombre_participante = self.pagina_participantes.ui.Input_ParticipantName.text().strip()
-        # Si está vacío te avisa
+        # si no has escrito nada, te aviso
         if not nombre_participante:
             QMessageBox.warning(self, "Oye", "Escribe el nombre del participante.")
             return
             
-        # 3. Mira si el nombre ya existe
+        # 3. mira si esta repe
         for p in self.evento_en_edicion_actual.participantes:
             if p.nombre.lower() == nombre_participante.lower():
                 QMessageBox.warning(self, "Duplicado", f"El participante '{nombre_participante}' ya existe en este evento.")
                 return
 
-        # 4. Crea un ID único para el invitado
+        # 4. crea un id unico
         evento_id = self.evento_en_edicion_actual.IdEvento
         num_part = len(self.evento_en_edicion_actual.participantes)
         participante_id = f"{evento_id}_p_{num_part + 1}"
 
-        # Crea el objeto Participante
+        # crea el invitado
         nuevo_participante = Participante(participante_id, nombre_participante)
-        # Lo mete en la lista del evento
+        # lo mete en la lista de invitados del evento
         self.evento_en_edicion_actual.anadirparticipante(nuevo_participante)
         
-        # 5. Lo pone como invitado actual
-        # --- Para editarlo ahora ---
+        # 5. lo marca como "invitado actual"
         self.participante_en_gestion = nuevo_participante
         
-        # 6. Recarga la lista de 'Todos'
+        # 6. recarga la lista "todos"
         self.actualizar_listas_participantes()
         
-        # 7. Busca al nuevo en la lista
-        # --- Y lo pone en azul ---
+        # 7. lo busca y lo pone en azul
         for i in range(self.pagina_participantes.ui.List_AllGuests.count()):
             item = self.pagina_participantes.ui.List_AllGuests.item(i)
             if item.text() == nombre_participante:
                 item.setSelected(True)
-                # Carga sus listas (vacías)
+                # cargamos sus listas de preferencias (vacias)
                 self.actualizar_listas_preferencias()
                 break
         
-        # 8. Si estamos en modo actualizar
-        # --- Guarda en el JSON al momento ---
+        # 8. si estamos en modo "actualizar", guarda
         if self.modo_gestion_participantes == "ACTUALIZAR":
             self.gestor_datos.guardarEventos(self.lista_eventos)
 
+    # refresca las listas de invitados
     def actualizar_listas_participantes(self):
-        # Recarga la lista 'Todos los Invitados'
-        # Limpia las listas de preferencias/evitados
         lista_invitados = self.pagina_participantes.ui.List_AllGuests
         lista_pref = self.pagina_participantes.ui.List_Preference
         lista_no = self.pagina_participantes.ui.List_Avoid
         
-        # Vacía las tres listas
+        # vacia las tres listas
         lista_invitados.clear()
         lista_pref.clear()
         lista_no.clear()
 
-        # Si hay un evento...
+        # si estamos en un evento...
         if self.evento_en_edicion_actual:
-            # Recorre los invitados y los mete en la lista
+            # metemos cada invitado en la lista de "todos"
             for participante in self.evento_en_edicion_actual.participantes:
                 lista_invitados.addItem(participante.nombre)
         
-        # Quita la selección azul
+        # quita la seleccion (que no haya nada en azul)
         self.pagina_participantes.ui.List_AllGuests.clearSelection()
         
+    # guarda el evento nuevo (boton finalizar)
     def guardar_evento_y_participantes(self):
-        # Guarda el evento NUEVO
-        # Se llama desde el botón Finalizar de crear
         if self.evento_en_edicion_actual is None:
             QMessageBox.critical(self, "Error", "No hay evento que guardar.")
             return
             
-        # Mira si ya está en la lista principal
+        # mira si el evento ya esta en la lista (por si acaso)
         evento_existe = False
         for ev in self.lista_eventos:
             if ev.IdEvento == self.evento_en_edicion_actual.IdEvento:
                 evento_existe = True
                 break
         
-        # Si no está lo añade
+        # si no estaba, lo añade
         if not evento_existe:
              self.lista_eventos.append(self.evento_en_edicion_actual)
         
-        # Guarda todo en el JSON
+        # guarda en el json
         self.gestor_datos.guardarEventos(self.lista_eventos)
 
-        # Limpia las variables
+        # limpia las variables
         self.evento_en_edicion_actual = None
         self.participante_en_gestion = None 
         
-        # Limpia los campos de la pantalla crear
+        # limpia los campos de "crear"
         self.pagina_crear.ui.Input_EventName.setText("")
         self.pagina_crear.ui.Input_EventDate.setText("")
         self.pagina_crear.ui.Input_EventLocation.setText("")
         self.pagina_crear.ui.Input_EventOrganizer.setText("")
         self.pagina_crear.ui.Input_NumTables.setValue(1)
         
-        # Limpia la pantalla de invitados
+        # limpia la ventana de invitados
         self.pagina_participantes.ui.Input_ParticipantName.setText("")
         self.actualizar_listas_participantes()
 
-        # Vuelve al menú principal
+        # vuelve al menu principal
         self.mostrar_pagina_crud()
 
 
-# --- Guarda los cambios de un evento existente ---
+    # funciones de guardar, borrar y cargar
+
+    # guarda un evento que estabamos editando
     def guardar_evento_actualizado(self):
 
-        # Pilla todos los datos de los campos
+        # pilla los datos de los campos
         nuevo_nombre = self.pagina_actualizar.ui.Input_EventName.text()
         nueva_fecha = self.pagina_actualizar.ui.Input_EventDate.text()
         nueva_ubicacion = self.pagina_actualizar.ui.Input_EventLocation.text()
         nuevo_organizador = self.pagina_actualizar.ui.Input_EventOrganizer.text()
         nuevo_numMesas = self.pagina_actualizar.ui.Input_NumTables.value()
 
-        # Si falta nombre o fecha te avisa
+        # si falta nombre o fecha, avisa
         if not nuevo_nombre or not nueva_fecha:
             QMessageBox.warning(self,  "Oye", "Pon el nombre y la fecha")       
-            return #sale del metodo
+            return # y salimos
 
-        # Actualiza el objeto evento
+        # actualiza el objeto
         self.evento_en_edicion_actual.nombre = nuevo_nombre
         self.evento_en_edicion_actual.fecha = nueva_fecha
         self.evento_en_edicion_actual.ubicacion = nueva_ubicacion
         self.evento_en_edicion_actual.organizador = nuevo_organizador
 
-        # Si cambias el número de mesas
+        # si cambia el numero de mesas
         if self.evento_en_edicion_actual.numMesas != nuevo_numMesas:
-            # Cambia el num de mesas
+            # actualiza el numero
             self.evento_en_edicion_actual.numMesas = nuevo_numMesas
-            # Borra las mesas viejas
+            # borra las mesas viejas
             self.evento_en_edicion_actual.mesas = []
-            capacidad_por_mesa = 10 # Pone la capacidad por defecto
-            # Y crea las nuevas vacías
+            capacidad_por_mesa = 10 # 10 sitios por mesa
+            # crea las mesas nuevas vacias
             for i in range(nuevo_numMesas):
                 id_mesa = f"{self.evento_en_edicion_actual.IdEvento}_mesa_{i+1}"
                 nueva_mesa = Mesa(id_mesa=id_mesa, numero=i+1, capacidad=capacidad_por_mesa)
                 self.evento_en_edicion_actual.mesas.append(nueva_mesa)
             QMessageBox.warning(self,"Oye", "Se restauraron las mesas tendras que asignar de nuevo")       
 
-        # Guarda en json
+        # guarda en el json
         self.gestor_datos.guardarEventos(self.lista_eventos)
-        # Limpia el evento actual
+        # limpia el evento temporal
         self.evento_en_edicion_actual = None
-        # Vuelve al crud
+        # vuelve al menu
         self.mostrar_pagina_crud()
 
 
+    # borra el evento seleccionado
     def borrar_evento_seleccionado(self):
 
-        # Pilla la tabla borrar
+        # pilla la tabla de "borrar"
         tabla_borrar = self.pagina_borrar.ui.EventList_Table_Delete
         
-        # Pilla la fila seleccionada
+        # mira que fila ha elegido
         fila_seleccionada = tabla_borrar.currentRow()
 
-        # Si no hay fila te avisa
+        # si no ha elegido, avisa
         if fila_seleccionada == -1:
             QMessageBox.warning(self, "Oye", "No has seleccionado ningun evento.")
             return
 
-        # Pilla el evento de la lista
+        # pilla el evento de nuestra lista
         try:
             evento_a_borrar = self.lista_eventos[fila_seleccionada]
             nombre_evento = evento_a_borrar.nombre
@@ -553,76 +550,71 @@ class VentanaPrincipal(QStackedWidget):
             QMessageBox.critical(self, "Error", "no se ha podido borrar")
             return
 
-        # Te pregunta si estás seguro
+        # pide confirmacion
         confirmacion = QMessageBox.question(
             self,
             "Confirmar borrado",
-            f"¿Estás seguro de que quieres borrar el evento '{nombre_evento}'?\n\nEsta acción no se puede deshacer.",
+            f"¿Estas seguro de que quieres borrar el evento '{nombre_evento}'?\n\nEsta accion no se puede deshacer.",
             QMessageBox.Yes | QMessageBox.No,
-            QMessageBox.No # No por defecto
+            QMessageBox.No # "no" por defecto
         )
 
-        # Si dices que sí
+        # si dice que si
         if confirmacion == QMessageBox.Yes:
-            # Lo borra de la lista
+            # lo quita de la lista
             self.lista_eventos.pop(fila_seleccionada)
             
-            # Guarda en el json
+            # guarda en el json
             self.gestor_datos.guardarEventos(self.lista_eventos)
             
-            # Recarga la tabla de borrar
+            # actualiza la tabla de borrar
             self.actualizar_tabla_borrar()
 
-            # Vuelve al menu
+            # vuelve al menu
             self.mostrar_pagina_crud()
             
         else:
-            # No hace nada
+            # si dice "no", no hace nada
             return
 
-    # Carga los eventos del JSON
-    # Y refresca la tabla principal
+    # lee eventos.json y rellena la tabla principal
     def cargar_y_actualizar_eventos(self):
         self.lista_eventos = self.gestor_datos.cargarEventos()
         self.actualizar_tabla_crud()
 
-    # Carga los eventos del JSON
-    # Y refresca la tabla de borrar
+    # lee eventos.json y rellena la tabla de borrar
     def cargar_y_actualizar_eventos_borrar(self):
         self.lista_eventos = self.gestor_datos.cargarEventos()
         self.actualizar_tabla_borrar()
 
-# Guarda un evento desde la página 1
-# Si no se usó la página de invitados
+    # guarda un evento (si no se entro a "añadir invitados")
     def guardar_nuevo_evento(self):
-        # Pilla los datos de los campos
+        # pilla los datos de los campos
         nombre = self.pagina_crear.ui.Input_EventName.text()
         fecha = self.pagina_crear.ui.Input_EventDate.text()
         ubicacion = self.pagina_crear.ui.Input_EventLocation.text()
         organizador = self.pagina_crear.ui.Input_EventOrganizer.text()
         numMesas = self.pagina_crear.ui.Input_NumTables.value()
 
-        # Si falta nombre o fecha te avisa
+        # si falta nombre o fecha te avisa
         if not nombre or not fecha:
             QMessageBox.warning(self,  "Oye", "Pon el nombre y la fecha")       
             return
             
-        # Mira si ya hay un evento temporal
-        # (Hecho desde el CSV o manual)
+        # mira si ya habia uno temporal (del csv)
         if self.evento_en_edicion_actual and self.evento_en_edicion_actual.nombre == nombre:
             nuevo_evento = self.evento_en_edicion_actual
-            # Actualizamos por si acaso
+            # actualiza los datos por si los cambio
             nuevo_evento.fecha = fecha
             nuevo_evento.ubicacion = ubicacion
             nuevo_evento.organizador = organizador
             nuevo_evento.numMesas = numMesas
         else:
-        # Si no hay evento temporal
-        # Crea uno nuevo
-            # Crea el id
+        # si no, crea uno nuevo
+            # crea un id
             nuevo_id = f"evento_{len(self.lista_eventos) + 1}"
 
-            # Crea el evento
+            # crea el objeto evento
             try:
                 nuevo_evento = Evento(
                     IdEvento=nuevo_id,
@@ -636,106 +628,107 @@ class VentanaPrincipal(QStackedWidget):
                 QMessageBox.critical(self, "Error", "No se ha podido crear el evento")
                 return
 
-        # Añade el evento a la lista
+        # lo añade a la lista
         self.lista_eventos.append(nuevo_evento)
 
-        # Guarda la lista
+        # guarda en el json
         self.gestor_datos.guardarEventos(self.lista_eventos)
 
 
-        # Vacia los text field
+        # limpia los campos de "crear"
         self.pagina_crear.ui.Input_EventName.setText("")
         self.pagina_crear.ui.Input_EventDate.setText("")
         self.pagina_crear.ui.Input_EventLocation.setText("")
         self.pagina_crear.ui.Input_EventOrganizer.setText("")
         self.pagina_crear.ui.Input_NumTables.setValue(1)
         
-        # Limpia las variables
+        # limpia las variables
         self.evento_en_edicion_actual = None
         self.participante_en_gestion = None
         self.pagina_participantes.ui.Input_ParticipantName.setText("")
         self.actualizar_listas_participantes()
 
-        # Vuelve al menu
+        # vuelve al menu
         self.mostrar_pagina_crud()
 
+    # funciones para rellenar las tablas
+    
+    # rellena la tabla de la ventana principal
     def actualizar_tabla_crud(self):
 
-        # Pilla la tabla
+        # pilla la tabla
         tabla = self.pagina_crud.ui.EventList_Table
         
-        # Bloquea señales para que no pete
+        # bloquea para que no se raye
         tabla.blockSignals(True)
         
-        # Limpia la tabla
+        # borra todo
         tabla.setRowCount(0) 
         
-        # Recorre los eventos
+        # va fila por fila rellenando
         for evento in self.lista_eventos:
-            # Pilla la posicion
+            # mira cuantas filas hay
             row_position = tabla.rowCount()
-            # Mete una fila nueva
+            # añade una fila al final
             tabla.insertRow(row_position)
             
-            # Rellena las celdas
+            # pone los datos en las columnas
             tabla.setItem(row_position, 0, QTableWidgetItem(evento.nombre))
             tabla.setItem(row_position, 1, QTableWidgetItem(evento.fecha))
             tabla.setItem(row_position, 2, QTableWidgetItem(evento.ubicacion))
             tabla.setItem(row_position, 3, QTableWidgetItem(evento.organizador))
             
-        # Desbloquea las señales
+        # desbloquea
         tabla.blockSignals(False)
         
-        # Ajusta el ancho de columnas
+        # ajusta las columnas al texto
         tabla.resizeColumnsToContents()
 
+    # rellena la tabla de borrar
     def actualizar_tabla_borrar(self):
-        # Refresca la tabla de borrar
-        # Igual que la de crud
+        # es igual que la de la ventana principal
         tabla = self.pagina_borrar.ui.EventList_Table_Delete
         tabla.blockSignals(True)
         tabla.setRowCount(0)
-         # Recorre los eventos
+         # recorre los eventos
         for evento in self.lista_eventos:
-            # Pilla la posicion
+            # pilla la posicion
             row_position = tabla.rowCount()
-            # Mete una fila nueva
+            # mete una fila nueva
             tabla.insertRow(row_position)
 
-            # Rellena las celdas
+            # rellena las celdas
             tabla.setItem(row_position, 0, QTableWidgetItem(evento.nombre))
             tabla.setItem(row_position, 1, QTableWidgetItem(evento.fecha))
             tabla.setItem(row_position, 2, QTableWidgetItem(evento.ubicacion))
             tabla.setItem(row_position, 3, QTableWidgetItem(evento.organizador))
             
-        tabla.blockSignals(False) # Faltaba esto
+        tabla.blockSignals(False) 
 
-    # --- Funciones de CSV antiguas eliminadas ---
-
+    
+    # enseña la ventana de resultados automaticos
     def mostrar_pagina_auto(self):
         self.setCurrentIndex(7)
 
-    # Enseña la pantalla de excepciones
+    # enseña la ventana de excepciones
     def mostrar_pagina_excepciones(self):
         if self.evento_en_edicion_actual is None:
             return
             
-        self.excepcion_mesa_actual_idx = 0 # Empieza en la mesa 0
+        self.excepcion_mesa_actual_idx = 0 # empieza en la primera mesa
         self.actualizar_listas_excepciones_ui()
         self.setCurrentIndex(8)
 
-    # --- El algoritmo mágico de Google ---
-    # --- ADAPTADO de tu snippet ---
-    # Main.py (Reemplazo COMPLETO para la función que empieza en la línea 722)
 
+    # el algoritmo magico de google
     def algoritmo_asignar_mesas(self, participantes, mesas):
         """
-        Algoritmo de asignación usando OR-Tools.
-        Versión 3: EQUILIBRADO (Minimiza la varianza de ocupación).
+        algoritmo de asignacion usando or-tools.
+        intenta que las mesas queden igualadas.
         """
         model = cp_model.CpModel()
 
-        # --- 1. Mapas de datos ---
+        # 1. mapas para encontrar las cosas rapido
         map_idx_participante = {i: p for i, p in enumerate(participantes)}
         map_idx_mesa = {i: m for i, m in enumerate(mesas)}
         map_nombre_idx_p = {p.nombre: i for i, p in map_idx_participante.items()}
@@ -743,192 +736,192 @@ class VentanaPrincipal(QStackedWidget):
         num_participantes = len(participantes)
         num_mesas = len(mesas)
 
-        # --- 2. Variables de Decisión ---
-        # x[p, m] = 1 si el participante se sienta en esa mesa
+        # 2. variables de decision (quien va a que mesa)
         x = {}
         for p_idx in range(num_participantes):
             for m_idx in range(num_mesas):
                 x[p_idx, m_idx] = model.NewBoolVar(f'x_{p_idx}_{m_idx}')
 
-        # --- 3. Variables Auxiliares para el Equilibrio ---
-        # Necesitamos saber cuánta gente hay en cada mesa y elevarlo al cuadrado
+        # 3. variables para equilibrar las mesas
         occupancy = {}
         occupancy_sq = {}
 
         for m_idx in range(num_mesas):
             capacidad = map_idx_mesa[m_idx].capacidad
             
-            # Variable que cuenta cuántos hay en la mesa 'm'
+            # esta variable guarda cuantos hay en la mesa 'm'
             occupancy[m_idx] = model.NewIntVar(0, capacidad, f'occ_{m_idx}')
             model.Add(occupancy[m_idx] == sum(x[p_idx, m_idx] for p_idx in range(num_participantes)))
 
-            # Variable que guarda el cuadrado (occupancy * occupancy)
-            # Esto sirve para penalizar mesas muy llenas
+            # truco matematico: (5, 5) es mejor que (10, 0)
             occupancy_sq[m_idx] = model.NewIntVar(0, capacidad * capacidad, f'occ_sq_{m_idx}')
             model.AddMultiplicationEquality(occupancy_sq[m_idx], [occupancy[m_idx], occupancy[m_idx]])
 
-        # --- 4. Restricciones Duras ---
+        # 4. las reglas (lo obligatorio)
 
-        # R1: Cada participante en MÁXIMO 1 mesa
+        # un invitado solo en 1 mesa
         for p_idx in range(num_participantes):
             model.Add(sum(x[p_idx, m_idx] for m_idx in range(num_mesas)) <= 1)
 
-        # R2: Conflictos (Evitados)
+        # los que se odian no van juntos
         for p1_idx, p1_obj in map_idx_participante.items():
             for nombre_evitado in p1_obj.evitados:
                 if nombre_evitado in map_nombre_idx_p:
                     p2_idx = map_nombre_idx_p[nombre_evitado]
                     for m_idx in range(num_mesas):
-                        # Si P1 y P2 se evitan, la suma en la misma mesa no puede ser 2
+                        # la suma de los dos en una mesa no puede ser 2
                         model.Add(x[p1_idx, m_idx] + x[p2_idx, m_idx] <= 1)
 
-        # --- 5. Objetivos y Pesos ---
+        # 5. objetivos (lo que queremos conseguir)
         puntuacion_total = []
 
-        # A. PRIORIDAD MÁXIMA: Sentar a la gente (Peso: 100.000)
-        # Queremos que se sienten todos, pase lo que pase.
+        # a. lo mas importante: sentar a todos
         for p_idx in range(num_participantes):
             for m_idx in range(num_mesas):
                 puntuacion_total.append(x[p_idx, m_idx] * 100000)
 
-        # B. PRIORIDAD MEDIA: Preferencias (Peso: 500)
-        # Marina y Pepa juntas vale más que un ligero desequilibrio.
+        # b. que los amigos se sienten juntos
         for p1_idx, p1_obj in map_idx_participante.items():
             for nombre_preferido in p1_obj.preferencias:
                 if nombre_preferido in map_nombre_idx_p:
                     p2_idx = map_nombre_idx_p[nombre_preferido]
-                    if p1_idx < p2_idx: # Evitar duplicados
+                    if p1_idx < p2_idx: # para no contarlo dos veces
                         for m_idx in range(num_mesas):
                             juntos = model.NewBoolVar(f'juntos_{p1_idx}_{p2_idx}_{m_idx}')
-                            # juntos = 1 solo si ambos están en la mesa m
+                            # "juntos" vale 1 si los dos estan en la mesa
                             model.Add(x[p1_idx, m_idx] + x[p2_idx, m_idx] == 2).OnlyEnforceIf(juntos)
                             model.Add(x[p1_idx, m_idx] + x[p2_idx, m_idx] != 2).OnlyEnforceIf(juntos.Not())
                             puntuacion_total.append(juntos * 500)
 
-        # C. PRIORIDAD DE EQUILIBRIO: Penalizar desproporción (Peso: -5)
-        # Restamos la suma de cuadrados. Esto fuerza a distribuir (2,2,2,1) en vez de (4,1,1,1).
+        # c. que las mesas esten igualadas
         for m_idx in range(num_mesas):
             puntuacion_total.append(occupancy_sq[m_idx] * -5)
 
-        # Maximizar la puntuación final
+        # busca la maxima puntuacion
         model.Maximize(sum(puntuacion_total))
 
-        # --- 6. Resolver ---
+        # 6. resolver
         solver = cp_model.CpSolver()
         status = solver.Solve(model)
 
+        # si encuentra solucion
         if status == cp_model.OPTIMAL or status == cp_model.FEASIBLE:
-            print("¡Distribución equilibrada encontrada!")
+            print("¡distribucion equilibrada encontrada!")
             for p_idx in range(num_participantes):
                 for m_idx in range(num_mesas):
                     if solver.Value(x[p_idx, m_idx]) == 1:
                         participante = map_idx_participante[p_idx]
                         mesa = map_idx_mesa[m_idx]
+                        # añade el invitado a la mesa
                         mesa.anadirParticipante(participante)
                         participante.asignar_mesa(mesa.id_mesa)
                         break 
             return True
         else:
-            print("No se encontró solución válida.")
+            # si no encuentra
+            print("no se encontro solucion valida.")
             return False
-    # --- FIN MODIFICADO ---
 
 
+    # funcion del boton "asignar automatico"
     def ejecutar_asignacion_automatica(self):
-        # Comprobamos que tenemos un evento seleccionado
+        # miramos si hay un evento cargado
         if self.evento_en_edicion_actual is None:
             QMessageBox.critical(self, "Error", "No hay evento seleccionado.")
             return
 
-        print(f"Iniciando asignación automática para: {self.evento_en_edicion_actual.nombre}")
+        print(f"iniciando asignacion automatica para: {self.evento_en_edicion_actual.nombre}")
 
-        # 1. Vaciar mesas y participantes
+        # 1. vacia las mesas (por si acaso)
         for mesa in self.evento_en_edicion_actual.mesas:
             mesa.participantes = []
         for p in self.evento_en_edicion_actual.participantes:
             p.quitar_mesa()
 
-        # 2. Preparar datos para el algoritmo
+        # 2. prepara las listas
         participantes = list(self.evento_en_edicion_actual.participantes)
         mesas = list(self.evento_en_edicion_actual.mesas)
 
         if not participantes:
-            QMessageBox.warning(self, "Vacío", "No hay participantes para asignar.")
+            QMessageBox.warning(self, "Vacio", "No hay participantes para asignar.")
             return
         if not mesas:
-            QMessageBox.warning(self, "Vacío", "No hay mesas para asignar.")
+            QMessageBox.warning(self, "Vacio", "No hay mesas para asignar.")
             return
 
-        # 3. Llamar al algoritmo (Ahora devuelve True/False)
+        # 3. llama al algoritmo
         solucion_encontrada = self.algoritmo_asignar_mesas(participantes, mesas)
 
+        # si falla, avisa
         if not solucion_encontrada:
-            QMessageBox.warning(self, "Asignación Fallida", 
-                            "No se pudo encontrar una solución óptima que respete todos los conflictos.\n"
-                            "Los participantes sin mesa se moverán a Excepciones.")
+            QMessageBox.warning(self, "Asignacion fallida", 
+                            "no se pudo encontrar una solucion optima.\n"
+                            "los participantes sin mesa se moveran a excepciones.")
 
-        # 4. Guardar resultados
+        # 4. guarda en el json
         self.gestor_datos.guardarEventos(self.lista_eventos)
         
-        # 5. Actualizar interfaz
+        # 5. refresca las ventanas
         self.actualizar_tabla_resultados_auto()
-        self.actualizar_lista_excepciones() # <--- Ahora esta función recalcula la lista correctamente
+        self.actualizar_lista_excepciones() # recalcula la lista de excepciones
 
-        # Mostrar la página de resultados
+        # enseña la ventana de resultados
         self.setCurrentIndex(7)
 
 
+    # rellena la tabla de resultados
     def actualizar_tabla_resultados_auto(self):
-        # Refresca la tabla de resultados automáticos
         tabla = self.pagina_resultados_auto.ui.Results_Table
         tabla.blockSignals(True)
         tabla.setRowCount(0)
 
         if self.evento_en_edicion_actual:
-            # Rellena mesa por mesa
+            # vamos mesa por mesa
             for mesa in self.evento_en_edicion_actual.mesas:
                 row_position = tabla.rowCount()
                 tabla.insertRow(row_position)
 
-                # Pone "Mesa 1 (5/10)"
+                # columna 1: "mesa 1 (5/10)"
                 texto_mesa = f"Mesa {mesa.numero} ({len(mesa.participantes)}/{mesa.capacidad})"
                 tabla.setItem(row_position, 0, QTableWidgetItem(texto_mesa))
 
-                # Pone "Ana Jose Juan..."
+                # columna 2: "ana, jose, juan..."
                 nombres = [p.nombre for p in mesa.participantes]
                 texto_nombres = ", ".join(nombres)
                 tabla.setItem(row_position, 1, QTableWidgetItem(texto_nombres))
 
         tabla.blockSignals(False)
-        # Ajusta el ancho de las columnas
+        # ajustamos el ancho
         tabla.resizeColumnsToContents()
 
 
+    # rellena la lista de los que se quedaron fuera
     def actualizar_lista_excepciones(self):
         lista = self.pagina_excepciones.ui.List_Exceptions
         lista.clear()
         
-        self.lista_excepciones = [] # Limpiamos y regeneramos la lista
+        # la borra y la vuelve a crear
+        self.lista_excepciones = [] 
         
         if self.evento_en_edicion_actual:
             for participante in self.evento_en_edicion_actual.participantes:
-                # Si el participante NO tiene mesa asignada, es una excepción
+                # si no tiene mesa, es una excepcion
                 if participante.mesa_asignada is None:
                     self.lista_excepciones.append(participante)
                     lista.addItem(participante.nombre)
 
-    # Función ayudante
-    # Crea un evento temporal
-    # No lo guarda aún
+    # funciones para csv y otras cosas
+    
+    # funcion ayudante: crea un evento temporal (sin guardar)
     def _crear_evento_temporal_desde_pagina1(self):
-        # Pilla los datos de la página 1
+        # pilla los datos de "crear evento"
         nombre = self.pagina_crear.ui.Input_EventName.text().strip()
         fecha = self.pagina_crear.ui.Input_EventDate.text().strip()
         
-        # Si faltan datos avisa y devuelve Falso
+        # si falta nombre o fecha, avisa y devuelve 'false'
         if not nombre or not fecha:
             QMessageBox.warning(self, "Datos incompletos", 
-                            "Debes completar al menos el Nombre y la Fecha del evento antes de cargar participantes.")
+                            "debes completar al menos el nombre y la fecha.")
             return False
         
         ubicacion = self.pagina_crear.ui.Input_EventLocation.text().strip()
@@ -936,7 +929,7 @@ class VentanaPrincipal(QStackedWidget):
         numMesas = self.pagina_crear.ui.Input_NumTables.value()
         nuevo_id = f"evento_{len(self.lista_eventos) + 1}"
         
-        # Crea el objeto y lo guarda en la variable temporal
+        # crea el evento y lo guarda en la variable
         try:
             self.evento_en_edicion_actual = Evento(
                 IdEvento=nuevo_id,
@@ -946,166 +939,164 @@ class VentanaPrincipal(QStackedWidget):
                 organizador=organizador,
                 numMesas=numMesas
             )
-            return True # Devuelve Verdadero si todo OK
+            return True # devuelve 'true' si todo ok
         except Exception as e:
-            QMessageBox.critical(self, "Error", f"No se pudo crear el evento temporal.\n{e}")
+            QMessageBox.critical(self, "Error", f"no se pudo crear el evento temporal.\n{e}")
             return False
     
+    # funcion del boton "subir csv"
     def cargar_participantes_csv(self):
-        # Carga invitados desde un archivo CSV
         pagina_actual = self.currentIndex()
 
-        # 1. Mira si tenemos un evento listo
-        if pagina_actual == 1: # Si estás en "Crear"
-            # Si no hay evento temporal
+        # 1. comprueba que hay un evento
+        if pagina_actual == 1: # si estamos en "crear"
+            # si no hay evento temporal
             if self.evento_en_edicion_actual is None:
-                # Intenta crearlo
+                # intenta crearlo
                 if not self._crear_evento_temporal_desde_pagina1():
-                    return # Si falla se pira
+                    return # si falla, salimos
         
-        elif pagina_actual == 2: # Si estás en "Actualizar"
+        elif pagina_actual == 2: # si estamos en "actualizar"
             if self.evento_en_edicion_actual is None:
-                QMessageBox.critical(self, "Error", "No hay evento seleccionado (esto no debería pasar)")
+                QMessageBox.critical(self, "Error", "no hay evento seleccionado")
                 return
         
-        # 2. Abre la ventana para buscar archivo
+        # 2. abre el explorador de archivos
         options = QFileDialog.Options()
         filePath, _ = QFileDialog.getOpenFileName(self, "Seleccionar CSV de Participantes", "", "Archivos CSV (*.csv);;Todos los archivos (*)", options=options)
 
-        # Si cancelas se pira
+        # si cancela, se pira
         if not filePath:
             return
 
-        # 3. Lee el archivo CSV
+        # 3. lee el archivo
         try:
             participantes_cargados = 0
             with open(filePath, mode='r', encoding='utf-8') as f:
-                # Lee la primera fila como cabeceras
+                # la primera fila son los titulos
                 reader = csv.DictReader(f)
                 
-                # Lee fila por fila
+                # fila por fila
                 for row in reader:
-                    # Pilla el nombre (con mayús o minús)
+                    # pilla el nombre
                     nombre_participante = row.get('Nombre') or row.get('nombre')
                     
-                    # Si no hay nombre pasa a la siguiente fila
+                    # si la fila esta vacia, la salta
                     if not nombre_participante:
                         continue
                         
-                    # Crea el ID del invitado
+                    # crea un id
                     evento_id = self.evento_en_edicion_actual.IdEvento
                     num_part = len(self.evento_en_edicion_actual.participantes)
                     participante_id = f"{evento_id}_p_{num_part + 1}"
                     
-                    # Crea el objeto Participante
+                    # crea el invitado
                     nuevo_participante = Participante(participante_id, nombre_participante)
 
-                    # Pilla las preferencias
+                    # pilla las preferencias
                     pref_texto = row.get('Preferencias') or row.get('preferencias', '')
                     if pref_texto:
-                        # Las corta por ";"
+                        # las separa por punto y coma
                         lista_pref = [nombre.strip() for nombre in pref_texto.split(';') if nombre.strip()]
                         nuevo_participante.preferencias = lista_pref
 
-                    # Pilla los evitados
+                    # pilla los evitados
                     evit_texto = row.get('Evitados') or row.get('evitados', '')
                     if evit_texto:
-                        # Las corta por ";"
+                        # las separa por punto y coma
                         lista_evit = [nombre.strip() for nombre in evit_texto.split(';') if nombre.strip()]
                         nuevo_participante.evitados = lista_evit
                     
-                    # Añade el invitado al evento
+                    # lo añade al evento
                     self.evento_en_edicion_actual.anadirparticipante(nuevo_participante)
                     participantes_cargados += 1
 
-            # Te avisa cuántos ha cargado
-            QMessageBox.information(self, "Éxito", f"Se han cargado {participantes_cargados} participantes desde el CSV.")
+            # avisa de que todo ok
+            QMessageBox.information(self, "Exito", f"Se han cargado {participantes_cargados} participantes desde el CSV.")
             
-            # Si estabas en "Actualizar"
-            # Guarda en el JSON al momento
+            # si estabamos en "actualizar", guarda
             if pagina_actual == 2:
                 self.gestor_datos.guardarEventos(self.lista_eventos)
 
         except Exception as e:
-            # Si algo peta te avisa
+            # si falla algo, avisa
             QMessageBox.critical(self, "Error al leer CSV", f"No se pudo leer el archivo.\nError: {e}")
 
     
-    # --- Lógica para Asignación Manual (Página 4) ---
+    # funciones de "asignar manual"
 
+    # rellena las listas de "asignar manual"
     def actualizar_listas_manual(self):
-        # Refresca las listas de la página manual
         if not self.evento_en_edicion_actual or not self.evento_en_edicion_actual.mesas:
             return
 
-        # 1. Pilla la mesa que toca ver
+        # 1. pilla la mesa que estamos viendo
         mesa_actual = self.evento_en_edicion_actual.mesas[self.mesa_manual_actual_idx]
-        # Pone el título "Mesa 1 (3/10)"
+        # pone el titulo "mesa 1 (3/10)"
         self.pagina_manual.ui.Label_TableParticipants.setText(f"Mesa {mesa_actual.numero} ({len(mesa_actual.participantes)}/{mesa_actual.capacidad})")
 
-        # 2. Limpia la lista de la mesa
+        # 2. rellena la lista de "en mesa"
         lista_mesa_ui = self.pagina_manual.ui.List_TableParticipants
         lista_mesa_ui.clear()
-        # Mete los invitados de esa mesa
         for p in mesa_actual.participantes:
             lista_mesa_ui.addItem(p.nombre)
 
-        # 3. Limpia la lista de "Sin Asignar"
+        # 3. rellena la lista de "sin asignar"
         lista_sin_asignar_ui = self.pagina_manual.ui.List_UnassignedGuests
         lista_sin_asignar_ui.clear()
         
-        # Crea una lista de todos los que YA tienen mesa
+        # crea una lista rapida de los que ya estan sentados
         participantes_asignados_ids = set()
         for m in self.evento_en_edicion_actual.mesas:
             for p in m.participantes:
                 participantes_asignados_ids.add(p.id_participante)
 
-        # Recorre TODOS los invitados del evento
+        # mira todos los invitados
         for p in self.evento_en_edicion_actual.participantes:
-            # Si el invitado NO está en la lista de asignados
+            # si no esta en la lista de sentados
             if p.id_participante not in participantes_asignados_ids:
-                # Lo mete en la lista "Sin Asignar"
+                # lo añade a "sin asignar"
                 lista_sin_asignar_ui.addItem(p.nombre)
 
+    # boton "siguiente mesa" (manual)
     def manual_siguiente_mesa(self):
-        # Botón flecha derecha de mesa manual
         if not self.evento_en_edicion_actual: return
         num_mesas = len(self.evento_en_edicion_actual.mesas)
         if num_mesas > 0:
-            # Suma 1 al índice de la mesa
+            # pasa a la siguiente mesa
             self.mesa_manual_actual_idx = (self.mesa_manual_actual_idx + 1) % num_mesas
-            # Y recarga las listas
+            # y refresca las listas
             self.actualizar_listas_manual()
 
+    # boton "anterior mesa" (manual)
     def manual_anterior_mesa(self):
-        # Botón flecha izquierda de mesa manual
         if not self.evento_en_edicion_actual: return
         num_mesas = len(self.evento_en_edicion_actual.mesas)
         if num_mesas > 0:
-            # Resta 1 al índice de la mesa
+            # pasa a la mesa anterior
             self.mesa_manual_actual_idx = (self.mesa_manual_actual_idx - 1) % num_mesas
-            # Y recarga las listas
+            # y refresca las listas
             self.actualizar_listas_manual()
 
+    # boton "añadir" (manual)
     def manual_anadir_participante(self):
-        # Botón "Añadir" en mesa manual
-        # Pilla el invitado de la lista "Sin Asignar"
+        # pilla el invitado de "sin asignar"
         item_seleccionado = self.pagina_manual.ui.List_UnassignedGuests.currentItem()
         if not item_seleccionado or not self.evento_en_edicion_actual:
             return
 
-        # Pilla la mesa actual
+        # pilla la mesa que estamos viendo
         mesa_actual = self.evento_en_edicion_actual.mesas[self.mesa_manual_actual_idx]
-        # Si está llena te avisa
+        # si la mesa esta llena, avisa
         if mesa_actual.estaLlena():
-            QMessageBox.warning(self, "Mesa Llena", f"La Mesa {mesa_actual.numero} ya está llena.")
+            QMessageBox.warning(self, "Mesa Llena", f"La Mesa {mesa_actual.numero} ya esta llena.")
             return
 
-        # Busca el objeto invitado por su nombre
+        # busca el invitado en la lista
         nombre_p = item_seleccionado.text()
         participante_a_mover = None
         
-        # Busca al participante que tenga ese nombre Y NO esté asignado
+        # comprueba otra vez que no este asignado
         participantes_asignados_ids = set()
         for m in self.evento_en_edicion_actual.mesas:
             for p in m.participantes:
@@ -1116,27 +1107,27 @@ class VentanaPrincipal(QStackedWidget):
                 participante_a_mover = p
                 break
         
-        # Si lo encuentra...
+        # si lo encuentra...
         if participante_a_mover:
-            # Lo mete en la mesa
+            # lo mete en la mesa
             mesa_actual.anadirParticipante(participante_a_mover)
-            # Le dice al invitado a qué mesa va
+            # guarda el id de la mesa en el invitado
             participante_a_mover.asignar_mesa(mesa_actual.id_mesa)
-            # Recarga las listas
+            # refresca las listas
             self.actualizar_listas_manual()
-            # Guarda en el JSON
+            # guarda en el json
             self.gestor_datos.guardarEventos(self.lista_eventos)
 
+    # boton "eliminar" (manual)
     def manual_eliminar_participante(self):
-        # Botón "Eliminar" en mesa manual
-        # Pilla el invitado de la lista "Participantes en Mesa"
+        # pilla el invitado de "en mesa"
         item_seleccionado = self.pagina_manual.ui.List_TableParticipants.currentItem()
         if not item_seleccionado or not self.evento_en_edicion_actual:
             return
 
         mesa_actual = self.evento_en_edicion_actual.mesas[self.mesa_manual_actual_idx]
         
-        # Busca el objeto invitado
+        # busca el objeto invitado
         nombre_p = item_seleccionado.text()
         participante_a_mover = None
         for p in mesa_actual.participantes:
@@ -1145,30 +1136,28 @@ class VentanaPrincipal(QStackedWidget):
                 break
 
         if participante_a_mover:
-            # Lo saca de la mesa
+            # lo saca de la mesa
             mesa_actual.eliminarParticipante(participante_a_mover)
-            # Le dice al invitado que ya no tiene mesa
+            # le borra la mesa al invitado
             participante_a_mover.quitar_mesa()
-            # Recarga las listas
+            # refresca las listas
             self.actualizar_listas_manual()
-            # Guarda en el JSON
+            # guarda en el json
             self.gestor_datos.guardarEventos(self.lista_eventos)
 
-    # --- Lógica para Gestión de Participantes (Página 6) ---
+    # funciones de "gestionar participante"
 
-    # Se activa cuando el usuario escribe en el QLineEdit
+    # se activa cuando escribes en el nombre
     def limpiar_participante_en_gestion(self, texto):
-        # Si el usuario escribe
-        # Asumimos que quiere crear uno nuevo
-        # Así que limpiamos la selección
+        # si escribe, borra la seleccion azul
         if self.participante_en_gestion and texto != self.participante_en_gestion.nombre:
             self.participante_en_gestion = None
             self.pagina_participantes.ui.List_AllGuests.clearSelection()
             self.actualizar_listas_preferencias()
 
-    # Se activa al hacer DOBLE CLIC en un invitado
+    # se activa al hacer doble clic en un invitado
     def gestionar_participante_seleccionado(self, item):
-        # Carga a este participante para editarlo
+        # carga este invitado para editarlo
         if item is None:
             self.participante_en_gestion = None
             self.pagina_participantes.ui.Input_ParticipantName.setText("")
@@ -1181,170 +1170,169 @@ class VentanaPrincipal(QStackedWidget):
         if self.evento_en_edicion_actual:
             for p in self.evento_en_edicion_actual.participantes:
                 if p.nombre == nombre_p:
+                    # lo carga para editarlo
                     self.participante_en_gestion = p
                     break
         
         if self.participante_en_gestion:
-            # Pone su nombre en el campo de texto
+            # pone el nombre en el campo
             self.pagina_participantes.ui.Input_ParticipantName.setText(self.participante_en_gestion.nombre)
-            # Carga sus listas de prefs y evitados
+            # rellena sus listas de pref/evitados
             self.actualizar_listas_preferencias()
 
+    # rellena las listas de pref/evitados
     def actualizar_listas_preferencias(self):
-        # Refresca las listas de Preferencia y Evitados
         lista_pref = self.pagina_participantes.ui.List_Preference
         lista_evit = self.pagina_participantes.ui.List_Avoid
         
-        # Limpia las dos listas
+        # vacia las listas
         lista_pref.clear()
         lista_evit.clear()
 
-        # Si hay un invitado "en gestión"
+        # si tenemos un invitado cargado
         if self.participante_en_gestion:
-            # Rellena las listas
+            # rellenamos las listas con sus datos
             for nombre_pref in self.participante_en_gestion.preferencias:
                 lista_pref.addItem(nombre_pref)
             for nombre_evit in self.participante_en_gestion.evitados:
                 lista_evit.addItem(nombre_evit)
 
-    # Botón verde (V)
+    # boton verde (v)
     def participante_anadir_preferencia(self):
-        # Pone al invitado seleccionado (1 clic)
-        # en las preferencias del invitado "en gestión" (doble clic o recién añadido)
+        # si no hay invitado (doble clic), avisa
         if not self.participante_en_gestion:
-            QMessageBox.warning(self, "Error", "Primero añade o selecciona (con doble clic) un participante (ej: 'Asa') para editarlo.")
+            QMessageBox.warning(self, "Error", "primero añade o selecciona (doble clic) un participante para editarlo.")
             return
 
-        # Pilla el invitado con UN clic en "Todos los Invitados"
+        # pilla el invitado (un clic)
         item_seleccionado = self.pagina_participantes.ui.List_AllGuests.currentItem()
         if not item_seleccionado:
-            QMessageBox.warning(self, "Error", "Ahora, selecciona (con un solo clic) a *otro* participante de la lista 'Todos los Invitados' (ej: 'Pepica') para añadir a sus preferencias.")
+            QMessageBox.warning(self, "Error", "ahora, selecciona (un clic) a otro participante de la lista 'todos' para añadirlo.")
             return
             
         nombre_a_anadir = item_seleccionado.text()
 
-        # No puedes añadirte a ti mismo
+        # no puedes añadirte a ti mismo
         if nombre_a_anadir == self.participante_en_gestion.nombre:
-            QMessageBox.warning(self, "Error", "No puedes añadir a un participante a sus propias preferencias.")
+            QMessageBox.warning(self, "Error", "no puedes añadirte a ti mismo.")
             return
             
-        # Añade el nombre a la lista de preferencias
+        # lo añade a la lista
         if self.participante_en_gestion.anadir_preferencia(nombre_a_anadir):
-            # Lo quita de evitados (por si acaso)
+            # lo quita de evitados (por si acaso)
             self.participante_en_gestion.eliminar_evitado(nombre_a_anadir)
-            self.actualizar_listas_preferencias() # Recarga las listas
+            self.actualizar_listas_preferencias() # refresca las listas
             
-            # Si estás actualizando guarda en JSON
+            # si estamos en modo "actualizar", guarda
             if self.modo_gestion_participantes == "ACTUALIZAR":
                 self.gestor_datos.guardarEventos(self.lista_eventos)
 
-    # Botón rojo (X)
+    # boton rojo (x)
     def participante_anadir_evitado(self):
-        # Pone al invitado seleccionado (1 clic)
-        # en los evitados del invitado "en gestión"
+        # si no hay invitado (doble clic), avisa
         if not self.participante_en_gestion:
-            QMessageBox.warning(self, "Error", "Primero añade o selecciona (con doble clic) un participante (ej: 'Asa') para editarlo.")
+            QMessageBox.warning(self, "Error", "primero añade o selecciona (doble clic) un participante para editarlo.")
             return
 
-        # Pilla el invitado con UN clic
+        # pilla el invitado (un clic)
         item_seleccionado = self.pagina_participantes.ui.List_AllGuests.currentItem()
         if not item_seleccionado:
-            QMessageBox.warning(self, "Error", "Ahora, selecciona (con un solo clic) a *otro* participante de la lista 'Todos los Invitados' (ej: 'Pepica') para añadir a sus evitados.")
+            QMessageBox.warning(self, "Error", "ahora, selecciona (un clic) a otro participante de la lista 'todos' para añadirlo.")
             return
 
         nombre_a_anadir = item_seleccionado.text()
 
-        # No puedes evitarte a ti mismo
+        # no puedes evitarte a ti mismo
         if nombre_a_anadir == self.participante_en_gestion.nombre:
-            QMessageBox.warning(self, "Error", "No puedes añadir a un participante a su propia lista de evitados.")
+            QMessageBox.warning(self, "Error", "no puedes evitarte a ti mismo.")
             return
 
-        # Añade el nombre a la lista de evitados
+        # lo añade a la lista
         if self.participante_en_gestion.anadir_evitado(nombre_a_anadir):
-            # Lo quita de preferencias (por si acaso)
+            # lo quita de preferencias (por si acaso)
             self.participante_en_gestion.eliminar_preferencia(nombre_a_anadir)
-            self.actualizar_listas_preferencias() # Recarga las listas
+            self.actualizar_listas_preferencias() # refresca las listas
             
-            # Si estás actualizando guarda en JSON
+            # si estamos en modo "actualizar", guarda
             if self.modo_gestion_participantes == "ACTUALIZAR":
                 self.gestor_datos.guardarEventos(self.lista_eventos)
 
+    # boton "eliminar" (pagina 6)
     def participante_eliminar_relacion(self):
-        # Botón "Eliminar" en Pág 6
         if not self.participante_en_gestion:
-            QMessageBox.warning(self, "Error", "No hay ningún participante seleccionado para editar.")
+            QMessageBox.warning(self, "Error", "no hay ningun participante seleccionado para editar.")
             return
 
-        # Mira si has seleccionado a alguien en "Preferencia"
+        # mira si esta seleccionado en la lista "preferencia"
         item_pref = self.pagina_participantes.ui.List_Preference.currentItem()
         if item_pref:
-            # Si es así lo borra de la lista de preferencias
+            # si es asi, lo borra
             self.participante_en_gestion.eliminar_preferencia(item_pref.text())
             self.actualizar_listas_preferencias()
             return
 
-        # Mira si has seleccionado a alguien en "No acepta"
+        # mira si esta seleccionado en la lista "no acepta"
         item_evit = self.pagina_participantes.ui.List_Avoid.currentItem()
         if item_evit:
-            # Si es así lo borra de la lista de evitados
+            # si es asi, lo borra
             self.participante_en_gestion.eliminar_evitado(item_evit.text())
             self.actualizar_listas_preferencias()
             return
 
-    # --- Lógica para Gestión de Excepciones (Página 8) ---
+    # funciones de la ventana "excepciones"
     
+    # rellena las listas de la ventana "excepciones"
     def actualizar_listas_excepciones_ui(self):
-        # Refresca las listas de la Pág 8 (Excepciones)
         if not self.evento_en_edicion_actual or not self.evento_en_edicion_actual.mesas:
             return
 
-        # 1. Pilla la mesa que toca
+        # 1. pilla la mesa que estamos viendo
         mesa_actual = self.evento_en_edicion_actual.mesas[self.excepcion_mesa_actual_idx]
         self.pagina_excepciones.ui.Label_TableParticipants.setText(f"Mesa {mesa_actual.numero} ({len(mesa_actual.participantes)}/{mesa_actual.capacidad})")
 
-        # 2. Limpia y rellena la lista de la mesa
+        # 2. rellena la lista de "participantes en mesa"
         lista_mesa_ui = self.pagina_excepciones.ui.List_TableParticipants
         lista_mesa_ui.clear()
         for p in mesa_actual.participantes:
             lista_mesa_ui.addItem(p.nombre)
 
-        # 3. Limpia y rellena la lista de "Conflictos"
+        # 3. rellena la lista de "participantes con conflicto"
         lista_excepciones_ui = self.pagina_excepciones.ui.List_Exceptions
         lista_excepciones_ui.clear()
-        # Rellena con los invitados que el algoritmo no pudo sentar
+        # usa la lista 'self.lista_excepciones'
         for p in self.lista_excepciones:
             lista_excepciones_ui.addItem(p.nombre)
 
+    # boton "siguiente mesa" (excepciones)
     def excepcion_siguiente_mesa(self):
-        # Botón flecha derecha de excepciones
         if not self.evento_en_edicion_actual: return
         num_mesas = len(self.evento_en_edicion_actual.mesas)
         if num_mesas > 0:
             self.excepcion_mesa_actual_idx = (self.excepcion_mesa_actual_idx + 1) % num_mesas
             self.actualizar_listas_excepciones_ui()
 
+    # boton "anterior mesa" (excepciones)
     def excepcion_anterior_mesa(self):
-        # Botón flecha izquierda de excepciones
         if not self.evento_en_edicion_actual: return
         num_mesas = len(self.evento_en_edicion_actual.mesas)
         if num_mesas > 0:
             self.excepcion_mesa_actual_idx = (self.excepcion_mesa_actual_idx - 1) % num_mesas
             self.actualizar_listas_excepciones_ui()
 
+    # boton "añadir" (excepciones)
     def excepcion_anadir_participante(self):
-        # Botón "Añadir" en excepciones
-        # Pilla el invitado de la lista "Conflictos"
+        # pilla el de la lista "conflictos"
         item_seleccionado = self.pagina_excepciones.ui.List_Exceptions.currentItem()
         if not item_seleccionado or not self.evento_en_edicion_actual:
             return
 
         mesa_actual = self.evento_en_edicion_actual.mesas[self.excepcion_mesa_actual_idx]
-        # Si la mesa está llena te avisa
+        # si la mesa esta llena, avisa
         if mesa_actual.estaLlena():
-            QMessageBox.warning(self, "Mesa Llena", f"La Mesa {mesa_actual.numero} ya está llena.")
+            QMessageBox.warning(self, "Mesa Llena", f"La Mesa {mesa_actual.numero} ya esta llena.")
             return
 
-        # Busca el objeto invitado
+        # busca el invitado en la lista de excepciones
         nombre_p = item_seleccionado.text()
         participante_a_mover = None
         for p in self.lista_excepciones:
@@ -1353,17 +1341,17 @@ class VentanaPrincipal(QStackedWidget):
                 break
         
         if participante_a_mover:
-            # Lo mete en la mesa
+            # lo mete en la mesa
             mesa_actual.anadirParticipante(participante_a_mover)
             participante_a_mover.asignar_mesa(mesa_actual.id_mesa)
-            # Lo quita de la lista de "Conflictos"
+            # lo quita de la lista "conflictos"
             self.lista_excepciones.remove(participante_a_mover) 
             self.actualizar_listas_excepciones_ui()
-            self.gestor_datos.guardarEventos(self.lista_eventos) # Guarda en JSON
+            self.gestor_datos.guardarEventos(self.lista_eventos) # guarda en json
 
+    # boton "eliminar" (excepciones)
     def excepcion_eliminar_participante(self):
-        # Botón "Eliminar" en excepciones
-        # Pilla el invitado de la lista "Participantes en Mesa"
+        # pilla el de la lista "en mesa"
         item_seleccionado = self.pagina_excepciones.ui.List_TableParticipants.currentItem()
         if not item_seleccionado or not self.evento_en_edicion_actual:
             return
@@ -1378,37 +1366,38 @@ class VentanaPrincipal(QStackedWidget):
                 break
 
         if participante_a_mover:
-            # Lo saca de la mesa
+            # lo saca de la mesa
             mesa_actual.eliminarParticipante(participante_a_mover)
             participante_a_mover.quitar_mesa()
-            # Lo devuelve a la lista de "Conflictos"
+            # lo devuelve a la lista "conflictos"
             self.lista_excepciones.append(participante_a_mover) 
             self.actualizar_listas_excepciones_ui()
-            self.gestor_datos.guardarEventos(self.lista_eventos) # Guarda en JSON
+            self.gestor_datos.guardarEventos(self.lista_eventos) # guarda en json
 
-    # --- Lógica para Generar CSV (Página 0) ---
+    # funciones para los botones de csv
     
-    # Botón "Abrir Ruta de CSV"
+    # boton "abrir ruta de csv"
     def abrir_carpeta_csvs(self):
-        # Crea la carpeta "CSVs_Generados" si no existe
+        # crea la carpeta si no existe
         os.makedirs(self.CSV_EXPORT_PATH, exist_ok=True)
         
-        # Abre esa carpeta en el explorador de archivos
+        # la abre
         try:
             webbrowser.open(os.path.realpath(self.CSV_EXPORT_PATH))
+            # mensaje de exito
             QMessageBox.information(self, "Carpeta Abierta",
                                   f"Se ha abierto la carpeta:\n{os.path.realpath(self.CSV_EXPORT_PATH)}")
         except Exception as e:
+            # mensaje de error
             QMessageBox.critical(self, "Error", f"No se pudo abrir la carpeta.\nError: {e}")
 
-    # Botón "Generar CSV"
+    # boton "generar csv"
     def generar_csv_evento_seleccionado(self):
-        # Genera un CSV con toda la info del evento
-        # Y lo guarda en 'CSVs_Generados'
+        # pilla el evento seleccionado
         tabla_crud = self.pagina_crud.ui.EventList_Table
         fila_seleccionada = tabla_crud.currentRow()
 
-        # Si no hay evento seleccionado te avisa
+        # si no ha elegido evento, avisamos
         if fila_seleccionada == -1:
             QMessageBox.warning(self, "Error", "Selecciona un evento para generar el CSV.")
             return
@@ -1416,39 +1405,40 @@ class VentanaPrincipal(QStackedWidget):
         try:
             evento_seleccionado = self.lista_eventos[fila_seleccionada]
         except IndexError:
+            # si da error, avisamos
             QMessageBox.critical(self, "Error", "Error al obtener el evento.")
             return
 
-        # 1. Crea la carpeta si no existe
+        # 1. crea la carpeta si no existe
         os.makedirs(self.CSV_EXPORT_PATH, exist_ok=True)
         
-        # 2. Limpia el nombre del evento
+        # 2. limpia el nombre del archivo
         nombre_base = "".join(c for c in evento_seleccionado.nombre if c.isalnum() or c in (' ', '_')).rstrip()
         nombre_archivo = f"{nombre_base.replace(' ', '_')}_completo.csv"
         filePath = os.path.join(self.CSV_EXPORT_PATH, nombre_archivo)
 
         try:
-            # 3. Abre el archivo para escribir
+            # 3. abre el archivo para escribir
             with open(filePath, mode='w', encoding='utf-8', newline='') as f:
                 writer = csv.writer(f)
                 
-                # Escribe la info del evento
-                writer.writerow(["--- INFORMACIÓN DEL EVENTO ---"])
+                # escribe los datos del evento
+                writer.writerow(["--- INFORMACION DEL EVENTO ---"])
                 writer.writerow(["ID Evento", evento_seleccionado.IdEvento])
                 writer.writerow(["Nombre", evento_seleccionado.nombre])
                 writer.writerow(["Fecha", evento_seleccionado.fecha])
                 writer.writerow(["Ubicacion", evento_seleccionado.ubicacion])
                 writer.writerow(["Organizador", evento_seleccionado.organizador])
-                writer.writerow(["", ""]) # Línea vacía
+                writer.writerow(["", ""]) # linea en blanco
                 
-                # Escribe la info de los participantes
+                # escribe los invitados
                 writer.writerow(["--- LISTA DE PARTICIPANTES ---"])
                 writer.writerow(["Nombre", "ID Participante", "Preferencias (Nombres)", "Evitados (Nombres)", "Mesa Asignada (ID)"])
                 for p in evento_seleccionado.participantes:
                     preferencias_str = "; ".join(p.preferencias)
                     evitados_str = "; ".join(p.evitados)
                     
-                    # Busca el número de la mesa asignada
+                    # busca el numero de la mesa
                     nombre_mesa = "Sin Asignar"
                     if p.mesa_asignada:
                         for m in evento_seleccionado.mesas:
@@ -1457,35 +1447,37 @@ class VentanaPrincipal(QStackedWidget):
                                 break
                                 
                     writer.writerow([p.nombre, p.id_participante, preferencias_str, evitados_str, nombre_mesa])
-                writer.writerow(["", ""]) # Línea vacía
+                writer.writerow(["", ""]) # linea en blanco
 
-                # Escribe la info de las mesas
-                writer.writerow(["--- ASIGNACIÓN DE MESAS ---"])
+                # escribe las mesas
+                writer.writerow(["--- ASIGNACION DE MESAS ---"])
                 for m in evento_seleccionado.mesas:
                     writer.writerow([f"Mesa {m.numero}", f"ID: {m.id_mesa}", f"Capacidad: ({len(m.participantes)} / {m.capacidad})"])
                     
-                    # Escribe los nombres de los que están en esa mesa
+                    # escribe los nombres en esa mesa
                     nombres_en_mesa = [p.nombre for p in m.participantes]
                     if nombres_en_mesa:
                         writer.writerow([""] + nombres_en_mesa) 
                     else:
-                        writer.writerow(["", "(Mesa Vacía)"])
-                    writer.writerow(["", ""]) # Línea vacía
+                        # si no hay nadie
+                        writer.writerow(["", "(Mesa Vacia)"])
+                    writer.writerow(["", ""]) # linea en blanco
             
-            # Te avisa que lo ha guardado
-            QMessageBox.information(self, "Éxito", f"CSV completo generado exitosamente en:\n{os.path.realpath(filePath)}")
+            # avisa de que todo ok
+            QMessageBox.information(self, "Exito", f"CSV completo generado exitosamente en:\n{os.path.realpath(filePath)}")
 
         except Exception as e:
+            # avisa si hay error
             QMessageBox.critical(self, "Error al escribir CSV", f"No se pudo guardar el archivo.\nError: {e}")
 
 
-# El arranque
+# aqui empieza el programa
 if __name__ == "__main__":
-    # Crea la app
+    # crea la app
     app = QApplication(sys.argv)
-    # Crea la ventana principal
+    # crea la ventana
     ventana = VentanaPrincipal()
-    # La enseña
+    # la enseña
     ventana.show()
-    # Y la mantiene abierta
+    # la mantiene abierta
     sys.exit(app.exec_())

@@ -1,0 +1,21 @@
+--- INFORMACIÓN DEL EVENTO ---
+ID Evento,evento_7
+Nombre,H
+Fecha,H
+Ubicacion,
+Organizador,
+,
+--- LISTA DE PARTICIPANTES ---
+Nombre,ID Participante,Preferencias (Nombres),Evitados (Nombres),Mesa Asignada (ID)
+JOSE,evento_7_p_1,,,Sin Asignar
+,
+--- ASIGNACIÓN DE MESAS ---
+Mesa 1,ID: evento_7_mesa_1,Capacidad: (0 / 10)
+,(Mesa Vacía)
+,
+Mesa 2,ID: evento_7_mesa_2,Capacidad: (0 / 10)
+,(Mesa Vacía)
+,
+Mesa 3,ID: evento_7_mesa_3,Capacidad: (1 / 10)
+,JOSE
+,
