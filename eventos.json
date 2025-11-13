@@ -1,299 +1,40 @@
 [
     {
-        "IdEvento": "evento_2",
-        "nombre": "Boda de Maria y Jose",
-        "fecha": "28/11/2025",
-        "ubicacion": "Iglesia virgen de la asuncion",
-        "organizador": "Juan pedro perez jimenez",
+        "IdEvento": "evento_1",
+        "nombre": "Boda",
+        "fecha": "10/12/2026",
+        "ubicacion": "Castillo la asuncion",
+        "organizador": "Enrrique",
         "numMesas": 5,
-        "participantes": [
-            {
-                "IdParticipante": "evento_2_p_1",
-                "nombre": "Carlos",
-                "preferencias": [
-                    "Ana",
-                    "Luis"
-                ],
-                "evitados": [
-                    "Pedro"
-                ],
-                "mesaAsignada": null
-            },
-            {
-                "IdParticipante": "evento_2_p_2",
-                "nombre": "Ana",
-                "preferencias": [
-                    "Carlos",
-                    "Maria"
-                ],
-                "evitados": [],
-                "mesaAsignada": null
-            },
-            {
-                "IdParticipante": "evento_2_p_3",
-                "nombre": "Luis",
-                "preferencias": [
-                    "Carlos"
-                ],
-                "evitados": [
-                    "Sofia"
-                ],
-                "mesaAsignada": null
-            },
-            {
-                "IdParticipante": "evento_2_p_4",
-                "nombre": "Pedro",
-                "preferencias": [
-                    "Sofia"
-                ],
-                "evitados": [
-                    "Carlos"
-                ],
-                "mesaAsignada": null
-            },
-            {
-                "IdParticipante": "evento_2_p_5",
-                "nombre": "Maria",
-                "preferencias": [
-                    "Ana",
-                    "Juan"
-                ],
-                "evitados": [],
-                "mesaAsignada": null
-            },
-            {
-                "IdParticipante": "evento_2_p_6",
-                "nombre": "Sofia",
-                "preferencias": [
-                    "Pedro"
-                ],
-                "evitados": [
-                    "Luis"
-                ],
-                "mesaAsignada": null
-            },
-            {
-                "IdParticipante": "evento_2_p_7",
-                "nombre": "Juan",
-                "preferencias": [
-                    "Maria"
-                ],
-                "evitados": [],
-                "mesaAsignada": null
-            },
-            {
-                "IdParticipante": "evento_2_p_8",
-                "nombre": "Laura",
-                "preferencias": [],
-                "evitados": [],
-                "mesaAsignada": null
-            },
-            {
-                "IdParticipante": "evento_2_p_9",
-                "nombre": "Diego",
-                "preferencias": [
-                    "Laura"
-                ],
-                "evitados": [],
-                "mesaAsignada": null
-            },
-            {
-                "IdParticipante": "evento_2_p_10",
-                "nombre": "Carmen",
-                "preferencias": [],
-                "evitados": [
-                    "Roberto"
-                ],
-                "mesaAsignada": null
-            },
-            {
-                "IdParticipante": "evento_2_p_11",
-                "nombre": "Roberto",
-                "preferencias": [],
-                "evitados": [
-                    "Carmen"
-                ],
-                "mesaAsignada": null
-            },
-            {
-                "IdParticipante": "evento_2_p_12",
-                "nombre": "Elena",
-                "preferencias": [
-                    "Fernando"
-                ],
-                "evitados": [],
-                "mesaAsignada": null
-            },
-            {
-                "IdParticipante": "evento_2_p_13",
-                "nombre": "Fernando",
-                "preferencias": [
-                    "Elena"
-                ],
-                "evitados": [],
-                "mesaAsignada": null
-            },
-            {
-                "IdParticipante": "evento_2_p_14",
-                "nombre": "Isabel",
-                "preferencias": [],
-                "evitados": [],
-                "mesaAsignada": null
-            },
-            {
-                "IdParticipante": "evento_2_p_15",
-                "nombre": "Antonio",
-                "preferencias": [
-                    "Isabel"
-                ],
-                "evitados": [],
-                "mesaAsignada": null
-            }
-        ],
-        "mesas": []
-    },
-    {
-        "IdEvento": "evento_2",
-        "nombre": "Cumpleaños de José",
-        "fecha": "24/3/26",
-        "ubicacion": "Romea",
-        "organizador": "María Fernández",
-        "numMesas": 6,
-        "participantes": [
-            {
-                "IdParticipante": "evento_2_p_1",
-                "nombre": "pepa",
-                "preferencias": [
-                    "pepae"
-                ],
-                "evitados": [
-                    "pepeton"
-                ],
-                "mesaAsignada": null
-            },
-            {
-                "IdParticipante": "evento_2_p_2",
-                "nombre": "pepae",
-                "preferencias": [
-                    "pepa"
-                ],
-                "evitados": [],
-                "mesaAsignada": null
-            },
-            {
-                "IdParticipante": "evento_2_p_3",
-                "nombre": "pepeton",
-                "preferencias": [],
-                "evitados": [],
-                "mesaAsignada": null
-            }
-        ],
+        "participantes": [],
         "mesas": [
             {
-                "id_mesa": "evento_2_mesa_1",
+                "id_mesa": "evento_1_mesa_1",
                 "numero": 1,
                 "capacidad": 10,
                 "participantes_ids": []
             },
             {
-                "id_mesa": "evento_2_mesa_2",
+                "id_mesa": "evento_1_mesa_2",
                 "numero": 2,
                 "capacidad": 10,
                 "participantes_ids": []
             },
             {
-                "id_mesa": "evento_2_mesa_3",
+                "id_mesa": "evento_1_mesa_3",
                 "numero": 3,
                 "capacidad": 10,
                 "participantes_ids": []
             },
             {
-                "id_mesa": "evento_2_mesa_4",
+                "id_mesa": "evento_1_mesa_4",
                 "numero": 4,
                 "capacidad": 10,
                 "participantes_ids": []
             },
             {
-                "id_mesa": "evento_2_mesa_5",
+                "id_mesa": "evento_1_mesa_5",
                 "numero": 5,
-                "capacidad": 10,
-                "participantes_ids": []
-            },
-            {
-                "id_mesa": "evento_2_mesa_6",
-                "numero": 6,
-                "capacidad": 10,
-                "participantes_ids": []
-            }
-        ]
-    },
-    {
-        "IdEvento": "evento_3",
-        "nombre": "Cerrar la ventana",
-        "fecha": "13/11/2025",
-        "ubicacion": "CESUR Murcia",
-        "organizador": "David García Cano",
-        "numMesas": 3,
-        "participantes": [
-            {
-                "IdParticipante": "evento_3_p_1",
-                "nombre": "Javier Villena",
-                "preferencias": [],
-                "evitados": [],
-                "mesaAsignada": null
-            },
-            {
-                "IdParticipante": "evento_3_p_2",
-                "nombre": "Javier Fernández",
-                "preferencias": [],
-                "evitados": [],
-                "mesaAsignada": null
-            },
-            {
-                "IdParticipante": "evento_3_p_3",
-                "nombre": "Álvaro Robles",
-                "preferencias": [],
-                "evitados": [],
-                "mesaAsignada": null
-            },
-            {
-                "IdParticipante": "evento_3_p_4",
-                "nombre": "David García",
-                "preferencias": [],
-                "evitados": [],
-                "mesaAsignada": null
-            },
-            {
-                "IdParticipante": "evento_3_p_5",
-                "nombre": "Adriano Alberti",
-                "preferencias": [],
-                "evitados": [],
-                "mesaAsignada": null
-            },
-            {
-                "IdParticipante": "evento_3_p_6",
-                "nombre": "Javier Fernánde",
-                "preferencias": [],
-                "evitados": [],
-                "mesaAsignada": null
-            }
-        ],
-        "mesas": [
-            {
-                "id_mesa": "evento_3_mesa_1",
-                "numero": 1,
-                "capacidad": 10,
-                "participantes_ids": []
-            },
-            {
-                "id_mesa": "evento_3_mesa_2",
-                "numero": 2,
-                "capacidad": 10,
-                "participantes_ids": []
-            },
-            {
-                "id_mesa": "evento_3_mesa_3",
-                "numero": 3,
                 "capacidad": 10,
                 "participantes_ids": []
             }
