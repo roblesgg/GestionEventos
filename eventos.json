@@ -159,7 +159,24 @@
         "ubicacion": "Romea",
         "organizador": "María Fernández",
         "numMesas": 6,
-        "participantes": [],
+        "participantes": [
+            {
+                "IdParticipante": "evento_2_p_1",
+                "nombre": "pepa",
+                "preferencias": [],
+                "evitados": [],
+                "mesaAsignada": null
+            },
+            {
+                "IdParticipante": "evento_2_p_2",
+                "nombre": "pepae",
+                "preferencias": [
+                    "pepa"
+                ],
+                "evitados": [],
+                "mesaAsignada": null
+            }
+        ],
         "mesas": [
             {
                 "id_mesa": "evento_2_mesa_1",
@@ -238,6 +255,13 @@
             {
                 "IdParticipante": "evento_3_p_5",
                 "nombre": "Adriano Alberti",
+                "preferencias": [],
+                "evitados": [],
+                "mesaAsignada": null
+            },
+            {
+                "IdParticipante": "evento_3_p_6",
+                "nombre": "Javier Fernánde",
                 "preferencias": [],
                 "evitados": [],
                 "mesaAsignada": null
