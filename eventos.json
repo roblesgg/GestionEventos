@@ -82,6 +82,57 @@
                 "preferencias": [],
                 "evitados": [],
                 "mesaAsignada": null
+            },
+            {
+                "IdParticipante": "evento_4_p_6",
+                "nombre": "Ana García",
+                "preferencias": [
+                    "Juan Pérez"
+                ],
+                "evitados": [
+                    "Maria Lopez"
+                ],
+                "mesaAsignada": null
+            },
+            {
+                "IdParticipante": "evento_4_p_7",
+                "nombre": "Juan Pérez",
+                "preferencias": [
+                    "Ana García"
+                ],
+                "evitados": [
+                    "Carlos Sanchez"
+                ],
+                "mesaAsignada": null
+            },
+            {
+                "IdParticipante": "evento_4_p_8",
+                "nombre": "Maria Lopez",
+                "preferencias": [],
+                "evitados": [
+                    "Ana García"
+                ],
+                "mesaAsignada": null
+            },
+            {
+                "IdParticipante": "evento_4_p_9",
+                "nombre": "Carlos Sanchez",
+                "preferencias": [
+                    "Juan Pérez"
+                ],
+                "evitados": [],
+                "mesaAsignada": null
+            },
+            {
+                "IdParticipante": "evento_4_p_10",
+                "nombre": "Laura Jimenez",
+                "preferencias": [
+                    "Pedro Morales"
+                ],
+                "evitados": [
+                    "Ana García"
+                ],
+                "mesaAsignada": null
             }
         ],
         "mesas": [
