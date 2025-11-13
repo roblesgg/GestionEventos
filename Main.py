@@ -2,8 +2,8 @@ import sys
 import os
 import webbrowser
 import csv
-from PyQt5.QtWidgets import QApplication, QWidget, QStackedWidget, QMessageBox, QTableWidgetItem, QFileDialog
-from ortools.sat.python import cp_model
+from PyQt5.QtWidgets import QApplication, QWidget, QStackedWidget, QMessageBox, QTableWidgetItem
+
 import random
 
 # --- Chupa todas las librerias ---
@@ -13,6 +13,10 @@ import random
 # --- Las que están en 'controllers' ---
 from controllers.CrudEvento import Ui_MainWindow
 from controllers.ControllerCrearEvento1 import Ui_Form as Ui_CrearEventoForm
+from ortools.sat.python import cp_model 
+print("--- OR-TOOLS IMPORTADO CON ÉXITO ---") # <--- AÑADIR ESTA LÍNEA
+import random
+from PyQt5.QtWidgets import QFileDialog, QMessageBox
 from controllers.ControllerAsignarMesas import Ui_Form as Ui_PaginaMesas
 from controllers.EditarEvento import Ui_Form as Ui_ActualizarEventoForm
 from controllers.ControllerAsignarMesasManual import Ui_Form as Ui_AsignarManual
@@ -723,7 +727,7 @@ class VentanaPrincipal(QStackedWidget):
     # --- El algoritmo mágico de Google ---
     # --- ADAPTADO de tu snippet ---
     def algoritmo_asignar_mesas(self, participantes, mesas):
-        
+        print("--- PASO 4: Dentro del algoritmo (Creando modelo) ---")
         # 0. Si no hay mesas o invitados se pira
         if not mesas:
             print("Error: No hay mesas para asignar.")
@@ -778,9 +782,11 @@ class VentanaPrincipal(QStackedWidget):
             model.Add(sum(indicators) <= mesas[m].capacidad) # --- ADAPTADO: usa capacidad de la mesa ---
 
         # 6. Resolver
+        print("--- PASO 5: Modelo creado. Llamando a solver.Solve() ---")
         solver = cp_model.CpSolver()
         solver.parameters.max_time_in_seconds = 10.0
         status = solver.Solve(model)
+        print("--- PASO 5.1: ¡El solver ha terminado! ---")
 
         # 7. Resultado
         if status in (cp_model.OPTIMAL, cp_model.FEASIBLE):
@@ -812,10 +818,11 @@ class VentanaPrincipal(QStackedWidget):
 
     def ejecutar_asignacion_automatica(self):
         # Si no hay evento te echa
+        print("--- PASO 1: Iniciando ejecutor ---")
         if self.evento_en_edicion_actual is None:
             QMessageBox.critical(self, "Error")
             return
-
+        print(f"--- PASO 2: Evento seleccionado: {self.evento_en_edicion_actual.nombre} ---")
         print(f"Iniciando asignación automática para: {self.evento_en_edicion_actual.nombre}")
 
         # Vacía las mesas
@@ -829,10 +836,10 @@ class VentanaPrincipal(QStackedWidget):
         # Prepara las listas para el algoritmo
         participantes_a_asignar = list(self.evento_en_edicion_actual.participantes)
         mesas_del_evento = list(self.evento_en_edicion_actual.mesas)
-
+        print(f"--- PASO 3: Listos para asignar {len(participantes_a_asignar)} part. en {len(mesas_del_evento)} mesas ---")
         # Llama al algoritmo
         self.lista_excepciones = self.algoritmo_asignar_mesas(participantes_a_asignar, mesas_del_evento)
-
+        print("--- PASO 6: Algoritmo terminado ---")
         # Lo guarda en el JSON
         self.gestor_datos.guardarEventos(self.lista_eventos)
 

@@ -257,21 +257,21 @@
                 "nombre": "hgghhsdfshd",
                 "preferencias": [],
                 "evitados": [],
-                "mesaAsignada": null
+                "mesaAsignada": "evento_4_mesa_1"
             },
             {
                 "IdParticipante": "evento_4_p_2",
                 "nombre": "djdjjdghjfg",
                 "preferencias": [],
                 "evitados": [],
-                "mesaAsignada": null
+                "mesaAsignada": "evento_4_mesa_1"
             },
             {
                 "IdParticipante": "evento_4_p_3",
                 "nombre": "sregsegerg",
                 "preferencias": [],
                 "evitados": [],
-                "mesaAsignada": null
+                "mesaAsignada": "evento_4_mesa_1"
             }
         ],
         "mesas": [
@@ -279,7 +279,11 @@
                 "id_mesa": "evento_4_mesa_1",
                 "numero": 1,
                 "capacidad": 10,
-                "participantes_ids": []
+                "participantes_ids": [
+                    "evento_4_p_1",
+                    "evento_4_p_2",
+                    "evento_4_p_3"
+                ]
             }
         ]
     }
