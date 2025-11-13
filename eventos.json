@@ -10,49 +10,74 @@
             {
                 "IdParticipante": "evento_2_p_1",
                 "nombre": "Carlos",
-                "preferencias": ["Ana", "Luis"],
-                "evitados": ["Pedro"],
+                "preferencias": [
+                    "Ana",
+                    "Luis"
+                ],
+                "evitados": [
+                    "Pedro"
+                ],
                 "mesaAsignada": null
             },
             {
                 "IdParticipante": "evento_2_p_2",
                 "nombre": "Ana",
-                "preferencias": ["Carlos", "Maria"],
+                "preferencias": [
+                    "Carlos",
+                    "Maria"
+                ],
                 "evitados": [],
                 "mesaAsignada": null
             },
             {
                 "IdParticipante": "evento_2_p_3",
                 "nombre": "Luis",
-                "preferencias": ["Carlos"],
-                "evitados": ["Sofia"],
+                "preferencias": [
+                    "Carlos"
+                ],
+                "evitados": [
+                    "Sofia"
+                ],
                 "mesaAsignada": null
             },
             {
                 "IdParticipante": "evento_2_p_4",
                 "nombre": "Pedro",
-                "preferencias": ["Sofia"],
-                "evitados": ["Carlos"],
+                "preferencias": [
+                    "Sofia"
+                ],
+                "evitados": [
+                    "Carlos"
+                ],
                 "mesaAsignada": null
             },
             {
                 "IdParticipante": "evento_2_p_5",
                 "nombre": "Maria",
-                "preferencias": ["Ana", "Juan"],
+                "preferencias": [
+                    "Ana",
+                    "Juan"
+                ],
                 "evitados": [],
                 "mesaAsignada": null
             },
             {
                 "IdParticipante": "evento_2_p_6",
                 "nombre": "Sofia",
-                "preferencias": ["Pedro"],
-                "evitados": ["Luis"],
+                "preferencias": [
+                    "Pedro"
+                ],
+                "evitados": [
+                    "Luis"
+                ],
                 "mesaAsignada": null
             },
             {
                 "IdParticipante": "evento_2_p_7",
                 "nombre": "Juan",
-                "preferencias": ["Maria"],
+                "preferencias": [
+                    "Maria"
+                ],
                 "evitados": [],
                 "mesaAsignada": null
             },
@@ -66,7 +91,9 @@
             {
                 "IdParticipante": "evento_2_p_9",
                 "nombre": "Diego",
-                "preferencias": ["Laura"],
+                "preferencias": [
+                    "Laura"
+                ],
                 "evitados": [],
                 "mesaAsignada": null
             },
@@ -74,27 +101,35 @@
                 "IdParticipante": "evento_2_p_10",
                 "nombre": "Carmen",
                 "preferencias": [],
-                "evitados": ["Roberto"],
+                "evitados": [
+                    "Roberto"
+                ],
                 "mesaAsignada": null
             },
             {
                 "IdParticipante": "evento_2_p_11",
                 "nombre": "Roberto",
                 "preferencias": [],
-                "evitados": ["Carmen"],
+                "evitados": [
+                    "Carmen"
+                ],
                 "mesaAsignada": null
             },
             {
                 "IdParticipante": "evento_2_p_12",
                 "nombre": "Elena",
-                "preferencias": ["Fernando"],
+                "preferencias": [
+                    "Fernando"
+                ],
                 "evitados": [],
                 "mesaAsignada": null
             },
             {
                 "IdParticipante": "evento_2_p_13",
                 "nombre": "Fernando",
-                "preferencias": ["Elena"],
+                "preferencias": [
+                    "Elena"
+                ],
                 "evitados": [],
                 "mesaAsignada": null
             },
@@ -108,9 +143,59 @@
             {
                 "IdParticipante": "evento_2_p_15",
                 "nombre": "Antonio",
-                "preferencias": ["Isabel"],
+                "preferencias": [
+                    "Isabel"
+                ],
                 "evitados": [],
                 "mesaAsignada": null
+            }
+        ],
+        "mesas": []
+    },
+    {
+        "IdEvento": "evento_2",
+        "nombre": "Cumpleaños de José",
+        "fecha": "24/3/26",
+        "ubicacion": "Romea",
+        "organizador": "María Fernández",
+        "numMesas": 6,
+        "participantes": [],
+        "mesas": [
+            {
+                "id_mesa": "evento_2_mesa_1",
+                "numero": 1,
+                "capacidad": 10,
+                "participantes_ids": []
+            },
+            {
+                "id_mesa": "evento_2_mesa_2",
+                "numero": 2,
+                "capacidad": 10,
+                "participantes_ids": []
+            },
+            {
+                "id_mesa": "evento_2_mesa_3",
+                "numero": 3,
+                "capacidad": 10,
+                "participantes_ids": []
+            },
+            {
+                "id_mesa": "evento_2_mesa_4",
+                "numero": 4,
+                "capacidad": 10,
+                "participantes_ids": []
+            },
+            {
+                "id_mesa": "evento_2_mesa_5",
+                "numero": 5,
+                "capacidad": 10,
+                "participantes_ids": []
+            },
+            {
+                "id_mesa": "evento_2_mesa_6",
+                "numero": 6,
+                "capacidad": 10,
+                "participantes_ids": []
             }
         ]
     }

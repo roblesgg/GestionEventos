@@ -1,8 +1,14 @@
 import sys
 from PyQt5.QtWidgets import QApplication, QWidget, QStackedWidget, QMessageBox, QTableWidgetItem
 
+# --------->     0      <-----------
+# JAVIER VILLENA SI VES ESTO BÓRRALO
+#
+
 import csv
 from PyQt5.QtWidgets import QFileDialog, QMessageBox
+from ortools.sat.python import cp_model
+import random
 
 #Importa las vistas
 from controllers.CrudEvento import Ui_MainWindow
@@ -11,7 +17,8 @@ from controllers.ControllerAsignarMesas import Ui_Form as Ui_PaginaMesas
 from controllers.EditarEvento import Ui_Form as Ui_ActualizarEventoForm
 from controllers.ControllerAsignarMesasManual import Ui_Form as Ui_AsignarManual
 from controllers.ControllerBorrarEvento import Ui_DialogoBorrarEvento as Ui_Borrar
-from ortools.sat.python import cp_model
+from controllers.ControllerAsignarMesasAutomatico import Ui_Form as Ui_ResultadosAuto
+from controllers.ControllerAsignarMesasExcepciones import Ui_Form as Ui_Excepciones
 
 from controllers.ControllerCrearEvento2 import Ui_DialogoParticipantes
 
@@ -65,6 +72,18 @@ class PaginaGestionarParticipantes(QWidget):
         self.ui = Ui_DialogoParticipantes()
         self.ui.setupUi(self)
 
+class PaginaMesasAutomatico(QWidget):
+    def __init__(self):
+        super().__init__()
+        self.ui = Ui_ResultadosAuto()
+        self.ui.setupUi(self)
+
+class PaginaExcepciones(QWidget):
+    def __init__(self):
+        super().__init__()
+        self.ui = Ui_Excepciones()
+        self.ui.setupUi(self)
+
 #Ventana principal
 class VentanaPrincipal(QStackedWidget):
     def __init__(self):
@@ -76,6 +95,8 @@ class VentanaPrincipal(QStackedWidget):
         self.lista_eventos = []
         #para guardar los dtos del evento seleccionado en la tabla
         self.evento_en_edicion_actual = None
+        #para guardar las excepciones
+        self.lista_excepciones = []
 
 
         #Las paginas
@@ -86,6 +107,8 @@ class VentanaPrincipal(QStackedWidget):
         self.pagina_manual=Manual()             #4
         self.pagina_borrar=PaginaBorrar()       #5
         self.pagina_participantes = PaginaGestionarParticipantes() #6
+        self.pagina_resultados_auto = PaginaMesasAutomatico() #7
+        self.pagina_excepciones = PaginaExcepciones() #8
         
         #añade las paginas
         self.addWidget(self.pagina_crud)           #0
@@ -95,6 +118,8 @@ class VentanaPrincipal(QStackedWidget):
         self.addWidget(self.pagina_manual)          #4
         self.addWidget(self.pagina_borrar)         #5
         self.addWidget(self.pagina_participantes)  #6
+        self.addWidget(self.pagina_resultados_auto) #7
+        self.addWidget(self.pagina_excepciones) #8
 
         #Conecta los botones
         #botones del crud 0
@@ -102,6 +127,8 @@ class VentanaPrincipal(QStackedWidget):
         self.pagina_crud.ui.UpdateEvent_Btn.clicked.connect(self.mostrar_pagina_actualizar)
         self.pagina_crud.ui.AssignTables_Btn.clicked.connect(self.mostrar_pagina_mesas)
         self.pagina_crud.ui.DeleteEvent_Btn.clicked.connect(self.mostrar_pagina_borrar)
+        self.pagina_mesas.ui.AutoAssign_Btn.clicked.connect(self.mostrar_pagina_auto)
+        self.pagina_resultados_auto.ui.ViewExceptions_Btn.clicked.connect(self.mostrar_pagina_excepciones)
 
         #botones de otras pestañas
         self.pagina_mesas.ui.ManualAssign_Btn.clicked.connect(self.mostrar_pagina_manual)
@@ -144,6 +171,11 @@ class VentanaPrincipal(QStackedWidget):
         # Botón atrás de añadir
         self.pagina_manual.ui.BackButton_ManualAssign.clicked.connect(self.mostrar_pagina_mesas)
 
+        # Botón atrás de automático 
+        self.pagina_resultados_auto.ui.BackButton_AutoAssign.clicked.connect(self.mostrar_pagina_mesas)
+
+        # Botón atrás excepciones
+        self.pagina_excepciones.ui.BackButton_Exceptions.clicked.connect(self.mostrar_pagina_auto)
         
         #la pestaña inicial
         self.resize(904, 617)
@@ -190,6 +222,26 @@ class VentanaPrincipal(QStackedWidget):
         self.setCurrentIndex(2)
 
     def mostrar_pagina_mesas(self):
+
+        # Guarda la tabla en la variable 
+        tabla_crud = self.pagina_crud.ui.EventList_Table
+        # Toma la fila seleccionada
+        fila_seleccionada = tabla_crud.currentRow()
+
+        # Comprueba que haya alguna fila seleccionada
+        if fila_seleccionada == -1:
+            QMessageBox.warning(self, "Sin selección", "Por favor, selecciona un evento para asignar sus mesas.")
+            return
+
+        # Declara la fila seleccionada como evento_en_edicion_actual
+        try:
+            self.evento_en_edicion_actual = self.lista_eventos[fila_seleccionada]
+            print(f"Gestionando mesas para el evento: {self.evento_en_edicion_actual.nombre}")
+        except IndexError:
+            QMessageBox.critical(self, "Error")
+            return # Sale del método
+
+        # 4. Abre la página asignar mesas
         self.setCurrentIndex(3)
 
     def mostrar_pagina_manual(self):
@@ -547,54 +599,256 @@ class VentanaPrincipal(QStackedWidget):
             for j in range(len(df.columns)):
                 self.tabla.setItem(i, j, QTableWidgetItem(str(df.iat[i, j])))
 
-    def asignar_mesas(participantes, tamano_mesa):
-        model = cp_model.CpModel()
+    def mostrar_pagina_auto(self):
+        self.setCurrentIndex(7)
 
-        nombres = [p.nombre for p in participantes]
-        num_mesas = len(participantes) // tamano_mesa + 1
+    def mostrar_pagina_excepciones(self):
+        self.setCurrentIndex(8)
 
-        # Variables: mesa asignada a cada persona
-        mesas = {
-            nombre: model.NewIntVar(0, num_mesas - 1, nombre)
-            for nombre in nombres
-        }
+    def algoritmo_asignar_mesas(self, participantes, mesas):
+        # Barajar la lista de participantes
+        random.shuffle(participantes)
+        excepciones = []
 
-        # Restricciones de amistad y enemistad
-        for p in participantes:
-            for amigo in p.amistades:
-                if amigo in mesas:
-                    model.Add(mesas[p.nombre] == mesas[amigo])
-            for enemigo in p.enemistades:
-                if enemigo in mesas:
-                    model.Add(mesas[p.nombre] != mesas[enemigo])
+        # Comprobar que hay mesas
+        if not mesas:
+            print("Error: No hay mesas para asignar.")
+            return participantes  # Todos son excepciones si no hay mesas
 
-        # Restricción de tamaño máximo por mesa
-        # Usamos variables booleanas para controlar cuántas personas hay en cada mesa
-        for m in range(num_mesas):
-            # Para cada mesa, creamos indicadores de quién está allí
-            indicators = []
-            for nombre in nombres:
-                b = model.NewBoolVar(f"{nombre}_en_mesa_{m}")
-                # Si mesa[nombre] == m, entonces b = 1
-                model.Add(mesas[nombre] == m).OnlyEnforceIf(b)
-                model.Add(mesas[nombre] != m).OnlyEnforceIf(b.Not())
-                indicators.append(b)
-            # Máximo tamano_mesa personas por mesa
-            model.Add(sum(indicators) <= tamano_mesa)
+        # Coger la capacidad de la primera mesa (asumimos que todas son iguales)
+        capacidad_por_mesa = mesas[0].capacidad
+        if capacidad_por_mesa <= 0:
+            print("Error: La capacidad de la mesa es 0 o negativa.")
+            return participantes  # Todos son excepciones
 
-        # Resolver
-        solver = cp_model.CpSolver()
-        solver.parameters.max_time_in_seconds = 10.0
-        status = solver.Solve(model)
+        # Asignar participantes uno por uno (tu lógica)
+        for i, participante in enumerate(participantes):
+            indice_mesa = i // capacidad_por_mesa
 
-        # Resultado
-        if status in (cp_model.OPTIMAL, cp_model.FEASIBLE):
-            return {nombre: solver.Value(mesas[nombre]) for nombre in nombres}
+            if indice_mesa < len(mesas):
+                mesas[indice_mesa].anadirParticipante(participante)
+                participante.asignar_mesa(mesas[indice_mesa].id_mesa)
+            else:
+                excepciones.append(participante)
+
+        return excepciones
+
+
+    def ejecutar_asignacion_automatica(self):
+        # Comprobamos que tenemos un evento seleccionado
+        if self.evento_en_edicion_actual is None:
+            QMessageBox.critical(self, "Error")
+            return
+
+        print(f"Iniciando asignación automática para: {self.evento_en_edicion_actual.nombre}")
+
+        # Vacía las mesas
+        for mesa in self.evento_en_edicion_actual.mesas:
+            mesa.participantes = []
+
+        # Limpia el campo mesas asignadas
+        for p in self.evento_en_edicion_actual.participantes:
+            p.quitar_mesa()
+
+        # Crea los lists para el algoritmo
+        participantes_a_asignar = list(self.evento_en_edicion_actual.participantes)
+        mesas_del_evento = list(self.evento_en_edicion_actual.mesas)
+
+        # Llama al método del algoritmo
+        self.lista_excepciones = self.algoritmo_asignar_mesas(participantes_a_asignar, mesas_del_evento)
+
+        # Lo guarda en el JSON
+        self.gestor_datos.guardarEventos(self.lista_eventos)
+
+        # Actualiza las tablas
+        self.actualizar_tabla_resultados_auto()
+        self.actualizar_lista_excepciones()
+
+        # Mostrar la página de resultados
+        self.mostrar_pagina_auto()
+
+
+    def actualizar_tabla_resultados_auto(self):
+        tabla = self.pagina_resultados_auto.ui.Results_Table
+        tabla.blockSignals(True)
+        tabla.setRowCount(0)
+
+        if self.evento_en_edicion_actual:
+            # Relleno mesa por mesa
+            for mesa in self.evento_en_edicion_actual.mesas:
+                row_position = tabla.rowCount()
+                tabla.insertRow(row_position)
+
+                texto_mesa = f"Mesa {mesa.numero} ({len(mesa.participantes)}/{mesa.capacidad})"
+                tabla.setItem(row_position, 0, QTableWidgetItem(texto_mesa))
+
+                nombres = [p.nombre for p in mesa.participantes]
+                texto_nombres = ", ".join(nombres)
+                tabla.setItem(row_position, 1, QTableWidgetItem(texto_nombres))
+
+        tabla.blockSignals(False)
+        # Ajustar el tamaño de las columnas al contenido
+        tabla.resizeColumnsToContents()
+
+
+    def actualizar_lista_excepciones(self):
+        lista = self.pagina_excepciones.ui.List_Exceptions
+        lista.clear()
+
+        for participante in self.lista_excepciones:
+            lista.addItem(participante.nombre)
+
+    def guardar_evento_actualizado(self):
+        if self.evento_en_edicion_actual is None:
+            QMessageBox.critical(self, "Error", "No hay ningún evento seleccionado para editar.")
+            return
+
+        nuevo_nombre = self.pagina_actualizar.ui.Input_EventName.text()
+        nueva_fecha = self.pagina_actualizar.ui.Input_EventDate.text()
+        nueva_ubicacion = self.pagina_actualizar.ui.Input_EventLocation.text()
+        nuevo_organizador = self.pagina_actualizar.ui.Input_EventOrganizer.text()
+        nuevo_numMesas = self.pagina_actualizar.ui.Input_NumTables.value()
+
+        if not nuevo_nombre or not nueva_fecha:
+            QMessageBox.warning(self, "Oye", "Pon el nombre y la fecha")
+            return
+
+        self.evento_en_edicion_actual.nombre = nuevo_nombre
+        self.evento_en_edicion_actual.fecha = nueva_fecha
+        self.evento_en_edicion_actual.ubicacion = nueva_ubicacion
+        self.evento_en_edicion_actual.organizador = nuevo_organizador
+
+        if self.evento_en_edicion_actual.numMesas != nuevo_numMesas:
+            self.evento_en_edicion_actual.numMesas = nuevo_numMesas
+            self.evento_en_edicion_actual.mesas = []
+            capacidad_por_mesa = 10
+
+            for i in range(nuevo_numMesas):
+                id_mesa = f"{self.evento_en_edicion_actual.IdEvento}_mesa_{i+1}"
+                nueva_mesa = Mesa(id_mesa=id_mesa, numero=i + 1, capacidad=capacidad_por_mesa)
+                self.evento_en_edicion_actual.mesas.append(nueva_mesa)
+
+            QMessageBox.warning(
+                self,
+                "Oye",
+                "Se actualizó el número de mesas. Tendrás que asignar los participantes de nuevo."
+            )
+
+        self.gestor_datos.guardarEventos(self.lista_eventos)
+        self.evento_en_edicion_actual = None
+        self.mostrar_pagina_crud()
+
+
+    def borrar_evento_seleccionado(self):
+        tabla_borrar = self.pagina_borrar.ui.EventList_Table_Delete
+        fila_seleccionada = tabla_borrar.currentRow()
+
+        if fila_seleccionada == -1:
+            QMessageBox.warning(self, "Oye", "No has seleccionado ningún evento.")
+            return
+
+        try:
+            evento_a_borrar = self.lista_eventos[fila_seleccionada]
+            nombre_evento = evento_a_borrar.nombre
+        except IndexError:
+            QMessageBox.critical(self, "Error", "No se ha podido borrar el evento.")
+            return
+
+        confirmacion = QMessageBox.question(
+            self,
+            "Confirmar borrado",
+            f"¿Estás seguro de que quieres borrar el evento '{nombre_evento}'?\n\nEsta acción no se puede deshacer.",
+            QMessageBox.Yes | QMessageBox.No,
+            QMessageBox.No
+        )
+
+        if confirmacion == QMessageBox.Yes:
+            self.lista_eventos.pop(fila_seleccionada)
+            self.gestor_datos.guardarEventos(self.lista_eventos)
+            self.actualizar_tabla_borrar()
+            self.mostrar_pagina_crud()
         else:
-            return None
-        
-    sol = asignar_mesas(personas, tamano_mesa=3)
-    print(sol)
+            return
+
+
+    def cargar_y_actualizar_eventos(self):
+        self.lista_eventos = self.gestor_datos.cargarEventos()
+        self.actualizar_tabla_crud()
+
+
+    def cargar_y_actualizar_eventos_borrar(self):
+        self.lista_eventos = self.gestor_datos.cargarEventos()
+        self.actualizar_tabla_borrar()
+
+
+    def guardar_nuevo_evento(self):
+        nombre = self.pagina_crear.ui.Input_EventName.text()
+        fecha = self.pagina_crear.ui.Input_EventDate.text()
+        ubicacion = self.pagina_crear.ui.Input_EventLocation.text()
+        organizador = self.pagina_crear.ui.Input_EventOrganizer.text()
+        numMesas = self.pagina_crear.ui.Input_NumTables.value()
+
+        if not nombre or not fecha:
+            QMessageBox.warning(self, "Oye", "Pon el nombre y la fecha")
+            return
+
+        nuevo_id = f"evento_{len(self.lista_eventos) + 1}"
+
+        try:
+            nuevo_evento = Evento(
+                IdEvento=nuevo_id,
+                nombre=nombre,
+                fecha=fecha,
+                ubicacion=ubicacion,
+                organizador=organizador,
+                numMesas=numMesas
+            )
+        except Exception:
+            QMessageBox.critical(self, "Error", "No se ha podido crear el evento.")
+            return
+
+        self.lista_eventos.append(nuevo_evento)
+        self.gestor_datos.guardarEventos(self.lista_eventos)
+
+        self.pagina_crear.ui.Input_EventName.setText("")
+        self.pagina_crear.ui.Input_EventDate.setText("")
+        self.pagina_crear.ui.Input_EventLocation.setText("")
+        self.pagina_crear.ui.Input_EventOrganizer.setText("")
+        self.pagina_crear.ui.Input_NumTables.setValue(1)
+
+        self.mostrar_pagina_crud()
+
+
+    def actualizar_tabla_crud(self):
+        tabla = self.pagina_crud.ui.EventList_Table
+        tabla.blockSignals(True)
+        tabla.setRowCount(0)
+
+        for evento in self.lista_eventos:
+            row_position = tabla.rowCount()
+            tabla.insertRow(row_position)
+            tabla.setItem(row_position, 0, QTableWidgetItem(evento.nombre))
+            tabla.setItem(row_position, 1, QTableWidgetItem(evento.fecha))
+            tabla.setItem(row_position, 2, QTableWidgetItem(evento.ubicacion))
+            tabla.setItem(row_position, 3, QTableWidgetItem(evento.organizador))
+
+        tabla.blockSignals(False)
+
+
+    def actualizar_tabla_borrar(self):
+        tabla = self.pagina_borrar.ui.EventList_Table_Delete
+        tabla.blockSignals(True)
+        tabla.setRowCount(0)
+
+        for evento in self.lista_eventos:
+            row_position = tabla.rowCount()
+            tabla.insertRow(row_position)
+            tabla.setItem(row_position, 0, QTableWidgetItem(evento.nombre))
+            tabla.setItem(row_position, 1, QTableWidgetItem(evento.fecha))
+            tabla.setItem(row_position, 2, QTableWidgetItem(evento.ubicacion))
+            tabla.setItem(row_position, 3, QTableWidgetItem(evento.organizador))
+
+        tabla.blockSignals(False)
 
 #Ejecuta
 if __name__ == "__main__":
