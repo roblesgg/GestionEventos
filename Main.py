@@ -543,6 +543,8 @@ class VentanaPrincipal(QStackedWidget):
             
         #activa de vuelta la tabla
         tabla.blockSignals(False)
+        
+        tabla.resizeColumnsToContents()
 
     def actualizar_tabla_borrar(self,ruta):
         tabla = self.pagina_borrar.ui.EventList_Table_Delete
